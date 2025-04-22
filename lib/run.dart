@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meongjup/pages/adoption_list.dart';
+import 'package:meongjup/pages/adoption_detail.dart';
 
 void main() {
-  runApp(MaterialApp(home: MainPage()));
+  runApp(MaterialApp(home: AdoptionDetail()));
 }
