@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:meongjup/widgets/BaseAppbar.dart';
 import 'package:meongjup/widgets/adoptionPuppy.dart';
+import 'package:meongjup/widgets/bottom_navigation.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -14,6 +16,8 @@ class _MainPage extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: BaseAppBar(),
+      bottomNavigationBar: BottomNavigation(selectedIndex: 0),
       body: ListView.builder(
         itemCount: 2,
         itemBuilder: (context, index) {
