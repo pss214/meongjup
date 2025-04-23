@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meongjup/pages/adoption_list.dart';
 import 'package:meongjup/pages/missing_list.dart';
-
+//하단 홈, 실종, 자원봉사, 멍피드 탭바 생성
 class BottomNavigation extends StatelessWidget {
   final int selectedIndex;
 

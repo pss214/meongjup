@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//좌측 상단 앱바 생성
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
