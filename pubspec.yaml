@@ -69,6 +69,8 @@ flutter:
     - assets/images/icon4.png
     - assets/images/icon4_1.png
     - assets/입양하기_배너.png
+    - assets/images/missing_writing.png
+    - assets/images/witness_writing.png
   #   - images/a_dot_ham.jpeg
 
 
