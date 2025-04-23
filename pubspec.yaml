@@ -37,6 +37,7 @@ dependencies:
   http: ^1.3.0
   infinite_scroll_pagination: ^5.0.0
   intl: ^0.20.2
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +72,8 @@ flutter:
     - assets/images/icon4.png
     - assets/images/icon4_1.png
     - assets/입양하기_배너.png
+    - assets/images/missing_writing.png
+    - assets/images/witness_writing.png
   #   - images/a_dot_ham.jpeg
 
 
