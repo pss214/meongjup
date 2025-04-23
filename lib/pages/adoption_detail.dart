@@ -1,44 +1,41 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:meongjup/widgets/BaseAppbar.dart';
 
 class AdoptionDetail extends StatefulWidget {
-  const AdoptionDetail({super.key});
-  // final String animalId;
+  final int index;
+  final String ANIMAL_NO;
+  final String url;
+  final String NM;
+  final String BREEDS;
+  final String AGE;
+  final double BDWGH;
+  final String SEXDSTN;
+  const AdoptionDetail({
+    super.key,
+    required this.index,
+    required this.ANIMAL_NO,
+    required this.url,
+    required this.NM,
+    required this.BREEDS,
+    required this.AGE,
+    required this.BDWGH,
+    required this.SEXDSTN,
+  });
+
   @override
   State createState() => _AdoptionDetail();
 }
 
 class _AdoptionDetail extends State<AdoptionDetail> {
-  String src =
-      'http://openapi.seoul.go.kr:8088/435a79586c62616b38344e72746d47/json/TbAdpWaitAnimalView/1/500';
-  List<dynamic> data = [];
-  Image? mainImg;
   @override
   void initState() {
     super.initState();
-    mainImg = Image.network(
-      'https://animal.seoul.go.kr/comm/getImage?srvcId=MEDIA&upperNo=4221&fileTy=ADOPTIMG&fileNo=1&thumbTy=L',
-    );
-  }
-
-  Future<void> fetchData() async {
-    final response = await http.get(Uri.parse(src));
-    final data = jsonDecode(response.body);
-    List<dynamic> dogData = [];
-    for (var i in data['TbAdpWaitAnimalView']['row']) {
-      if (i['ANIMAL_NO'].toString() == "4221") {
-        dogData.add(i);
-        break;
-      }
-    }
-    debugPrint(dogData[0].toString());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: BaseAppBar(),
       backgroundColor: Colors.white,
       body: ConstrainedBox(
         constraints: const BoxConstraints.expand(),
@@ -51,13 +48,16 @@ class _AdoptionDetail extends State<AdoptionDetail> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   IconButton(
-                    onPressed: null,
+                    onPressed: () => {Navigator.of(context).pop()},
                     icon: Icon(Icons.arrow_back_ios_new),
                     alignment: Alignment.centerLeft,
                   ),
                 ],
               ),
-              CircleAvatar(radius: 100, backgroundImage: mainImg?.image),
+              CircleAvatar(
+                radius: 100,
+                backgroundImage: NetworkImage('http://${widget.url}'),
+              ),
               Padding(padding: EdgeInsets.only(top: 20)),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -156,7 +156,7 @@ class _AdoptionDetail extends State<AdoptionDetail> {
                       ],
                     ),
                   ),
-                  Padding(padding: EdgeInsets.only(top: 50)),
+
                   Image.asset('assets/입양하기_배너.png'),
                 ],
               ),
