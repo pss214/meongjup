@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:meongjup/widgets/bottom_navigation.dart';
 
 class Missing_list extends StatefulWidget {
   const Missing_list({super.key});
@@ -16,7 +16,16 @@ class _Missing_list extends State<Missing_list> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        bottomNavigationBar: BottomNavigation(selectedIndex: 1),
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          scrolledUnderElevation: 0,
+          backgroundColor: Colors.white,
+          leading: Image.asset(
+            'assets/images/icon1.png',
+            width: 24,
+            height: 24,
+          ),
           bottom: TabBar(
             tabs: [
               Tab(icon: Icon(Icons.pets), text: "실종"),

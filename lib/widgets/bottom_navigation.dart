@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meongjup/pages/adoption_list.dart';
+import 'package:meongjup/pages/missing_list.dart';
 
 class BottomNavigation extends StatelessWidget {
   final int selectedIndex;
@@ -14,7 +15,9 @@ class BottomNavigation extends StatelessWidget {
         ).pushReplacement(MaterialPageRoute(builder: (context) => MainPage()));
         break;
       case 1:
-        // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainPageCopy()));
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => Missing_list()),
+        );
         break;
       case 2:
         // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Null()));

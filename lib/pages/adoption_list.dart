@@ -95,7 +95,7 @@ class _MainPage extends State<MainPage> {
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: 100, // 실제 데이터 개수로 변경하세요
+                      itemCount: 36, // 실제 데이터 개수로 변경하세요
                       itemBuilder: (context, index) {
                         if (index == 0) {
                           return Row(
