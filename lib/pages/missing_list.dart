@@ -27,38 +27,47 @@ class _Missing_list extends State<Missing_list> {
             height: 24,
           ),
           bottom: TabBar(
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
+            indicatorColor: Color(0xFFFF7373),
+            labelColor: Color(0xFFFF7373),
+            unselectedLabelColor: Colors.grey, // 선택되지 않은 탭 색상 추가
             tabs: [
-              Tab(icon: Icon(Icons.pets), text: "실종"),
-              Tab(icon: Icon(Icons.search), text: "목격"),
+              Tab(icon: Icon(Icons.pets, size: 12), text: "실종"),
+              Tab(icon: Icon(Icons.search, size: 12), text: "목격"),
             ],
           ),
         ),
-        body: Column(
+        body: TabBarView(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  height: 140,
-                  width: 190,
-                  child: Center(child: Text("실종 신고하기")),
-                ),
-                Container(
-                  height: 140,
-                  width: 190,
-                  child: Center(child: Text("목격 제보하기")),
-                ),
-              ],
-            ),
-            Expanded(
-              child: TabBarView(
+            SingleChildScrollView(
+              // ListView를 SingleChildScrollView로 변경
+              child: Column(
                 children: [
-                  GridView.count(
-                    crossAxisCount: 1,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 1.2, // 실종 리스트 아이템 비율 숫자가 커질수록 짧아짐
-                    padding: EdgeInsets.all(10),
-                    children: List.generate(3, (index) {
+                  SizedBox(height: 4),
+                  Container(
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Image.asset(
+                          'assets/images/witness_writing.png',
+                          width: 196,
+                          fit: BoxFit.cover,
+                        ),
+                        Image.asset(
+                          'assets/images/missing_writing.png',
+                          fit: BoxFit.cover,
+                          width: 196,
+                        ),
+                      ],
+                    ),
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: 3,
+                    itemBuilder: (context, index) {
                       return Container(
                         margin: EdgeInsets.all(10),
                         child: Column(
@@ -72,7 +81,7 @@ class _Missing_list extends State<Missing_list> {
                                     borderRadius: BorderRadius.circular(20.0),
                                     child: Image.network(
                                       'https://animal.seoul.go.kr/comm/getImage?srvcId=MEDIA&upperNo=4224&fileTy=ADOPTIMG&fileNo=1&thumbTy=L',
-                                      height: 200,
+                                      height: 140,
                                       width: double.infinity,
                                       fit: BoxFit.cover,
                                     ),
@@ -103,33 +112,59 @@ class _Missing_list extends State<Missing_list> {
                               ),
                             ),
                             Container(
+                              padding: EdgeInsets.fromLTRB(6, 0, 0, 0),
                               width: double.infinity,
                               margin: EdgeInsets.only(top: 3),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "이름: 초코 / 견종: 웰시코기",
+                                    "OOO을 찾습니다.",
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  Text("특징: 목걸이를 끊어버리고 도망갔어요."),
+                                  Text("이름: 초코 / 견종: 웰시코기"),
                                 ],
                               ),
                             ),
+                            SizedBox(height: 10),
                           ],
                         ),
                       );
-                    }),
+                    },
                   ),
-                  GridView.count(
-                    crossAxisCount: 1,
-                    mainAxisSpacing: 1,
-                    crossAxisSpacing: 5,
-                    padding: EdgeInsets.all(2),
-                    children: List.generate(1, (index) {
+                ],
+              ),
+            ),
+            SingleChildScrollView(
+              // ListView를 SingleChildScrollView로 변경
+              child: Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/witness_writing.png',
+                          width: 196,
+                          fit: BoxFit.cover,
+                        ),
+                        Image.asset(
+                          'assets/images/missing_writing.png',
+                          fit: BoxFit.cover,
+                          width: 196,
+                        ),
+                      ],
+                    ),
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: 1,
+                    itemBuilder: (context, index) {
                       return Container(
                         margin: EdgeInsets.all(10),
                         child: Column(
@@ -143,8 +178,8 @@ class _Missing_list extends State<Missing_list> {
                                     borderRadius: BorderRadius.circular(20.0),
                                     child: Image.network(
                                       'https://animal.seoul.go.kr/comm/getImage?srvcId=MEDIA&upperNo=4224&fileTy=ADOPTIMG&fileNo=1&thumbTy=L',
-                                      height: 200,
                                       width: double.infinity,
+                                      height: 140,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -174,8 +209,11 @@ class _Missing_list extends State<Missing_list> {
                               ),
                             ),
                             Container(
+                              padding: EdgeInsets.fromLTRB(6, 0, 0, 0), // 패딩 추가
                               margin: EdgeInsets.only(top: 3),
                               child: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start, // 정렬 수정
                                 children: [
                                   Text(
                                     "목격 시간: 오후 3시경",
@@ -191,7 +229,7 @@ class _Missing_list extends State<Missing_list> {
                           ],
                         ),
                       );
-                    }),
+                    },
                   ),
                 ],
               ),
