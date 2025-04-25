@@ -28,26 +28,36 @@ class _MainPage extends State<MainPage> {
   }
 
   int? _getNextPageKey(PagingState<int, DogDto> state) {
-    final keys = state.keys;
-    // Initial page key.
-    if (keys == null) return 1;
-    if (dogdata == null) {
-      if (keys.last >= 15) return null;
-    } else {
-      if (keys.last < dogdata!.dogs.length) {
-        return null;
+    try {
+      final keys = state.keys;
+      // Initial page key.
+      if (keys == null) return 1;
+      if (dogdata == null) {
+        if (keys.last >= 15) return null;
+      } else {
+        if (keys.last < dogdata!.dogs.length) {
+          return null;
+        }
       }
+      debugPrint(keys.last.toString());
+      // Next page key.
+      return keys.last + 1;
+    } catch (e) {
+      _pagingController.error;
+      throw Exception(e);
     }
-    debugPrint(keys.last.toString());
-    // Next page key.
-    return keys.last + 1;
   }
 
   Future<List<DogDto>> fetchData(int page) async {
-    if (dogdata == null) {
-      await fetch();
+    try {
+      if (dogdata == null) {
+        await fetch();
+      }
+      return dogdata!.dogs.sublist(page);
+    } catch (e) {
+      _pagingController.error;
+      throw Exception(e);
     }
-    return dogdata!.dogs.sublist(page);
   }
 
   Future<void> fetch() async {
@@ -63,9 +73,11 @@ class _MainPage extends State<MainPage> {
         });
         await fetchImage();
         _pagingController.refresh();
+      } else {
+        _pagingController.error;
       }
     } catch (e) {
-      throw Exception('Failed to fetch data');
+      _pagingController.error;
     }
   }
 
@@ -90,14 +102,14 @@ class _MainPage extends State<MainPage> {
         }
       }
     } catch (e) {
-      throw Exception('Failed to fetch data : $e');
+      _pagingController.error;
     }
   }
 
   @override
   void dispose() {
-    _pagingController.dispose();
     super.dispose();
+    _pagingController.dispose();
   }
 
   @override
@@ -174,7 +186,7 @@ class _MainPage extends State<MainPage> {
           ),
           Expanded(
             child: RefreshIndicator(
-              onRefresh: () async => _pagingController.refresh(),
+              onRefresh: () async => {fetch()},
               child: PagingListener(
                 controller: _pagingController,
                 builder: (context, state, fetchNextPage) {
@@ -197,7 +209,7 @@ class _MainPage extends State<MainPage> {
                       noItemsFoundIndicatorBuilder:
                           (_) => Center(child: Text('데이터가 없습니다')),
                       firstPageErrorIndicatorBuilder:
-                          (_) => Center(child: Text('오류가 발생했습니다')),
+                          (_) => Center(child: Text('인터넷이 없거나 오류가 발생했습니다')),
                     ),
                   );
                 },

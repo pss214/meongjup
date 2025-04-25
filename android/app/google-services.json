@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "187447861703",
+    "project_id": "meongjup",
+    "storage_bucket": "meongjup.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187447861703:android:6aa563d86f84248d0b79e2",
+        "android_client_info": {
+          "package_name": "com.example.meongjup"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsPd-liQJoTsZVt2TsAM_JYP9fYeMvwYY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
