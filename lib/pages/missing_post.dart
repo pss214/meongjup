@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as firebase_core;
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:meongjup/widgets/BaseAppbar.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 class MissingPost extends StatefulWidget {
   const MissingPost({super.key});
@@ -18,8 +23,12 @@ class _MissingPostState extends State<MissingPost> {
   final TextEditingController _breedController = TextEditingController(); // 견종
   final TextEditingController _featuresController =
       TextEditingController(); // 특징
-  List<String> _images = []; // 이미지 경로 리스트
-
+  final List<String> _images = []; // 이미지 경로 리스트//firebasse db
+  final List<String> _uploads = [];
+  @override
+  initState() {
+    super.initState();
+  }
   // 이 데이터들은 각각의 TextField에서 사용되고 있으며
   // 등록하기 버튼을 눌렀을 때 이 컨트롤러들의 .text 값을 통해 입력된 데이터를 가져올 수 있습니다.
   // 예: _titleController.text - 제목 데이터
@@ -43,18 +52,94 @@ class _MissingPostState extends State<MissingPost> {
     }
   }
 
-  Future<void> _takePhoto() async {
-    final picker = ImagePicker();
-    final XFile? pickedFile = await picker.pickImage(
-      source: ImageSource.camera,
-      imageQuality: 80,
-      maxWidth: 1000,
-    );
+  //이미지 업로드
+  Future<void> fetchImageUpload() async {
+    var storageRef = FirebaseStorage.instance.ref();
+    var uuid = Uuid();
 
-    if (pickedFile != null) {
-      setState(() {
-        _images.add(pickedFile.path);
-      });
+    for (var element in _images) {
+      String filename = uuid.v4();
+      var mountainsRef = storageRef.child("$filename.jpg");
+      File file = File(element);
+      _uploads.add("$filename.jpg");
+      try {
+        await mountainsRef.putFile(file);
+        // .snapshotEvents.listen((
+        //   TaskSnapshot taskSnapshot,
+        // ) {
+        //   switch (taskSnapshot.state) {
+        //     case TaskState.running:
+        //       final progress =
+        //           100.0 *
+        //           (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+        //       ScaffoldMessenger.of(context).showSnackBar(
+        //         SnackBar(
+        //           content: Text('업로드 중 : $progress'),
+        //           backgroundColor: Colors.blue,
+        //         ),
+        //       );
+        //       break;
+        //     case TaskState.paused:
+        //       print("Upload is paused.");
+        //       break;
+        //     case TaskState.canceled:
+        //       print("Upload was canceled");
+        //       break;
+        //     case TaskState.error:
+        //       // Handle unsuccessful uploads
+        //       break;
+        //     case TaskState.success:
+        //       // Handle successful uploads on complete
+        //       // ...
+        //       break;
+        //   }
+        // });
+      } on firebase_core.FirebaseException catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('게시글 등록 중 오류가 발생했습니다. 다시 시도해주세요.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  //게시글 업로드
+  Future<void> fetchUpload() async {
+    try {
+      debugPrint("전송중");
+      FirebaseFirestore db = FirebaseFirestore.instance;
+      await fetchImageUpload();
+
+      final data = <String, dynamic>{
+        "distinction": _breedController.text,
+        "species": _featuresController.text,
+        "name": _nameController.text,
+        "subject": _titleController.text,
+        "images": _uploads,
+      };
+      await db
+          .collection("missing")
+          .add(data)
+          .then(
+            (DocumentReference doc) =>
+                debugPrint('DocumentSnapshot added with ID: ${doc.id}'),
+          );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('게시글이 업로드 되었습니다!'),
+          backgroundColor: Colors.blue,
+        ),
+      );
+    } catch (e) {
+      debugPrint("에러 발생: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('게시글 등록 중 오류가 발생했습니다. 다시 시도해주세요.'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
@@ -247,31 +332,39 @@ class _MissingPostState extends State<MissingPost> {
                       ),
                     )
                     .toList(),
-                GestureDetector(
-                  onTap: _showImageSourceDialog,
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1, style: BorderStyle.solid),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.add_photo_alternate,
-                          size: 32,
-                          color: Colors.grey,
+                _images.length < 3
+                    ? GestureDetector(
+                      onTap: _showImageSourceDialog,
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1,
+                            style: BorderStyle.solid,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        Text(
-                          '사진 추가',
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.add_photo_alternate,
+                              size: 32,
+                              color: Colors.grey,
+                            ),
+                            Text(
+                              '사진 추가',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                ),
+                      ),
+                    )
+                    : Container(),
               ],
             ),
             SizedBox(height: 32),
@@ -279,7 +372,9 @@ class _MissingPostState extends State<MissingPost> {
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: _validateAndSubmit,
+                onPressed: () {
+                  fetchUpload();
+                },
                 child: Text('등록하기', style: TextStyle(fontSize: 16)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFff7373),
@@ -288,6 +383,7 @@ class _MissingPostState extends State<MissingPost> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
+                child: Text('등록하기', style: TextStyle(fontSize: 16)),
               ),
             ),
           ],
