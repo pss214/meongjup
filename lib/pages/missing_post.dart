@@ -109,8 +109,6 @@ class _MissingPostState extends State<MissingPost> {
 
   //게시글 업로드
   Future<void> fetchUpload() async {
-    if (!_validateAndSubmit()) return;
-    
     try {
       debugPrint("전송중");
       FirebaseFirestore db = FirebaseFirestore.instance;
@@ -122,7 +120,8 @@ class _MissingPostState extends State<MissingPost> {
         "name": _nameController.text,
         "subject": _titleController.text,
         "images": _uploads,
-        "location": _locationinformation.text
+        "location": _locationinformation.text,
+        "createdAt": DateTime.now(),
       };
       await db
           .collection("missing")
@@ -131,6 +130,7 @@ class _MissingPostState extends State<MissingPost> {
             (DocumentReference doc) =>
                 debugPrint('DocumentSnapshot added with ID: ${doc.id}'),
           );
+      if (!_validateAndSubmit()) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('게시글이 업로드 되었습니다!'),
@@ -140,6 +140,7 @@ class _MissingPostState extends State<MissingPost> {
       Navigator.pop(context);
     } catch (e) {
       debugPrint("에러 발생: $e");
+      if (!_validateAndSubmit()) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('게시글 등록 중 오류가 발생했습니다. 다시 시도해주세요.'),
