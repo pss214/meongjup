@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meongjup/pages/adoption_list.dart';
 import 'package:meongjup/pages/missing_list.dart';
 import 'package:meongjup/pages/volunteer_list.dart';
-
+import 'package:meongjup/pages/puppyfeed_list.dart';
 //하단 홈, 실종, 자원봉사, 멍피드 탭바 생성
 class BottomNavigation extends StatelessWidget {
   final int selectedIndex;
@@ -27,7 +27,7 @@ class BottomNavigation extends StatelessWidget {
         );
         break;
       case 3:
-        // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => detailcopy()));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PuppyFeedList()));
         break;
     }
   }
@@ -150,64 +150,3 @@ class BottomNavigation extends StatelessWidget {
     );
   }
 }
-
-/*
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomAppBar(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          IconButton(
-            icon: selectedIndex == 0 ? 
-              Image.asset('assets/images/home.png',
-                width: 24,
-                height: 24,) : 
-              Image.asset('assets/images/home_1.png',
-                width: 24,
-                height: 24,
-              ),
-            onPressed: () => navigateToPage(context, 0),
-            
-          ),
-          IconButton(
-            icon: 
-              selectedIndex == 1 ? 
-              Image.asset('assets/images/icon2.png',
-                width: 24,
-                height: 24) : 
-              Image.asset('assets/images/icon2_1.png',
-                width: 24,
-                height: 24
-              ),
-            onPressed: () => navigateToPage(context, 1),
-          ),
-          IconButton(
-            icon: 
-              selectedIndex == 2 ? 
-              Image.asset('assets/images/icon3.png',
-                width: 24,
-                height: 24) : 
-              Image.asset('assets/images/icon3_1.png',
-                width: 24,
-                height: 24),
-            onPressed: () => navigateToPage(context, 2),
-          ),
-          IconButton(
-            icon: 
-              selectedIndex == 3 ? 
-              Image.asset('assets/images/icon4.png',
-                width: 24,
-                height: 24) : 
-              Image.asset('assets/images/icon4_1.png',
-                width: 24,
-                height: 24),
-            onPressed: () => navigateToPage(context, 3),
-          ),
-        ],
-      ),
-    );
-  }
-}
-*/
