@@ -279,9 +279,7 @@ class _MissingPostState extends State<MissingPost> {
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                onPressed: _validateAndSubmit,
                 child: Text('등록하기', style: TextStyle(fontSize: 16)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFff7373),
