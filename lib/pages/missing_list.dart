@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
+import 'package:meongjup/widgets/missingPuppy.dart';
 
 class Missing_list extends StatefulWidget {
   const Missing_list({super.key});
@@ -17,7 +18,6 @@ class _Missing_list extends State<Missing_list> {
       length: 2,
       child: Scaffold(
         bottomNavigationBar: BottomNavigation(selectedIndex: 1),
-        backgroundColor: Colors.white,
         appBar: AppBar(
           scrolledUnderElevation: 0,
           backgroundColor: Colors.white,
@@ -46,94 +46,46 @@ class _Missing_list extends State<Missing_list> {
                 children: [
                   SizedBox(height: 4),
                   Container(
+                    color: Colors.white,
                     width: double.infinity,
+                    padding: EdgeInsets.all(6),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Image.asset(
                           'assets/images/witness_writing.png',
-                          width: 196,
+                          width: deviceWidth / 2 - 9,
                           fit: BoxFit.cover,
                         ),
                         Image.asset(
                           'assets/images/missing_writing.png',
                           fit: BoxFit.cover,
-                          width: 196,
+                          width: deviceWidth / 2 - 9,
                         ),
                       ],
                     ),
                   ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.all(10),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(1),
-                              width: double.infinity,
-                              child: Stack(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    child: Image.network(
-                                      'https://animal.seoul.go.kr/comm/getImage?srvcId=MEDIA&upperNo=4224&fileTy=ADOPTIMG&fileNo=1&thumbTy=L',
-                                      height: 140,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 10,
-                                    left: 10,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.6),
-                                        borderRadius: BorderRadius.circular(20),
-                                        border: Border.all(
-                                          color: Colors.black,
-                                          width: 1,
-                                        ),
-                                      ),
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        '화성시 병점동',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(6, 0, 0, 0),
-                              width: double.infinity,
-                              margin: EdgeInsets.only(top: 3),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "OOO을 찾습니다.",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text("이름: 초코 / 견종: 웰시코기"),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                          ],
-                        ),
-                      );
-                    },
+                  SizedBox(height: 4),
+                  Container(
+                    color: Colors.white,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 3,
+                      itemBuilder: (context, index) {
+                        return MissingPuppy(
+                          index: index,
+                          ANIMAL_NO: '',
+                          url: '',
+                          NM: '',
+                          BREEDS: '',
+                          AGE: '',
+                          BDWGH: 0,
+                          SEXDSTN: '',
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meongjup/widgets/BaseAppbar.dart';
+import 'package:meongjup/widgets/bottom_navigation.dart';
 
 class AdoptionDetail extends StatefulWidget {
   final int index;
@@ -35,6 +36,7 @@ class _AdoptionDetail extends State<AdoptionDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavigation(selectedIndex: 0),
       appBar: BaseAppBar(),
       backgroundColor: Colors.white,
       body: ConstrainedBox(
