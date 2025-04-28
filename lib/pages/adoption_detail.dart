@@ -28,6 +28,20 @@ class AdoptionDetail extends StatefulWidget {
 }
 
 class _AdoptionDetail extends State<AdoptionDetail> {
+  void _showInquiryModal() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Image.asset(
+            'assets/images/입양문의_모달창.png',
+            fit: BoxFit.contain,
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -38,13 +52,12 @@ class _AdoptionDetail extends State<AdoptionDetail> {
     return Scaffold(
       bottomNavigationBar: BottomNavigation(selectedIndex: 0),
       appBar: BaseAppBar(),
+      bottomNavigationBar: BottomNavigation(selectedIndex: 0),
       backgroundColor: Colors.white,
-      body: ConstrainedBox(
-        constraints: const BoxConstraints.expand(),
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(1.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -60,108 +73,140 @@ class _AdoptionDetail extends State<AdoptionDetail> {
                 radius: 100,
                 backgroundImage: NetworkImage('http://${widget.url}'),
               ),
-              Padding(padding: EdgeInsets.only(top: 20)),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+              SizedBox(height: 20),
+              Text(
+                widget.NM,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "희망",
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontFamily: "Inter",
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Text(
-                          "(동대문센터)",
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontFamily: "Inter",
-                            color: Colors.black54,
-                          ),
-                        ),
-                      ],
-                    ),
+                  Column(
+                    children: [
+                      Text('성별', style: TextStyle(color: Colors.grey)),
+                      Text(widget.SEXDSTN),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("견종  ", style: TextStyle(color: Colors.black54)),
-                        Text("믹스"),
-                      ],
-                    ),
+                  Column(
+                    children: [
+                      Text('체중', style: TextStyle(color: Colors.grey)),
+                      Text('${widget.BDWGH}kg'),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("성별  ", style: TextStyle(color: Colors.black54)),
-                        Text("남"),
-                      ],
-                    ),
+                  Column(
+                    children: [
+                      Text('나이', style: TextStyle(color: Colors.grey)),
+                      Text(widget.AGE),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("체중  ", style: TextStyle(color: Colors.black54)),
-                        Text("2.77kg"),
-                      ],
-                    ),
+                  Column(
+                    children: [
+                      Text('성격', style: TextStyle(color: Colors.grey)),
+                      Text('활발'),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("나이  ", style: TextStyle(color: Colors.black54)),
-                        Text("2살 2개월"),
-                      ],
-                    ),
+                  Column(
+                    children: [
+                      Text('건강', style: TextStyle(color: Colors.grey)),
+                      Text('양호'),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("성격  ", style: TextStyle(color: Colors.black54)),
-                        Text("활발"),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("건강상태  ", style: TextStyle(color: Colors.black54)),
-                        Text("양호"),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("기타  ", style: TextStyle(color: Colors.black54)),
-                        Text("등등"),
-                      ],
-                    ),
-                  ),
-
-                  Image.asset('assets/입양하기_배너.png'),
                 ],
               ),
+              SizedBox(height: 20),
+              Divider(thickness: 1, color: Colors.grey[300]),
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Color(0xFF75B1FF),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text('     센터:    ',
+                              style: TextStyle(
+                                color: Colors.white
+                              )
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Text('동대문 동물보호센터'),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Color(0xFF75B1FF),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(' 센터 주소:',
+                              style: TextStyle(
+                                color: Colors.white,
+                              )
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Text('서울특별시 동대문구 장안동 329-1'),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Color(0xFF75B1FF),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(' 전화번호: ',
+                              style: TextStyle(
+                                color: Colors.white,
+                              )
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Text('02-2127-4090'),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 30),
+              ElevatedButton(
+                onPressed: _showInquiryModal,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF75B1FF),
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 8), // vertical 패딩을 15에서 10으로 줄임
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  '문의하기',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Divider(thickness: 1, color: Colors.grey[300]),
+              SizedBox(height: 20),
+              Image.asset('assets/images/입양하기_배너.png'),
             ],
           ),
         ),

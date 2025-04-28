@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
 import 'package:meongjup/widgets/missingPuppy.dart';
+import 'package:meongjup/pages/missing_post.dart';
 
 class Missing_list extends StatefulWidget {
   const Missing_list({super.key});
@@ -52,13 +53,21 @@ class _Missing_list extends State<Missing_list> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Image.asset(
-                          'assets/images/witness_writing.png',
-                          width: deviceWidth / 2 - 9,
-                          fit: BoxFit.cover,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MissingPost()),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/images/missing_writing.png',
+                            width: 196,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                         Image.asset(
-                          'assets/images/missing_writing.png',
+                          'assets/images/witness_writing.png',
                           fit: BoxFit.cover,
                           width: deviceWidth / 2 - 9,
                         ),
