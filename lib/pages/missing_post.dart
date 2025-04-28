@@ -82,6 +82,42 @@ class _MissingPostState extends State<MissingPost> {
     );
   }
 
+  void _validateAndSubmit() {
+    if (_titleController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('제목을 입력해주세요')),
+      );
+      return;
+    }
+    if (_nameController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('강아지 이름을 입력해주세요')),
+      );
+      return;
+    }
+    if (_breedController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('견종을 입력해주세요')),
+      );
+      return;
+    }
+    if (_featuresController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('특징을 입력해주세요')),
+      );
+      return;
+    }
+    if (_images.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('최소 1장의 사진을 추가해주세요')),
+      );
+      return;
+    }
+
+    // 모든 검증을 통과하면 등록 진행
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

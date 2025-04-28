@@ -44,7 +44,7 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
       _controllers[index] = YoutubePlayerController(
         initialVideoId: _videoIds[index],
         flags: YoutubePlayerFlags(
-          autoPlay: true, // 자동재생 비활성화
+          autoPlay: true, // 자동재생 활성화
           mute: false,
           enableCaption: false,
           forceHD: false,
