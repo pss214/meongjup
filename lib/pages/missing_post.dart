@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:meongjup/widgets/BaseAppbar.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:meongjup/widgets/bottom_navigation.dart';
 import 'package:uuid/uuid.dart';
 
 class MissingPost extends StatefulWidget {
@@ -21,6 +22,7 @@ class _MissingPostState extends State<MissingPost> {
   final TextEditingController _nameController =
       TextEditingController(); // 강아지 이름
   final TextEditingController _breedController = TextEditingController(); // 견종
+  final TextEditingController _locationinformation = TextEditingController(); // 위치
   final TextEditingController _featuresController =
       TextEditingController(); // 특징
   final List<String> _images = []; // 이미지 경로 리스트//firebasse db
@@ -107,6 +109,8 @@ class _MissingPostState extends State<MissingPost> {
 
   //게시글 업로드
   Future<void> fetchUpload() async {
+    if (!_validateAndSubmit()) return;
+    
     try {
       debugPrint("전송중");
       FirebaseFirestore db = FirebaseFirestore.instance;
@@ -118,6 +122,7 @@ class _MissingPostState extends State<MissingPost> {
         "name": _nameController.text,
         "subject": _titleController.text,
         "images": _uploads,
+        "location": _locationinformation.text
       };
       await db
           .collection("missing")
@@ -132,6 +137,7 @@ class _MissingPostState extends State<MissingPost> {
           backgroundColor: Colors.blue,
         ),
       );
+      Navigator.pop(context);
     } catch (e) {
       debugPrint("에러 발생: $e");
       ScaffoldMessenger.of(context).showSnackBar(
@@ -167,46 +173,52 @@ class _MissingPostState extends State<MissingPost> {
     );
   }
 
-  void _validateAndSubmit() {
+  bool _validateAndSubmit() {
     if (_titleController.text.isEmpty) {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('제목을 입력해주세요')));
-      return;
+      return false;
     }
     if (_nameController.text.isEmpty) {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('강아지 이름을 입력해주세요')));
-      return;
+      return false;
     }
     if (_breedController.text.isEmpty) {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('견종을 입력해주세요')));
-      return;
+      return false;
+    }
+    if (_locationinformation.text.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('위치를 입력해주세요')));
+      return false;
     }
     if (_featuresController.text.isEmpty) {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('특징을 입력해주세요')));
-      return;
+      return false;
     }
     if (_images.isEmpty) {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('최소 1장의 사진을 추가해주세요')));
-      return;
+      return false;
     }
 
-    // 모든 검증을 통과하면 등록 진행
-    Navigator.pop(context);
+    return true;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(),
+      bottomNavigationBar: BottomNavigation(selectedIndex: 1),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
@@ -264,6 +276,19 @@ class _MissingPostState extends State<MissingPost> {
               controller: _breedController,
               decoration: InputDecoration(
                 labelText: '강아지 종 입력',
+                border: UnderlineInputBorder(),
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              '위치',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+            TextField(
+              controller: _locationinformation,
+              decoration: InputDecoration(
+                labelText: 'OO시 OO구',
                 border: UnderlineInputBorder(),
                 floatingLabelBehavior: FloatingLabelBehavior.never,
               ),
