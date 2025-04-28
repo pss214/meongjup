@@ -90,10 +90,11 @@ class _Volunteer_ListState extends State<Volunteer_List> {
               child: ListView.separated(
                 itemCount: 10, // 실제 데이터 개수에 맞게 변경
                 separatorBuilder: (BuildContext context, int idx) {
-                  return SizedBox(height: 10);
+                  return Divider(height: 10, color: Colors.grey, thickness: 1);
                 },
                 itemBuilder: (BuildContext context, int idx) {
                   return ListTile(
+                    //목록 하나하나
                     title: Text('자원봉사 모집'),
                     subtitle: Text('서울시 마포구 동교동 123-45'),
                     leading: Icon(Icons.person),
