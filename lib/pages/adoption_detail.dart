@@ -33,10 +33,7 @@ class _AdoptionDetail extends State<AdoptionDetail> {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          child: Image.asset(
-            'assets/images/입양문의_모달창.png',
-            fit: BoxFit.contain,
-          ),
+          child: Image.asset('assets/images/입양문의_모달창.png', fit: BoxFit.contain),
         );
       },
     );
@@ -52,7 +49,6 @@ class _AdoptionDetail extends State<AdoptionDetail> {
     return Scaffold(
       bottomNavigationBar: BottomNavigation(selectedIndex: 0),
       appBar: BaseAppBar(),
-      bottomNavigationBar: BottomNavigation(selectedIndex: 0),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
@@ -76,10 +72,7 @@ class _AdoptionDetail extends State<AdoptionDetail> {
               SizedBox(height: 20),
               Text(
                 widget.NM,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20),
               Row(
@@ -128,15 +121,17 @@ class _AdoptionDetail extends State<AdoptionDetail> {
                     Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: Color(0xFF75B1FF),
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          child: Text('     센터:    ',
-                              style: TextStyle(
-                                color: Colors.white
-                              )
+                          child: Text(
+                            '     센터:    ',
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                         SizedBox(width: 8),
@@ -147,15 +142,17 @@ class _AdoptionDetail extends State<AdoptionDetail> {
                     Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: Color(0xFF75B1FF),
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          child: Text(' 센터 주소:',
-                              style: TextStyle(
-                                color: Colors.white,
-                              )
+                          child: Text(
+                            ' 센터 주소:',
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                         SizedBox(width: 8),
@@ -166,15 +163,17 @@ class _AdoptionDetail extends State<AdoptionDetail> {
                     Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: Color(0xFF75B1FF),
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          child: Text(' 전화번호: ',
-                              style: TextStyle(
-                                color: Colors.white,
-                              )
+                          child: Text(
+                            ' 전화번호: ',
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                         SizedBox(width: 8),
@@ -189,7 +188,10 @@ class _AdoptionDetail extends State<AdoptionDetail> {
                 onPressed: _showInquiryModal,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF75B1FF),
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 8), // vertical 패딩을 15에서 10으로 줄임
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 50,
+                    vertical: 8,
+                  ), // vertical 패딩을 15에서 10으로 줄임
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
