@@ -13,15 +13,17 @@ class MissingPost extends StatefulWidget {
 class _MissingPostState extends State<MissingPost> {
   // 실종 글쓰기 데이터를 저장하는 컨트롤러들입니다
   final TextEditingController _titleController = TextEditingController(); // 제목
-  final TextEditingController _nameController = TextEditingController(); // 강아지 이름  
+  final TextEditingController _nameController =
+      TextEditingController(); // 강아지 이름
   final TextEditingController _breedController = TextEditingController(); // 견종
-  final TextEditingController _featuresController = TextEditingController(); // 특징
+  final TextEditingController _featuresController =
+      TextEditingController(); // 특징
   List<String> _images = []; // 이미지 경로 리스트
 
   // 이 데이터들은 각각의 TextField에서 사용되고 있으며
   // 등록하기 버튼을 눌렀을 때 이 컨트롤러들의 .text 값을 통해 입력된 데이터를 가져올 수 있습니다.
   // 예: _titleController.text - 제목 데이터
-  //     _nameController.text - 이름 데이터 
+  //     _nameController.text - 이름 데이터
   //     _breedController.text - 견종 데이터
   //     _featuresController.text - 특징 데이터
   //     _images - 선택된 이미지들의 경로
@@ -102,9 +104,15 @@ class _MissingPostState extends State<MissingPost> {
               ),
             ),
             SizedBox(height: 2),
-            Text('  실종 글쓰기', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Text(
+              '  실종 글쓰기',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 8),
-            Text('제목', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+            Text(
+              '제목',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
             TextField(
               controller: _titleController,
               decoration: InputDecoration(
@@ -114,7 +122,10 @@ class _MissingPostState extends State<MissingPost> {
               ),
             ),
             SizedBox(height: 8),
-            Text('이름', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+            Text(
+              '이름',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
             TextField(
               controller: _nameController,
               decoration: InputDecoration(
@@ -124,7 +135,10 @@ class _MissingPostState extends State<MissingPost> {
               ),
             ),
             SizedBox(height: 8),
-            Text('견종', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+            Text(
+              '견종',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
             TextField(
               controller: _breedController,
               decoration: InputDecoration(
@@ -134,7 +148,10 @@ class _MissingPostState extends State<MissingPost> {
               ),
             ),
             SizedBox(height: 8),
-            Text('특징', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+            Text(
+              '특징',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
             TextField(
               controller: _featuresController,
               maxLines: 3,
@@ -145,61 +162,76 @@ class _MissingPostState extends State<MissingPost> {
               ),
             ),
             SizedBox(height: 24),
-            Text('사진 추가', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(
+              '사진 추가',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: [
-                ..._images.map((image) => Stack(
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(
-                          image: FileImage(File(image)),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 0,
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _images.remove(image);
-                          });
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
+                ..._images
+                    .map(
+                      (image) => Stack(
+                        children: [
+                          Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              image: DecorationImage(
+                                image: FileImage(File(image)),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
-                          child: Icon(Icons.close, size: 20, color: Colors.grey),
-                        ),
+                          Positioned(
+                            right: 0,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _images.remove(image);
+                                });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.close,
+                                  size: 20,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                )).toList(),
+                    )
+                    .toList(),
                 GestureDetector(
                   onTap: _showImageSourceDialog,
                   child: Container(
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        style: BorderStyle.solid,
-                      ),
+                      border: Border.all(width: 1, style: BorderStyle.solid),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.add_photo_alternate, size: 32, color: Colors.grey),
-                        Text('사진 추가', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                        Icon(
+                          Icons.add_photo_alternate,
+                          size: 32,
+                          color: Colors.grey,
+                        ),
+                        Text(
+                          '사진 추가',
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
                       ],
                     ),
                   ),
