@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meongjup/pages/adoption_list.dart';
 import 'package:meongjup/pages/missing_list.dart';
+import 'package:meongjup/pages/puppyfeed_list.dart';
 //하단 홈, 실종, 자원봉사, 멍피드 탭바 생성
 class BottomNavigation extends StatelessWidget {
   final int selectedIndex;
@@ -23,7 +24,7 @@ class BottomNavigation extends StatelessWidget {
         // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Null()));
         break;
       case 3:
-        // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => detailcopy()));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PuppyFeedList()));
         break;
     }
   }
