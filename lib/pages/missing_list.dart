@@ -68,23 +68,57 @@ class _Missing_list extends State<Missing_list> {
                   SizedBox(height: 4),
                   Container(
                     color: Colors.white,
-                    width: double.infinity,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: 3,
-                      itemBuilder: (context, index) {
-                        return MissingPuppy(
-                          index: index,
-                          ANIMAL_NO: '',
-                          url: '',
-                          NM: '',
-                          BREEDS: '',
-                          AGE: '',
-                          BDWGH: 0,
-                          SEXDSTN: '',
-                        );
-                      },
+                    padding: EdgeInsets.fromLTRB(10, 8, 10, 4),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '실종된 아이를 찾습니다 >',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Color(0xFFFF7373),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
+                              child: Text(
+                                '실종 신고하기',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          width: double.infinity,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: 3,
+                            itemBuilder: (context, index) {
+                              return MissingPuppy(
+                                index: index,
+                                ANIMAL_NO: '',
+                                url: '',
+                                NM: '',
+                                BREEDS: '',
+                                AGE: '',
+                                BDWGH: 0,
+                                SEXDSTN: '',
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -122,7 +156,6 @@ class _Missing_list extends State<Missing_list> {
                         child: Column(
                           children: [
                             Container(
-                              padding: EdgeInsets.all(1),
                               width: double.infinity,
                               child: Stack(
                                 children: [
