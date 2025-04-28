@@ -57,9 +57,7 @@ class _Missing_list extends State<Missing_list> {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => MissingPost(),
-                              ),
+                              MaterialPageRoute(builder: (context) => MissingPost()),
                             );
                           },
                           child: Image.asset(
