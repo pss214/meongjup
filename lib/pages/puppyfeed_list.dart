@@ -13,12 +13,12 @@ class PuppyFeedList extends StatefulWidget {
 class _PuppyFeedListState extends State<PuppyFeedList> {
   final List<String> _videoIds = [
     'OkJtwjuKfjk',
-    '56Bw2sgUd6M', 
+    '56Bw2sgUd6M',
     'MZ18RH3k18E',
     'QTz-wrCthds',
     'IvOlYCc5sWg',
     'YaW_8yYM-ZU',
-    'YVLuiKZAykM'
+    'YVLuiKZAykM',
   ];
 
   late PageController _pageController;
@@ -32,7 +32,7 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
     _pageController = PageController(
       viewportFraction: 1.0,
       keepPage: true,
-      initialPage: 0
+      initialPage: 0,
     );
     // 첫 번째 컨트롤러만 초기화
     _initializeController(0);
@@ -40,7 +40,9 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
 
   // 단일 컨트롤러 초기화 함수
   void _initializeController(int index) {
-    if (index >= 0 && index < _videoIds.length && !_controllers.containsKey(index)) {
+    if (index >= 0 &&
+        index < _videoIds.length &&
+        !_controllers.containsKey(index)) {
       _controllers[index] = YoutubePlayerController(
         initialVideoId: _videoIds[index],
         flags: YoutubePlayerFlags(
@@ -84,7 +86,7 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
         itemCount: _videoIds.length,
         onPageChanged: (index) async {
           if (_isLoading) return;
-          
+
           setState(() {
             _isLoading = true;
             _currentPage = index;
@@ -104,13 +106,11 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
             return Container(
               color: Colors.black,
               child: const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                )
-              )
+                child: CircularProgressIndicator(color: Colors.white),
+              ),
             );
           }
-          
+
           return Container(
             color: Colors.black,
             child: YoutubePlayer(
