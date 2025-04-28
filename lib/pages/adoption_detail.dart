@@ -50,6 +50,7 @@ class _AdoptionDetail extends State<AdoptionDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavigation(selectedIndex: 0),
       appBar: BaseAppBar(),
       bottomNavigationBar: BottomNavigation(selectedIndex: 0),
       backgroundColor: Colors.white,
