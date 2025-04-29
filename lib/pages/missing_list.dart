@@ -12,6 +12,20 @@ class Missing_list extends StatefulWidget {
 }
 
 class _Missing_list extends State<Missing_list> {
+  void _showMissingReportModal() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Image.asset(
+            'assets/images/showMissingReportModalImage.png',
+            fit: BoxFit.contain,
+          ),
+        );
+      },
+    );
+  }
+
   List<MissingDto> missingDatas = [];
   @override
   void initState() {
@@ -87,8 +101,8 @@ class _Missing_list extends State<Missing_list> {
                           },
                           child: Image.asset(
                             'assets/images/missing_writing.png',
-                            width: 196,
                             fit: BoxFit.cover,
+                            width: deviceWidth / 2 - 9,
                           ),
                         ),
                         Image.asset(
@@ -115,28 +129,22 @@ class _Missing_list extends State<Missing_list> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MissingPost(),
-                                  ),
-                                );
+                            ElevatedButton(
+                              onPressed: () {
+                                _showMissingReportModal();
                               },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFFF7373),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFFFF7373),
+                                padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
+                                shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4),
                                 ),
-                                padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
-                                child: Text(
-                                  '실종 신고하기',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              ),
+                              child: Text(
+                                '실종 신고하기',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
                                 ),
                               ),
                             ),
