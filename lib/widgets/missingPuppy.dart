@@ -33,12 +33,14 @@ class _MissingPuppyState extends State<MissingPuppy>
   Uint8List? thumbnail;
 
   Future<void> getImage() async {
+    if (thumbnail != null) return;
     final storageRef = FirebaseStorage.instance.ref();
     final islandRef = storageRef.child(widget.images[0]);
 
     try {
       const oneMegabyte = 1024 * 1024;
       final Uint8List? thumbnail = await islandRef.getData(oneMegabyte);
+      if (!mounted) return;
       setState(() {
         this.thumbnail = thumbnail;
       });
@@ -108,7 +110,10 @@ class _MissingPuppyState extends State<MissingPuppy>
                             : Container(
                               height: 140,
                               width: double.infinity,
-                              color: Color(0xffeeeeee),
+                              decoration: BoxDecoration(
+                                color: Color(0xffeeeeee),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
                   ),
                   Positioned(
@@ -116,14 +121,17 @@ class _MissingPuppyState extends State<MissingPuppy>
                     left: 10,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.6),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.black, width: 1),
+                        color: Colors.black.withValues(alpha: 0.6),
+                        borderRadius: BorderRadius.circular(18),
                       ),
-                      padding: EdgeInsets.all(8),
+                      padding: EdgeInsets.fromLTRB(12, 6, 12, 6),
                       child: Text(
                         widget.location,
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),

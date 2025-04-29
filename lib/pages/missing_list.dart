@@ -87,8 +87,8 @@ class _Missing_list extends State<Missing_list> {
                           },
                           child: Image.asset(
                             'assets/images/missing_writing.png',
-                            width: 196,
                             fit: BoxFit.cover,
+                            width: deviceWidth / 2 - 9,
                           ),
                         ),
                         Image.asset(

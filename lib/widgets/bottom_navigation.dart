@@ -11,6 +11,7 @@ class BottomNavigation extends StatelessWidget {
   const BottomNavigation({super.key, required this.selectedIndex});
 
   void navigateToPage(BuildContext context, int index) {
+    if (index == selectedIndex) return;
     switch (index) {
       case 0:
         Navigator.of(

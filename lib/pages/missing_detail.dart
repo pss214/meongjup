@@ -44,6 +44,7 @@ class _MissingDetail extends State<MissingDetail> {
         // Handle any errors.
       }
     }
+    if (!mounted) return;
     setState(() {
       images = newImages;
     });
@@ -69,60 +70,80 @@ class _MissingDetail extends State<MissingDetail> {
             alignment: Alignment.centerLeft,
           ),
           Padding(
-            padding: const EdgeInsets.all(30.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   width: double.infinity,
-                  child: Text(
-                    '이름: ${widget.name} / 견종: ${widget.distinction}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Color(0xff666666), height: 0.5),
-                  ),
-                ),
-                Container(
-                  width: double.infinity,
-                  child: Text(
-                    widget.subject,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xffff7373),
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        child: Text(
+                          '이름: ${widget.name} / 견종: ${widget.distinction}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Color(0xff666666), height: 1),
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        child: Text(
+                          widget.subject,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xffff7373),
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Divider(color: Color(0xffcccccc), height: 32),
-                Text(
-                  '특징',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 6),
-                Text(widget.species, style: TextStyle(height: 1.3)),
-                SizedBox(height: 16),
-                if (images.isNotEmpty) ...[
-                  ...images
-                      .map(
-                        (image) => Column(
-                          children: [
-                            Image.memory(
-                              image,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
-                            SizedBox(height: 10),
-                          ],
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '특징',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
-                      )
-                      .toList(),
-                ] else
-                  Container(
-                    width: double.infinity,
-                    height: 120,
-                    color: Color(0xffeeeeee),
+                      ),
+                      SizedBox(height: 6),
+                      Text(widget.species, style: TextStyle(height: 1.3)),
+                      SizedBox(height: 16),
+                      if (images.isNotEmpty) ...[
+                        ...images
+                            .map(
+                              (image) => Column(
+                                children: [
+                                  Image.memory(
+                                    image,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  SizedBox(height: 10),
+                                ],
+                              ),
+                            )
+                            .toList(),
+                      ] else
+                        Container(
+                          width: double.infinity,
+                          height: 120,
+                          color: Color(0xffeeeeee),
+                        ),
+                      SizedBox(height: 10),
+                    ],
                   ),
-                SizedBox(height: 10),
+                ),
               ],
             ),
           ),
