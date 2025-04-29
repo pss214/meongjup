@@ -97,7 +97,6 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(),
       bottomNavigationBar: BottomNavigation(selectedIndex: 3),
       body: PageView.builder(
         scrollDirection: Axis.vertical,
