@@ -81,6 +81,7 @@ flutter:
     - assets/images/입양문의_모달창.png
     - assets/images/missing_writing.png
     - assets/images/witness_writing.png
+    - assets/images/showMissingReportModalImage.png
   #   - images/a_dot_ham.jpeg
 
 
