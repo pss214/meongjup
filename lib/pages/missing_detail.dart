@@ -1,26 +1,25 @@
+import 'dart:typed_data';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:meongjup/widgets/BaseAppbar.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
 
 class MissingDetail extends StatefulWidget {
-  final int index;
-  final String ANIMAL_NO;
-  final String url;
-  final String NM;
-  final String BREEDS;
-  final String AGE;
-  final double BDWGH;
-  final String SEXDSTN;
+  final String distinction;
+  final String species;
+  final String name;
+  final String subject;
+  final List<String> images;
+  final String location;
   const MissingDetail({
     super.key,
-    required this.index,
-    required this.ANIMAL_NO,
-    required this.url,
-    required this.NM,
-    required this.BREEDS,
-    required this.AGE,
-    required this.BDWGH,
-    required this.SEXDSTN,
+    required this.distinction,
+    required this.species,
+    required this.name,
+    required this.subject,
+    required this.images,
+    required this.location,
   });
 
   @override
@@ -28,9 +27,32 @@ class MissingDetail extends StatefulWidget {
 }
 
 class _MissingDetail extends State<MissingDetail> {
+  List<Uint8List> images = [];
+
+  Future<void> getImage() async {
+    final storageRef = FirebaseStorage.instance.ref();
+    List<Uint8List> newImages = [];
+    for (var image in widget.images) {
+      final islandRef = storageRef.child(image);
+      try {
+        const oneMegabyte = 1024 * 1024;
+        final Uint8List? image = await islandRef.getData(oneMegabyte);
+        if (image != null) {
+          newImages.add(image);
+        }
+      } on FirebaseException catch (e) {
+        // Handle any errors.
+      }
+    }
+    setState(() {
+      images = newImages;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    getImage();
   }
 
   @override
@@ -54,7 +76,7 @@ class _MissingDetail extends State<MissingDetail> {
                 Container(
                   width: double.infinity,
                   child: Text(
-                    '이름: 초코 / 견종: 웰시코기',
+                    '이름: ${widget.name} / 견종: ${widget.species}',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Color(0xff666666), height: 0.5),
                   ),
@@ -62,7 +84,7 @@ class _MissingDetail extends State<MissingDetail> {
                 Container(
                   width: double.infinity,
                   child: Text(
-                    'OOO을 찾습니다.',
+                    widget.subject,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xffff7373),
@@ -77,15 +99,28 @@ class _MissingDetail extends State<MissingDetail> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 6),
-                Text(
-                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s w",
-                  style: TextStyle(height: 1.3),
-                ),
+                Text(widget.distinction, style: TextStyle(height: 1.3)),
                 SizedBox(height: 16),
-                Image.asset(
-                  'assets/images/missing_writing.png',
-                  width: double.infinity,
-                ),
+                if (images.isNotEmpty) ...[
+                  ...images
+                      .map(
+                        (image) => Column(
+                          children: [
+                            Image.memory(
+                              image,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                            SizedBox(height: 10),
+                          ],
+                        ),
+                      )
+                      .toList(),
+                ] else
+                  Image.asset(
+                    'assets/images/missing_writing.png',
+                    width: double.infinity,
+                  ),
                 SizedBox(height: 10),
               ],
             ),

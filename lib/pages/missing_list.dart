@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:meongjup/api/missing_dto.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
 import 'package:meongjup/widgets/missingPuppy.dart';
 import 'package:meongjup/pages/missing_post.dart';
@@ -10,10 +12,32 @@ class Missing_list extends StatefulWidget {
 }
 
 class _Missing_list extends State<Missing_list> {
+  List<MissingDto> missingDatas = [];
+  @override
+  void initState() {
+    super.initState();
+    getMissingDatas();
+  }
+
+  Future<void> getMissingDatas() async {
+    try {
+      final db = FirebaseFirestore.instance;
+      final querySnapshot = await db.collection("missing").get();
+      setState(() {
+        missingDatas =
+            querySnapshot.docs
+                .map((doc) => MissingDto.fromJson(doc.data()))
+                .toList();
+      });
+    } catch (e) {
+      debugPrint("Error getting document: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    double deviceWidth = MediaQuery.of(context).size.width; // 디바이스 너비
-    double deviceHeight = MediaQuery.of(context).size.height; // 디바이스 높이
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery.of(context).size.height;
 
     return DefaultTabController(
       length: 2,
@@ -32,7 +56,7 @@ class _Missing_list extends State<Missing_list> {
             tabAlignment: TabAlignment.start,
             indicatorColor: Color(0xFFFF7373),
             labelColor: Color(0xFFFF7373),
-            unselectedLabelColor: Colors.grey, // 선택되지 않은 탭 색상 추가
+            unselectedLabelColor: Colors.grey,
             tabs: [
               Tab(icon: Icon(Icons.pets, size: 12), text: "실종"),
               Tab(icon: Icon(Icons.search, size: 12), text: "목격"),
@@ -42,7 +66,6 @@ class _Missing_list extends State<Missing_list> {
         body: TabBarView(
           children: [
             SingleChildScrollView(
-              // ListView를 SingleChildScrollView로 변경
               child: Column(
                 children: [
                   SizedBox(height: 4),
@@ -57,7 +80,9 @@ class _Missing_list extends State<Missing_list> {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => MissingPost()),
+                              MaterialPageRoute(
+                                builder: (context) => MissingPost(),
+                              ),
                             );
                           },
                           child: Image.asset(
@@ -90,18 +115,28 @@ class _Missing_list extends State<Missing_list> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xFFFF7373),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
-                              child: Text(
-                                '실종 신고하기',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MissingPost(),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFFF7373),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
+                                child: Text(
+                                  '실종 신고하기',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
@@ -112,17 +147,15 @@ class _Missing_list extends State<Missing_list> {
                           child: ListView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: 3,
+                            itemCount: missingDatas.length,
                             itemBuilder: (context, index) {
                               return MissingPuppy(
-                                index: index,
-                                ANIMAL_NO: '',
-                                url: '',
-                                NM: '',
-                                BREEDS: '',
-                                AGE: '',
-                                BDWGH: 0,
-                                SEXDSTN: '',
+                                distinction: missingDatas[index].distinction,
+                                species: missingDatas[index].species,
+                                name: missingDatas[index].name,
+                                subject: missingDatas[index].subject,
+                                images: missingDatas[index].images,
+                                location: missingDatas[index].location,
                               );
                             },
                           ),
@@ -134,7 +167,6 @@ class _Missing_list extends State<Missing_list> {
               ),
             ),
             SingleChildScrollView(
-              // ListView를 SingleChildScrollView로 변경
               child: Column(
                 children: [
                   Container(
@@ -203,11 +235,10 @@ class _Missing_list extends State<Missing_list> {
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.fromLTRB(6, 0, 0, 0), // 패딩 추가
+                              padding: EdgeInsets.fromLTRB(6, 0, 0, 0),
                               margin: EdgeInsets.only(top: 3),
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start, // 정렬 수정
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     "목격 시간: 오후 3시경",

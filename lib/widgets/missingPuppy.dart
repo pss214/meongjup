@@ -1,25 +1,24 @@
+import 'dart:typed_data';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:meongjup/pages/missing_detail.dart';
 
 class MissingPuppy extends StatefulWidget {
-  final int index;
-  final String ANIMAL_NO;
-  final String url;
-  final String NM;
-  final String BREEDS;
-  final String AGE;
-  final double BDWGH;
-  final String SEXDSTN;
+  final String distinction;
+  final String species;
+  final String name;
+  final String subject;
+  final List<String> images;
+  final String location;
   const MissingPuppy({
     super.key,
-    required this.index,
-    required this.ANIMAL_NO,
-    required this.url,
-    required this.NM,
-    required this.BREEDS,
-    required this.AGE,
-    required this.BDWGH,
-    required this.SEXDSTN,
+    required this.distinction,
+    required this.species,
+    required this.name,
+    required this.subject,
+    required this.images,
+    required this.location,
   });
 
   @override
@@ -31,6 +30,23 @@ class _MissingPuppyState extends State<MissingPuppy>
   late AnimationController _controller;
   late Animation<double> _animation;
 
+  Uint8List? thumbnail;
+
+  Future<void> getImage() async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final islandRef = storageRef.child(widget.images[0]);
+
+    try {
+      const oneMegabyte = 1024 * 1024;
+      final Uint8List? thumbnail = await islandRef.getData(oneMegabyte);
+      setState(() {
+        this.thumbnail = thumbnail;
+      });
+    } on FirebaseException catch (e) {
+      // Handle any errors.
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +55,7 @@ class _MissingPuppyState extends State<MissingPuppy>
       vsync: this,
     );
     _animation = Tween<double>(begin: 1.0, end: 0.94).animate(_controller);
+    getImage();
   }
 
   @override
@@ -57,14 +74,12 @@ class _MissingPuppyState extends State<MissingPuppy>
             MaterialPageRoute(
               builder:
                   (context) => MissingDetail(
-                    index: widget.index,
-                    ANIMAL_NO: widget.ANIMAL_NO,
-                    url: widget.url,
-                    NM: widget.NM,
-                    BREEDS: widget.BREEDS,
-                    AGE: widget.AGE,
-                    BDWGH: widget.BDWGH,
-                    SEXDSTN: widget.SEXDSTN,
+                    distinction: widget.distinction,
+                    species: widget.species,
+                    name: widget.name,
+                    subject: widget.subject,
+                    images: widget.images,
+                    location: widget.location,
                   ),
             ),
           );
@@ -82,12 +97,19 @@ class _MissingPuppyState extends State<MissingPuppy>
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
-                    child: Image.network(
-                      'https://animal.seoul.go.kr/comm/getImage?srvcId=MEDIA&upperNo=4224&fileTy=ADOPTIMG&fileNo=1&thumbTy=L',
-                      height: 140,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
+                    child:
+                        thumbnail != null
+                            ? Image(
+                              image: MemoryImage(thumbnail!),
+                              height: 140,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            )
+                            : Container(
+                              height: 140,
+                              width: double.infinity,
+                              color: Colors.grey,
+                            ),
                   ),
                   Positioned(
                     top: 10,
@@ -100,7 +122,7 @@ class _MissingPuppyState extends State<MissingPuppy>
                       ),
                       padding: EdgeInsets.all(8),
                       child: Text(
-                        '화성시 병점동',
+                        widget.location,
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     ),
@@ -116,11 +138,11 @@ class _MissingPuppyState extends State<MissingPuppy>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "OOO을 찾습니다.",
+                    widget.subject,
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "이름: 초코 / 견종: 웰시코기",
+                    "이름: ${widget.name} / 견종: ${widget.distinction}",
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 12,
