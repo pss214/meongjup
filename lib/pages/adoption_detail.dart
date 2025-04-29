@@ -81,7 +81,7 @@ class _AdoptionDetail extends State<AdoptionDetail> {
                   Column(
                     children: [
                       Text('성별', style: TextStyle(color: Colors.grey)),
-                      Text(widget.SEXDSTN),
+                      Text((widget.SEXDSTN == 'M') ? "남" : "여"),
                     ],
                   ),
                   Column(
@@ -121,6 +121,7 @@ class _AdoptionDetail extends State<AdoptionDetail> {
                     Row(
                       children: [
                         Container(
+                          constraints: BoxConstraints(minWidth: 40),
                           padding: EdgeInsets.symmetric(
                             horizontal: 8,
                             vertical: 4,
@@ -130,7 +131,7 @@ class _AdoptionDetail extends State<AdoptionDetail> {
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
-                            '     센터:    ',
+                            '센터',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
@@ -151,7 +152,7 @@ class _AdoptionDetail extends State<AdoptionDetail> {
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
-                            ' 센터 주소:',
+                            ' 센터 주소 ',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
@@ -172,7 +173,7 @@ class _AdoptionDetail extends State<AdoptionDetail> {
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
-                            ' 전화번호: ',
+                            ' 전화번호 ',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
