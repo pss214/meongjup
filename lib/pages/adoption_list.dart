@@ -1,9 +1,14 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:meongjup/api/dog_dto.dart';
+import 'package:meongjup/api/missing_dto.dart';
+import 'package:meongjup/pages/missing_detail.dart';
 import 'package:meongjup/widgets/BaseAppbar.dart';
 import 'package:meongjup/widgets/adoptionPuppy.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
@@ -22,9 +27,49 @@ class _MainPage extends State<MainPage> {
     fetchPage: (pageKey) async => fetchData(pageKey),
   );
   Map<String, List<String>> imageList = {};
+  List<MissingDto> missingDatas = [];
+  List<Uint8List?>? thumbnails;
+
   @override
   void initState() {
     super.initState();
+    getMissingDatas();
+  }
+
+  Future<void> getMissingDatas() async {
+    try {
+      final db = FirebaseFirestore.instance;
+      final querySnapshot = await db.collection("missing").get();
+      if (!mounted) return;
+      setState(() {
+        missingDatas = querySnapshot.docs
+            .map((doc) => MissingDto.fromJson(doc.data()))
+            .toList();
+        thumbnails = List.filled(missingDatas.length, null);
+      });
+      getThumbnail();
+    } catch (e) {
+      debugPrint("Error getting document: $e");
+    }
+  }
+
+  Future<void> getThumbnail() async {
+    if (thumbnails == null) return;
+    final storageRef = FirebaseStorage.instance.ref();
+    
+    for (var i = 0; i < missingDatas.length; i++) {
+      final islandRef = storageRef.child(missingDatas[i].images[0]);
+      try {
+        const oneMegabyte = 1024 * 1024;
+        final Uint8List? thumbnail = await islandRef.getData(oneMegabyte);
+        if (!mounted) return;
+        setState(() {
+          thumbnails![i] = thumbnail;
+        });
+      } on FirebaseException catch (e) {
+        debugPrint("Error getting document: $e");
+      }
+    }
   }
 
   int? _getNextPageKey(PagingState<int, DogDto> state) {
@@ -90,8 +135,8 @@ class _MainPage extends State<MainPage> {
         var data = jsonDecode(res.body)['TbAdpWaitAnimalPhotoView']['row'];
 
         for (var element in dogdata!.dogs) {
+          imageList[element.ANIMAL_NO] = [];
           for (var i = 0; i < data.length; i++) {
-            imageList[element.ANIMAL_NO] = [];
             if (element.ANIMAL_NO == data[i]['ANIMAL_NO']) {
               if (data[i]['PHOTO_KND'] == 'IMG') {
                 imageList[data[i]['ANIMAL_NO']]?.add(data[i]['PHOTO_URL']);
@@ -143,29 +188,62 @@ class _MainPage extends State<MainPage> {
                     ],
                   ),
                   SizedBox(height: 10),
+                  missingDatas.isNotEmpty && thumbnails != null ?
                   Expanded(
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       controller: _scrollController,
-                      itemCount: 6,
+                      itemCount: missingDatas.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Column(
                             children: [
-                              CircleAvatar(
-                                backgroundColor: Color(0xffaaaaaa),
-                                radius: 40,
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => MissingDetail(
+                                        distinction: missingDatas[index].distinction,
+                                        species: missingDatas[index].species,
+                                        name: missingDatas[index].name,
+                                        subject: missingDatas[index].subject,
+                                        images: missingDatas[index].images,
+                                        location: missingDatas[index].location,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: CircleAvatar(
+                                  radius: 40,
+                                  child: ClipOval(
+                                    child: thumbnails![index] != null
+                                        ? Image.memory(
+                                            thumbnails![index]!,
+                                            fit: BoxFit.cover,
+                                            width: 80,
+                                            height: 80,
+                                          )
+                                        : Container(
+                                            color: Colors.grey,
+                                          ),
+                                  ),
+                                ),
                               ),
                               SizedBox(height: 4),
                               Text(
-                                '견종',
+                                missingDatas[index].name,
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
                         );
                       },
+                    ),
+                  ) : Container(
+                    height: 100,
+                    child: Center(
+                      child: Text('데이터가 없습니다'),
                     ),
                   ),
                 ],
@@ -199,7 +277,7 @@ class _MainPage extends State<MainPage> {
                           (context, item, index) => AdoptionPuppy(
                             index: index,
                             ANIMAL_NO: item.ANIMAL_NO,
-                            url: imageList[item.ANIMAL_NO]![0].toString(),
+                            url: imageList[item.ANIMAL_NO]?[0] ?? '',
                             NM: item.NM,
                             BREEDS: item.BREEDS,
                             AGE: item.AGE,
