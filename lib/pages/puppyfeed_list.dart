@@ -14,7 +14,7 @@ class PuppyFeedList extends StatefulWidget {
 class _PuppyFeedListState extends State<PuppyFeedList> {
   final List<String> _videoIds = [
     'OkJtwjuKfjk',
-    '56Bw2sgUd6M', 
+    '56Bw2sgUd6M',
     'MZ18RH3k18E',
     'QTz-wrCthds',
     'IvOlYCc5sWg',
@@ -24,10 +24,11 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
   List<int> _likes = [];
   List<double> _scaleFactors = []; // 애니메이션용 scale 값 추가
 
-  late PageController _pageController;   // 세로 페이지 컨트롤러
-  late int _currentPage = 0;  // 현재 페이지 인덱스
-  Map<int, YoutubePlayerController> _controllers = {};  // 각 페이지에 해당하는 유튜브 컨트롤러 저장소
-  bool _isLoading = false;  // 중복 로딩 방지 플래그
+  late PageController _pageController; // 세로 페이지 컨트롤러
+  late int _currentPage = 0; // 현재 페이지 인덱스
+  Map<int, YoutubePlayerController> _controllers =
+      {}; // 각 페이지에 해당하는 유튜브 컨트롤러 저장소
+  bool _isLoading = false; // 중복 로딩 방지 플래그
 
   @override
   void initState() {
@@ -38,7 +39,7 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
       initialPage: 0,
     );
     _likes = List.generate(_videoIds.length, (_) => 0);
-    _scaleFactors = List.generate(_videoIds.length, (_) => 1.0);  // 🔥 반드시 초기화
+    _scaleFactors = List.generate(_videoIds.length, (_) => 1.0); // 🔥 반드시 초기화
     _initializeController(0);
   }
 
@@ -67,7 +68,7 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
   void _initializeSurroundingControllers(int index) {
     for (int i = index - 1; i <= index + 1; i++) {
       if (i >= 0 && i < _videoIds.length) {
-        _initializeController(i);   // 이미 초기화된 경우는 내부에서 무시됨
+        _initializeController(i); // 이미 초기화된 경우는 내부에서 무시됨
       }
     }
   }
@@ -96,7 +97,6 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(),
       bottomNavigationBar: BottomNavigation(selectedIndex: 3),
       body: PageView.builder(
         scrollDirection: Axis.vertical,
@@ -118,7 +118,7 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
               if (entry.key == index) {
                 entry.value.play();
               } else {
-                 entry.value.pause();
+                entry.value.pause();
               }
             }
           } finally {
@@ -167,23 +167,29 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
                               GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    _likes[index] = (_likes[index] + 1) % 2; // 좋아요 토글
+                                    _likes[index] =
+                                        (_likes[index] + 1) % 2; // 좋아요 토글
                                     _scaleFactors[index] = 1.5;
                                   });
 
-                                  Future.delayed(const Duration(milliseconds: 150), () {
-                                    if (mounted) {
-                                      setState(() {
-                                        _scaleFactors[index] = 1.0;
-                                      });
-                                    }
-                                  });
+                                  Future.delayed(
+                                    const Duration(milliseconds: 150),
+                                    () {
+                                      if (mounted) {
+                                        setState(() {
+                                          _scaleFactors[index] = 1.0;
+                                        });
+                                      }
+                                    },
+                                  );
                                 },
                                 child: AnimatedScale(
                                   scale: _scaleFactors[index],
                                   duration: const Duration(milliseconds: 150),
                                   child: Icon(
-                                    _likes[index] == 1 ? Icons.favorite : Icons.favorite_border,
+                                    _likes[index] == 1
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
                                     color: Colors.red,
                                     size: 36,
                                   ),
