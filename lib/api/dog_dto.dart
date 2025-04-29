@@ -8,7 +8,7 @@ class DogDtoList {
 
     List<DogDto> postList =
         list
-            .where((i) => i['SPCS'] == "DOG")
+            .where((i) => i['SPCS'] == "DOG" && i['ADP_STTUS'] == 'N')
             .map((i) => DogDto.fromJson(i))
             .toList();
     return DogDtoList(dogs: postList);

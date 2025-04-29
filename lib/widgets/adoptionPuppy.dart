@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:meongjup/pages/adoption_detail.dart';
 
@@ -53,13 +54,14 @@ class AdoptionPuppy extends StatelessWidget {
                 Container(
                   width: 100,
                   height: 100,
+                  clipBehavior: Clip.hardEdge,
                   decoration: BoxDecoration(
                     color: Color(0xffdddddd),
                     borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                      image: NetworkImage('http://$url'), // 여기가 핵심!
-                      fit: BoxFit.cover, // 꽉 채우고 싶을 때,
-                    ),
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: 'http://$url',
+                    fit: BoxFit.cover,
                   ),
                 ),
                 SizedBox(width: 14),
