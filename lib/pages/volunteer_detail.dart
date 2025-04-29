@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meongjup/widgets/BaseAppbar.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
 import 'package:meongjup/widgets/volunteerActivityDetails.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VolunteerDetail extends StatelessWidget {
   const VolunteerDetail({super.key});
@@ -22,7 +23,7 @@ class VolunteerDetail extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: Text(
-                  "[공지] 경산 길고양이 쉼터 자원봉사자 모집 ㅁㄴㄹㅇㅁㄻㅇㄻㄴㄹㅇㄴㅁ",
+                  "[공지] 경산 길고양이 쉼터 자원봉사자 모집",
                   overflow: TextOverflow.ellipsis,
                   softWrap: true,
                   maxLines: 2,
@@ -65,12 +66,23 @@ class VolunteerDetail extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       padding: EdgeInsets.fromLTRB(36, 12, 36, 12),
-                      child: Text(
-                        "지원하기",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600,
+                      child: GestureDetector(
+                        onTap:
+                            () => {
+                              launchUrl(
+                                Uri.parse(
+                                  "https://news.seoul.go.kr/env/archives/560028",
+                                ),
+                                mode: LaunchMode.externalApplication,
+                              ),
+                            },
+                        child: Text(
+                          "지원하기",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
@@ -84,3 +96,5 @@ class VolunteerDetail extends StatelessWidget {
     );
   }
 }
+
+// https://news.seoul.go.kr/env/archives/560028
