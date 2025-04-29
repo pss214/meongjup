@@ -108,7 +108,7 @@ class _MissingPuppyState extends State<MissingPuppy>
                             : Container(
                               height: 140,
                               width: double.infinity,
-                              color: Colors.grey,
+                              color: Color(0xffeeeeee),
                             ),
                   ),
                   Positioned(

@@ -76,7 +76,7 @@ class _MissingDetail extends State<MissingDetail> {
                 Container(
                   width: double.infinity,
                   child: Text(
-                    '이름: ${widget.name} / 견종: ${widget.species}',
+                    '이름: ${widget.name} / 견종: ${widget.distinction}',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Color(0xff666666), height: 0.5),
                   ),
@@ -99,7 +99,7 @@ class _MissingDetail extends State<MissingDetail> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 6),
-                Text(widget.distinction, style: TextStyle(height: 1.3)),
+                Text(widget.species, style: TextStyle(height: 1.3)),
                 SizedBox(height: 16),
                 if (images.isNotEmpty) ...[
                   ...images
@@ -117,9 +117,10 @@ class _MissingDetail extends State<MissingDetail> {
                       )
                       .toList(),
                 ] else
-                  Image.asset(
-                    'assets/images/missing_writing.png',
+                  Container(
                     width: double.infinity,
+                    height: 120,
+                    color: Color(0xffeeeeee),
                   ),
                 SizedBox(height: 10),
               ],
