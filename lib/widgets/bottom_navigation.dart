@@ -25,7 +25,7 @@ class BottomNavigation extends StatelessWidget {
         break;
       case 2:
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Volunteer_List()),
+          MaterialPageRoute(builder: (context) => VolunteerList()),
         );
         break;
       case 3:
