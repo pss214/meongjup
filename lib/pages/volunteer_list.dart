@@ -63,7 +63,7 @@ class _VolunteerListState extends State<VolunteerList> {
     return Scaffold(
       //화면 전체 구성
       bottomNavigationBar: BottomNavigation(
-        selectedIndex: 2, // 하단 네비게이션바에서 자원봉사 탭을 선택
+        selectedIndex: 3, // 하단 네비게이션바에서 자원봉사 탭을 선택
       ),
       backgroundColor: Colors.white,
       appBar: BaseAppBar(),

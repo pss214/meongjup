@@ -29,7 +29,7 @@ class VolunteerDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(),
-      bottomNavigationBar: BottomNavigation(selectedIndex: 2),
+      bottomNavigationBar: BottomNavigation(selectedIndex: 3),
       body: Container(
         width: double.infinity,
         color: Colors.white,
