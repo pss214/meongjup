@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:http/http.dart' as http;
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:meongjup/api/dog_dto.dart';
@@ -34,6 +35,8 @@ class _MainPage extends State<MainPage> {
   void initState() {
     super.initState();
     getMissingDatas();
+
+    FlutterNativeSplash.remove(); // Remove splash screen after delay
   }
 
   Future<void> getMissingDatas() async {
@@ -42,9 +45,10 @@ class _MainPage extends State<MainPage> {
       final querySnapshot = await db.collection("missing").get();
       if (!mounted) return;
       setState(() {
-        missingDatas = querySnapshot.docs
-            .map((doc) => MissingDto.fromJson(doc.data()))
-            .toList();
+        missingDatas =
+            querySnapshot.docs
+                .map((doc) => MissingDto.fromJson(doc.data()))
+                .toList();
         thumbnails = List.filled(missingDatas.length, null);
       });
       getThumbnail();
@@ -56,7 +60,7 @@ class _MainPage extends State<MainPage> {
   Future<void> getThumbnail() async {
     if (thumbnails == null) return;
     final storageRef = FirebaseStorage.instance.ref();
-    
+
     for (var i = 0; i < missingDatas.length; i++) {
       final islandRef = storageRef.child(missingDatas[i].images[0]);
       try {
@@ -188,64 +192,74 @@ class _MainPage extends State<MainPage> {
                     ],
                   ),
                   SizedBox(height: 10),
-                  missingDatas.isNotEmpty && thumbnails != null ?
-                  Expanded(
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      controller: _scrollController,
-                      itemCount: missingDatas.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Column(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => MissingDetail(
-                                        distinction: missingDatas[index].distinction,
-                                        species: missingDatas[index].species,
-                                        name: missingDatas[index].name,
-                                        subject: missingDatas[index].subject,
-                                        images: missingDatas[index].images,
-                                        location: missingDatas[index].location,
+                  missingDatas.isNotEmpty && thumbnails != null
+                      ? Expanded(
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          controller: _scrollController,
+                          itemCount: missingDatas.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
+                              child: Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder:
+                                              (context) => MissingDetail(
+                                                distinction:
+                                                    missingDatas[index]
+                                                        .distinction,
+                                                species:
+                                                    missingDatas[index].species,
+                                                name: missingDatas[index].name,
+                                                subject:
+                                                    missingDatas[index].subject,
+                                                images:
+                                                    missingDatas[index].images,
+                                                location:
+                                                    missingDatas[index]
+                                                        .location,
+                                              ),
+                                        ),
+                                      );
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 40,
+                                      child: ClipOval(
+                                        child:
+                                            thumbnails![index] != null
+                                                ? Image.memory(
+                                                  thumbnails![index]!,
+                                                  fit: BoxFit.cover,
+                                                  width: 80,
+                                                  height: 80,
+                                                )
+                                                : Container(color: Colors.grey),
                                       ),
                                     ),
-                                  );
-                                },
-                                child: CircleAvatar(
-                                  radius: 40,
-                                  child: ClipOval(
-                                    child: thumbnails![index] != null
-                                        ? Image.memory(
-                                            thumbnails![index]!,
-                                            fit: BoxFit.cover,
-                                            width: 80,
-                                            height: 80,
-                                          )
-                                        : Container(
-                                            color: Colors.grey,
-                                          ),
                                   ),
-                                ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    missingDatas[index].name,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(height: 4),
-                              Text(
-                                missingDatas[index].name,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ) : Container(
-                    height: 100,
-                    child: Center(
-                      child: Text('데이터가 없습니다'),
-                    ),
-                  ),
+                            );
+                          },
+                        ),
+                      )
+                      : Container(
+                        height: 100,
+                        child: Center(child: Text('데이터가 없습니다')),
+                      ),
                 ],
               ),
             ),
