@@ -12,6 +12,7 @@ import 'package:meongjup/pages/missing_detail.dart';
 import 'package:meongjup/widgets/BaseAppbar.dart';
 import 'package:meongjup/widgets/adoptionPuppy.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
+import 'package:meongjup/widgets/volunteer_post.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -42,9 +43,10 @@ class _MainPage extends State<MainPage> {
       final querySnapshot = await db.collection("missing").get();
       if (!mounted) return;
       setState(() {
-        missingDatas = querySnapshot.docs
-            .map((doc) => MissingDto.fromJson(doc.data()))
-            .toList();
+        missingDatas =
+            querySnapshot.docs
+                .map((doc) => MissingDto.fromJson(doc.data()))
+                .toList();
         thumbnails = List.filled(missingDatas.length, null);
       });
       getThumbnail();
@@ -56,7 +58,7 @@ class _MainPage extends State<MainPage> {
   Future<void> getThumbnail() async {
     if (thumbnails == null) return;
     final storageRef = FirebaseStorage.instance.ref();
-    
+
     for (var i = 0; i < missingDatas.length; i++) {
       final islandRef = storageRef.child(missingDatas[i].images[0]);
       try {
@@ -181,71 +183,81 @@ class _MainPage extends State<MainPage> {
                       Text(
                         '멍줍 소식 >',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 13,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
                   SizedBox(height: 10),
-                  missingDatas.isNotEmpty && thumbnails != null ?
-                  Expanded(
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      controller: _scrollController,
-                      itemCount: missingDatas.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Column(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => MissingDetail(
-                                        distinction: missingDatas[index].distinction,
-                                        species: missingDatas[index].species,
-                                        name: missingDatas[index].name,
-                                        subject: missingDatas[index].subject,
-                                        images: missingDatas[index].images,
-                                        location: missingDatas[index].location,
+                  missingDatas.isNotEmpty && thumbnails != null
+                      ? Expanded(
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          controller: _scrollController,
+                          itemCount: missingDatas.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
+                              child: Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder:
+                                              (context) => MissingDetail(
+                                                distinction:
+                                                    missingDatas[index]
+                                                        .distinction,
+                                                species:
+                                                    missingDatas[index].species,
+                                                name: missingDatas[index].name,
+                                                subject:
+                                                    missingDatas[index].subject,
+                                                images:
+                                                    missingDatas[index].images,
+                                                location:
+                                                    missingDatas[index]
+                                                        .location,
+                                              ),
+                                        ),
+                                      );
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 40,
+                                      child: ClipOval(
+                                        child:
+                                            thumbnails![index] != null
+                                                ? Image.memory(
+                                                  thumbnails![index]!,
+                                                  fit: BoxFit.cover,
+                                                  width: 80,
+                                                  height: 80,
+                                                )
+                                                : Container(color: Colors.grey),
                                       ),
                                     ),
-                                  );
-                                },
-                                child: CircleAvatar(
-                                  radius: 40,
-                                  child: ClipOval(
-                                    child: thumbnails![index] != null
-                                        ? Image.memory(
-                                            thumbnails![index]!,
-                                            fit: BoxFit.cover,
-                                            width: 80,
-                                            height: 80,
-                                          )
-                                        : Container(
-                                            color: Colors.grey,
-                                          ),
                                   ),
-                                ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    missingDatas[index].name,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(height: 4),
-                              Text(
-                                missingDatas[index].name,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ) : Container(
-                    height: 100,
-                    child: Center(
-                      child: Text('데이터가 없습니다'),
-                    ),
-                  ),
+                            );
+                          },
+                        ),
+                      )
+                      : Container(
+                        height: 100,
+                        child: Center(child: Text('데이터가 없습니다')),
+                      ),
                 ],
               ),
             ),
@@ -254,44 +266,159 @@ class _MainPage extends State<MainPage> {
           Container(
             width: double.infinity,
             color: Colors.white,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
-              child: Text(
-                '입양을 기다리는 아이들 >',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              ),
+            child: Column(
+              children: [
+                SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 12),
+                    Text(
+                      '입양하기',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      '자세히보기 >',
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 140,
+                        height: 140,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '믹스',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                height: 1.2,
+                              ),
+                            ),
+                            SizedBox(height: 6),
+                            Text(
+                              '나이 3(세) 11(개월)',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Color(0xff666666),
+                                height: 1.2,
+                              ),
+                            ),
+                            Text(
+                              '성별 여',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Color(0xff666666),
+                                height: 1.2,
+                              ),
+                            ),
+                            Text(
+                              '체중 4.87(kg)',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Color(0xff666666),
+                                height: 1.2,
+                              ),
+                            ),
+                            SizedBox(height: 6),
+                            Text(
+                              '동물학대로 버려진 아이에게 도움의 손길을 주세요',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                height: 1.2,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: true,
+                              maxLines: 2,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+              ],
             ),
           ),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: () async => {fetch()},
-              child: PagingListener(
-                controller: _pagingController,
-                builder: (context, state, fetchNextPage) {
-                  return PagedListView<int, DogDto>(
-                    state: state,
-                    fetchNextPage: fetchNextPage,
-                    // 이 내부에서 높이 지정 X
-                    builderDelegate: PagedChildBuilderDelegate(
-                      itemBuilder:
-                          (context, item, index) => AdoptionPuppy(
-                            index: index,
-                            ANIMAL_NO: item.ANIMAL_NO,
-                            url: imageList[item.ANIMAL_NO]?[0] ?? '',
-                            NM: item.NM,
-                            BREEDS: item.BREEDS,
-                            AGE: item.AGE,
-                            BDWGH: item.BDWGH,
-                            SEXDSTN: item.SEXDSTN,
-                          ),
-                      noItemsFoundIndicatorBuilder:
-                          (_) => Center(child: Text('데이터가 없습니다')),
-                      firstPageErrorIndicatorBuilder:
-                          (_) => Center(child: Text('인터넷이 없거나 오류가 발생했습니다')),
+          SizedBox(height: 4),
+          Container(
+            width: double.infinity,
+            color: Colors.white,
+            child: Column(
+              children: [
+                SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 12),
+                    Text(
+                      '자원봉사',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  );
-                },
-              ),
+                    SizedBox(width: 8),
+                    Text(
+                      '자세히보기 >',
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                VolunteerPost(),
+                VolunteerPost(),
+                VolunteerPost(),
+              ],
+            ),
+          ),
+          SizedBox(height: 4),
+          Container(
+            width: double.infinity,
+            color: Colors.white,
+            child: Column(
+              children: [
+                SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 12),
+                    Text(
+                      '멍피드',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      '자세히보기 >',
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
