@@ -49,12 +49,15 @@ class _Volunteer_ListState extends State<Volunteer_List> {
   }
 
   final List<Map<String, String>> volunteerList = [
-    {'title': '자원봉사 모집', 'location': '서울시 마포구 동교동 123-45'},
-    {'title': '강남구 환경 봉사', 'location': '서울시 강남구 역삼동 678-90'},
-    {'title': '동대문센터 봉사', 'location': '서울시 동대문구 답십리로 10길 15'},
-    {'title': '마포구 청소 봉사', 'location': '서울시 마포구 서교동 33-2'},
-    {'title': '마포구 청소 봉사', 'location': '서울시 마포구 서교동 33-2'},
-    {'title': '마포구 청소 봉사', 'location': '서울시 마포구 서교동 33-2'},
+    {'title': '자원봉사 모집', 'location': '마포구'},
+    {'title': '나나나ㅏ나나나난 환경 봉사', 'location': '마포구'},
+    {'title': 'ㄹ루루루루루루 봉사', 'location': '동대문센터'},
+    {'title': '캬캬캬 청소 봉사', 'location': '마포구'},
+    {'title': '가가가 청소 봉사', 'location': '마포구'},
+    {'title': '나나나 청소 봉사', 'location': '마포구'},
+    {'title': '하하하 봉사', 'location': '동대문센터'},
+    {'title': '호호호센터 봉사', 'location': '동대문센터'},
+    {'title': '파파파센터 봉사', 'location': '동대문센터'},
   ];
   //임시 데이터이이이이이이이이ㅣ임미다~!!!!~!!!!!!!!!!!!!!!!!!!!!!
 
@@ -63,7 +66,10 @@ class _Volunteer_ListState extends State<Volunteer_List> {
       return volunteerList;
     }
     return volunteerList
-        .where((volunteer) => volunteer['location'] == selectedFilter)
+        .where(
+          (volunteer) =>
+              volunteer['location']?.contains(selectedFilter) ?? false,
+        )
         .toList();
   }
 
@@ -153,9 +159,18 @@ class _Volunteer_ListState extends State<Volunteer_List> {
             child: PageView.builder(
               controller: pageController,
               itemCount: totalPages,
-              itemBuilder: (context, pageIndex) {
+              itemBuilder: (context, index) {
+                final filteredList = getfilteredVolunteerList();
+                final itemsPerPage = (filteredList.length / totalPages).ceil();
+                final startIndex = index * itemsPerPage;
+                final endIndex =
+                    (startIndex + itemsPerPage) > filteredList.length
+                        ? filteredList.length
+                        : startIndex + itemsPerPage;
+                final pageItems = filteredList.sublist(startIndex, endIndex);
+
                 return ListView.separated(
-                  itemCount: getfilteredVolunteerList().length,
+                  itemCount: pageItems.length,
                   separatorBuilder:
                       (BuildContext context, int idx) => Divider(),
                   itemBuilder: (BuildContext context, int idx) {
@@ -175,7 +190,6 @@ class _Volunteer_ListState extends State<Volunteer_List> {
                       subtitle: Text(
                         getfilteredVolunteerList()[idx]['location'] ?? '',
                       ),
-                      leading: Icon(Icons.person),
                       trailing: Icon(Icons.arrow_forward_ios),
                     );
                   },
@@ -183,26 +197,29 @@ class _Volunteer_ListState extends State<Volunteer_List> {
               },
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(totalPages, (index) {
-              return GestureDetector(
-                onTap: () => moveToPage(index),
-                child: Container(
-                  width: 30,
-                  height: 30,
-                  margin: EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    color: currentPage == index ? Colors.blue : Colors.grey,
-                    shape: BoxShape.circle,
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(totalPages, (index) {
+                return GestureDetector(
+                  onTap: () => moveToPage(index),
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    margin: EdgeInsets.symmetric(horizontal: 4),
+                    decoration: BoxDecoration(
+                      color: currentPage == index ? Colors.blue : Colors.grey,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(
+                      '${index + 1}',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                  child: Text(
-                    '${index + 1}',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              );
-            }),
+                );
+              }),
+            ),
           ),
         ],
       ),
