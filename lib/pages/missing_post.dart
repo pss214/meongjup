@@ -128,9 +128,8 @@ class _MissingPostState extends State<MissingPost> {
           .add(data)
           .then(
             (DocumentReference doc) =>
-                debugPrint('DocumentSnapshot added with ID: ${doc.id}'),
+                debugPrint('DocumentSnapshot added with ID: ${doc.id}')
           );
-      if (!_validateAndSubmit()) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('게시글이 업로드 되었습니다!'),
@@ -140,7 +139,6 @@ class _MissingPostState extends State<MissingPost> {
       Navigator.pop(context);
     } catch (e) {
       debugPrint("에러 발생: $e");
-      if (!_validateAndSubmit()) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('게시글 등록 중 오류가 발생했습니다. 다시 시도해주세요.'),
@@ -399,7 +397,12 @@ class _MissingPostState extends State<MissingPost> {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  fetchUpload();
+                  
+                  if (!_validateAndSubmit()) {
+                    return;
+                  } else {
+                    fetchUpload();
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFff7373),
@@ -408,7 +411,7 @@ class _MissingPostState extends State<MissingPost> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: Text('등록하기', style: TextStyle(fontSize: 16)),
+               child: Text('등록하기', style: TextStyle(fontSize: 16)),
               ),
             ),
           ],
