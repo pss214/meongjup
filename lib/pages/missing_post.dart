@@ -219,7 +219,7 @@ class _MissingPostState extends State<MissingPost> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(),
-      bottomNavigationBar: BottomNavigation(selectedIndex: 1),
+      bottomNavigationBar: BottomNavigation(selectedIndex: 2),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),

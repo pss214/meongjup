@@ -8,17 +8,18 @@ import 'package:http/http.dart' as http;
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:meongjup/api/dog_dto.dart';
 import 'package:meongjup/api/missing_dto.dart';
+import 'package:meongjup/pages/missing_detail.dart';
 import 'package:meongjup/widgets/BaseAppbar.dart';
 import 'package:meongjup/widgets/adoptionPuppy.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
 
-class AdoptionList extends StatefulWidget {
-  const AdoptionList({super.key});
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
   @override
-  State createState() => _AdoptionList();
+  State createState() => _MainPage();
 }
 
-class _AdoptionList extends State<AdoptionList> {
+class _MainPage extends State<MainPage> {
   final ScrollController _scrollController = ScrollController();
   DogDtoList? dogdata;
   late final PagingController<int, DogDto> _pagingController = PagingController(
@@ -160,9 +161,95 @@ class _AdoptionList extends State<AdoptionList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(),
-      bottomNavigationBar: BottomNavigation(selectedIndex: 1),
+      bottomNavigationBar: BottomNavigation(selectedIndex: 0),
       body: Column(
         children: [
+          Container(
+            width: double.infinity,
+            height: 160,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        '멍줍 소식 >',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  missingDatas.isNotEmpty && thumbnails != null ?
+                  Expanded(
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      controller: _scrollController,
+                      itemCount: missingDatas.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => MissingDetail(
+                                        distinction: missingDatas[index].distinction,
+                                        species: missingDatas[index].species,
+                                        name: missingDatas[index].name,
+                                        subject: missingDatas[index].subject,
+                                        images: missingDatas[index].images,
+                                        location: missingDatas[index].location,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: CircleAvatar(
+                                  radius: 40,
+                                  child: ClipOval(
+                                    child: thumbnails![index] != null
+                                        ? Image.memory(
+                                            thumbnails![index]!,
+                                            fit: BoxFit.cover,
+                                            width: 80,
+                                            height: 80,
+                                          )
+                                        : Container(
+                                            color: Colors.grey,
+                                          ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                missingDatas[index].name,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ) : Container(
+                    height: 100,
+                    child: Center(
+                      child: Text('데이터가 없습니다'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           SizedBox(height: 4),
           Container(
             width: double.infinity,
