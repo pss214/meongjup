@@ -59,7 +59,7 @@ class _MissingDetail extends State<MissingDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigation(selectedIndex: 1),
+      bottomNavigationBar: BottomNavigation(selectedIndex: 2),
       appBar: BaseAppBar(),
       backgroundColor: Colors.white,
       body: ListView(

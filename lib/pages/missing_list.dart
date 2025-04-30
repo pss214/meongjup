@@ -56,7 +56,7 @@ class _Missing_list extends State<Missing_list> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        bottomNavigationBar: BottomNavigation(selectedIndex: 1),
+        bottomNavigationBar: BottomNavigation(selectedIndex: 2),
         appBar: AppBar(
           scrolledUnderElevation: 0,
           backgroundColor: Colors.white,

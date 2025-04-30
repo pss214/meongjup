@@ -84,6 +84,8 @@ flutter:
   assets:
     - assets/images/home.png
     - assets/images/home_1.png
+    - assets/images/adoption1.png
+    - assets/images/adoption1_1.png
     - assets/images/icon1.png
     - assets/images/icon2.png
     - assets/images/icon2_1.png
