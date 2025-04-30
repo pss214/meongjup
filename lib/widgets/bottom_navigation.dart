@@ -16,27 +16,27 @@ class BottomNavigation extends StatelessWidget {
     switch (index) {
       case 0:
         Navigator.of(
-          context
+          context,
         ).pushReplacement(MaterialPageRoute(builder: (context) => MainPage()));
         break;
       case 1:
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => AdoptionList())
+          MaterialPageRoute(builder: (context) => AdoptionList()),
         );
         break;
       case 2:
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Missing_list())
+          MaterialPageRoute(builder: (context) => Missing_list()),
         );
         break;
       case 3:
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Volunteer_List())
+          MaterialPageRoute(builder: (context) => VolunteerList()),
         );
         break;
       case 4:
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => PuppyFeedList())
+          MaterialPageRoute(builder: (context) => PuppyFeedList()),
         );
         break;
     }
