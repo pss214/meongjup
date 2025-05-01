@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meongjup/pages/volunteer_detail.dart';
 
 class VolunteerPost extends StatelessWidget {
@@ -60,7 +61,7 @@ class VolunteerPost extends StatelessWidget {
                         Text(
                           '[$location] $subject',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
                           ),
                           overflow: TextOverflow.ellipsis,
@@ -68,7 +69,7 @@ class VolunteerPost extends StatelessWidget {
                         Text(
                           '2025-04-23',
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 12.sp,
                             color: Color(0xff666666),
                           ),
                         ),
@@ -77,7 +78,7 @@ class VolunteerPost extends StatelessWidget {
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 10),
-                    child: Text('>', style: TextStyle(fontSize: 20)),
+                    child: Text('>', style: TextStyle(fontSize: 20.sp)),
                   ),
                 ],
               ),

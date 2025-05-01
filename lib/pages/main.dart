@@ -17,6 +17,7 @@ import 'package:meongjup/widgets/BaseAppbar.dart';
 import 'package:meongjup/widgets/adoptionPuppyAtMain.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
 import 'package:meongjup/widgets/volunteer_post.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -262,7 +263,7 @@ class _MainPage extends State<MainPage> {
                           Text(
                             '입양하기',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -278,7 +279,7 @@ class _MainPage extends State<MainPage> {
                             child: Text(
                               '자세히보기 >',
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 12.sp,
                                 color: Colors.grey,
                               ),
                             ),
@@ -378,7 +379,7 @@ class _MainPage extends State<MainPage> {
                           Text(
                             '자원봉사',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -394,7 +395,7 @@ class _MainPage extends State<MainPage> {
                             child: Text(
                               '자세히보기 >',
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 12.sp,
                                 color: Colors.grey,
                               ),
                             ),
@@ -458,7 +459,7 @@ class _MainPage extends State<MainPage> {
                           Text(
                             '멍피드',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

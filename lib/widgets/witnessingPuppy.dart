@@ -45,7 +45,7 @@ class _WitnessingPuppyState extends State<WitnessingPuppy>
         this.thumbnail = thumbnail;
       });
     } on FirebaseException catch (e) {
-      // Handle any errors.
+      throw Exception(e);
     }
   }
 
