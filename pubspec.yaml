@@ -98,6 +98,11 @@ flutter:
     - assets/images/missing_writing.png
     - assets/images/witness_writing.png
     - assets/images/showMissingReportModalImage.png
+    - assets/images/alertMissingChildrenBanner.png
+    - assets/images/pupShort1.jpg
+    - assets/images/pupShort2.jpg
+    - assets/images/pupShort3.jpg
+    - assets/images/pupShort4.jpg
     - assets/images/img_logo.png
   #   - images/a_dot_ham.jpeg
   # This section identifies this Flutter project as a plugin project.

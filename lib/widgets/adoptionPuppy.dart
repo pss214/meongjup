@@ -60,7 +60,7 @@ class AdoptionPuppy extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: CachedNetworkImage(
-                    imageUrl: 'http://$url',
+                    imageUrl: 'https://$url',
                     fit: BoxFit.cover,
                   ),
                 ),
