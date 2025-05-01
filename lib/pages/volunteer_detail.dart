@@ -107,15 +107,14 @@ class VolunteerDetail extends StatelessWidget {
                                 ),
                                 padding: EdgeInsets.fromLTRB(36, 12, 36, 12),
                                 child: GestureDetector(
-                                  onTap:
-                                      () => {
-                                        launchUrl(
-                                          Uri.parse(
-                                            "https://news.seoul.go.kr/env/archives/560028",
-                                          ),
-                                          mode: LaunchMode.externalApplication,
-                                        ),
-                                      },
+                                  onTap: () async {
+                                    await launchUrl(
+                                      Uri.parse(
+                                        "https://news.seoul.go.kr/env/archives/560028",
+                                      ),
+                                      mode: LaunchMode.externalApplication,
+                                    );
+                                  },
                                   child: Text(
                                     "지원하기",
                                     style: TextStyle(

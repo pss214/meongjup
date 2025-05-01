@@ -55,17 +55,6 @@ class _InfoLabel extends StatelessWidget {
 class _AdoptionPuppyState extends State<AdoptionPuppy> {
   bool isTapped = false;
 
-  void _showInquiryModal() async {
-    final url = Uri.parse(
-      'https://news.seoul.go.kr/env/pet',
-    ); // ✅ 여기에 이동할 URL 입력
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
   void toggleBrightness() {
     setState(() {
       isTapped = !isTapped;
@@ -222,7 +211,14 @@ class _AdoptionPuppyState extends State<AdoptionPuppy> {
                                     ),
                                     SizedBox(height: 20),
                                     ElevatedButton(
-                                      onPressed: _showInquiryModal,
+                                      onPressed: () async {
+                                        await launchUrl(
+                                          Uri.parse(
+                                            "https://news.seoul.go.kr/env/pet",
+                                          ),
+                                          mode: LaunchMode.externalApplication,
+                                        );
+                                      },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: const Color(
                                           0xFF75B1FF,
@@ -263,82 +259,3 @@ class _AdoptionPuppyState extends State<AdoptionPuppy> {
     );
   }
 }
-
-
-// import 'package:cached_network_image/cached_network_image.dart';
-// import 'package:flutter/material.dart';
-// import 'package:meongjup/pages/adoption_detail.dart';
-
-// class AdoptionPuppy extends StatelessWidget {
-//   final int index;
-//   final String ANIMAL_NO;
-//   final String url;
-//   final String NM;
-//   final String BREEDS;
-//   final String AGE;
-//   final double BDWGH;
-//   final String SEXDSTN;
-//   const AdoptionPuppy({
-//     super.key,
-//     required this.index,
-//     required this.ANIMAL_NO,
-//     required this.url,
-//     required this.NM,
-//     required this.BREEDS,
-//     required this.AGE,
-//     required this.BDWGH,
-//     required this.SEXDSTN,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-      
-//       // onTap: () {
-//       //   Navigator.of(context).push(
-//       //     MaterialPageRoute(
-//       //       builder:
-//       //           (context) => AdoptionDetail(
-//       //             index: index,
-//       //             ANIMAL_NO: ANIMAL_NO,
-//       //             url: url,
-//       //             NM: NM,
-//       //             BREEDS: BREEDS,
-//       //             AGE: AGE,
-//       //             BDWGH: BDWGH,
-//       //             SEXDSTN: SEXDSTN,
-//       //           ),
-//       //     ),
-//       //   );
-//       // },
-//       child: Container(
-//         color: Colors.white,
-//         child: Column(
-//           children: [
-//             SizedBox(height: 10),
-//             Row(
-//               children: [
-//                 SizedBox(width: 14),
-//                 Expanded(
-//                   child: Container(
-//                     height: 250,
-//                     clipBehavior: Clip.hardEdge,
-//                     decoration: BoxDecoration(
-//                       color: Color(0xffdddddd),
-//                       borderRadius: BorderRadius.circular(10),
-//                     ),
-//                     child: CachedNetworkImage(
-//                       imageUrl: 'http://$url',
-//                       fit: BoxFit.cover,
-//                     ),
-//                   ),
-//                 ),
-//                 SizedBox(width: 14),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
