@@ -41,9 +41,10 @@ class _AdoptionList extends State<AdoptionList> {
       final querySnapshot = await db.collection("missing").get();
       if (!mounted) return;
       setState(() {
-        missingDatas = querySnapshot.docs
-            .map((doc) => MissingDto.fromJson(doc.data()))
-            .toList();
+        missingDatas =
+            querySnapshot.docs
+                .map((doc) => MissingDto.fromJson(doc.data()))
+                .toList();
         thumbnails = List.filled(missingDatas.length, null);
       });
       getThumbnail();
@@ -55,7 +56,7 @@ class _AdoptionList extends State<AdoptionList> {
   Future<void> getThumbnail() async {
     if (thumbnails == null) return;
     final storageRef = FirebaseStorage.instance.ref();
-    
+
     for (var i = 0; i < missingDatas.length; i++) {
       final islandRef = storageRef.child(missingDatas[i].images[0]);
       try {

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:http/http.dart' as http;
 import 'package:meongjup/api/dog_dto.dart';
 import 'package:meongjup/api/missing_dto.dart';
@@ -38,6 +39,8 @@ class _MainPage extends State<MainPage> {
     getMissingDatas();
     fetch();
     getVolunteerDatas();
+
+    FlutterNativeSplash.remove(); // Remove splash screen after delay
   }
 
   Future<void> getMissingDatas() async {
