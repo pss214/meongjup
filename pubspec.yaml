@@ -86,6 +86,11 @@ flutter:
     - assets/images/missing_writing.png
     - assets/images/witness_writing.png
     - assets/images/showMissingReportModalImage.png
+    - assets/images/alertMissingChildrenBanner.png
+    - assets/images/pupShort1.jpg
+    - assets/images/pupShort2.jpg
+    - assets/images/pupShort3.jpg
+    - assets/images/pupShort4.jpg
   #   - images/a_dot_ham.jpeg
 
 
