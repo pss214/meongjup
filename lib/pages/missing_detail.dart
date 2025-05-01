@@ -41,7 +41,7 @@ class _MissingDetail extends State<MissingDetail> {
           newImages.add(image);
         }
       } on FirebaseException catch (e) {
-        // Handle any errors.
+        throw Exception(e);
       }
     }
     if (!mounted) return;

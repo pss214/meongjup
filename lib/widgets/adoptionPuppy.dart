@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:meongjup/pages/adoption_detail.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AdoptionPuppy extends StatefulWidget {
@@ -14,14 +14,14 @@ class AdoptionPuppy extends StatefulWidget {
   final String SEXDSTN;
   const AdoptionPuppy({
     super.key,
-    required this.index,      // 인덱스
-    required this.ANIMAL_NO,  // 동물번호
-    required this.url,        // 이미지 주소
-    required this.NM,         // 이름
-    required this.BREEDS,     // 품종
-    required this.AGE,        // 나이
-    required this.BDWGH,      // 몸무게
-    required this.SEXDSTN,    // 성별
+    required this.index, // 인덱스
+    required this.ANIMAL_NO, // 동물번호
+    required this.url, // 이미지 주소
+    required this.NM, // 이름
+    required this.BREEDS, // 품종
+    required this.AGE, // 나이
+    required this.BDWGH, // 몸무게
+    required this.SEXDSTN, // 성별
   });
 
   @override
@@ -35,39 +35,36 @@ class _InfoLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0.3),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0.4),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
         text,
-        style: const TextStyle(
+        style: TextStyle(
           color: const Color(0xFF75B1FF),
           fontWeight: FontWeight.bold,
-          fontSize: 12,
+          fontSize: 14.sp,
         ),
       ),
     );
   }
 }
 
-const TextStyle _infoTextStyle = TextStyle(
-  color: Colors.black,
-  fontSize: 12,
-);
-
 class _AdoptionPuppyState extends State<AdoptionPuppy> {
   bool isTapped = false;
 
-void _showInquiryModal() async {
-  final url = Uri.parse('https://news.seoul.go.kr/env/pet'); // ✅ 여기에 이동할 URL 입력
-  if (await canLaunchUrl(url)) {
-    await launchUrl(url, mode: LaunchMode.externalApplication);
-  } else {
-    throw 'Could not launch $url';
+  void _showInquiryModal() async {
+    final url = Uri.parse(
+      'https://news.seoul.go.kr/env/pet',
+    ); // ✅ 여기에 이동할 URL 입력
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
-}
 
   void toggleBrightness() {
     setState(() {
@@ -112,92 +109,151 @@ void _showInquiryModal() async {
                     ),
                   ),
                   if (isTapped)
-                  Positioned(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    widget.NM,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      // 왼쪽 라벨 (파란 배경, 흰 글씨)
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: const [
-                                          _InfoLabel(text: '    견종    '),
-                                          SizedBox(height: 6),
-                                          _InfoLabel(text: '    나이    '),
-                                          SizedBox(height: 6),
-                                          _InfoLabel(text: '    성별    '),
-                                          SizedBox(height: 6),
-                                          _InfoLabel(text: '    성격    '),
-                                          SizedBox(height: 6),
-                                          _InfoLabel(text: ' 건강상태'),
-                                        ],
-                                      ),
-                                      const SizedBox(width: 12),
-                                      // 오른쪽 값 (검정 글씨)
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(widget.BREEDS, style: _infoTextStyle),
-                                          const SizedBox(height: 7),
-                                          Text(widget.AGE, style: _infoTextStyle),
-                                          const SizedBox(height: 7),
-                                          Text(widget.SEXDSTN == 'M' ? '남아' : '여아', style: _infoTextStyle),
-                                          const SizedBox(height: 7),
-                                          const Text('활발', style: _infoTextStyle),
-                                          const SizedBox(height: 7),
-                                          const Text('양호', style: _infoTextStyle),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 5),
-                                  ElevatedButton(
-                                    onPressed: _showInquiryModal,
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFF75B1FF),
-                                      minimumSize: const Size(120, 30), // ⬅️ 이보다 작아지지 않게 보장
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    child: const Text(
-                                      '문의하기',
+                    Positioned(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 10,
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      widget.NM,
                                       style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                        fontSize: 22.sp,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(height: 5),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        // 왼쪽 라벨 (파란 배경, 흰 글씨)
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                _InfoLabel(text: '견종'),
+                                                const SizedBox(width: 8),
+                                                Text(
+                                                  widget.BREEDS,
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16.sp,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 6),
+                                            Row(
+                                              children: [
+                                                _InfoLabel(text: '나이'),
+                                                const SizedBox(width: 8),
+                                                Text(
+                                                  widget.AGE,
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16.sp,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 6),
+                                            Row(
+                                              children: [
+                                                _InfoLabel(text: '성별'),
+                                                const SizedBox(width: 8),
+                                                Text(
+                                                  widget.SEXDSTN == 'M'
+                                                      ? '남아'
+                                                      : '여아',
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16.sp,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 6),
+                                            Row(
+                                              children: [
+                                                _InfoLabel(text: '성격'),
+                                                const SizedBox(width: 8),
+                                                Text(
+                                                  '활발',
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16.sp,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 6),
+                                            Row(
+                                              children: [
+                                                _InfoLabel(text: '건강상태'),
+                                                const SizedBox(width: 8),
+                                                Text(
+                                                  '양호',
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16.sp,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 20),
+                                    ElevatedButton(
+                                      onPressed: _showInquiryModal,
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color(
+                                          0xFF75B1FF,
+                                        ),
+                                        minimumSize: const Size(
+                                          150,
+                                          40,
+                                        ), // ⬅️ 이보다 작아지지 않게 보장
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        '문의하기',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20.sp,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          )
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
