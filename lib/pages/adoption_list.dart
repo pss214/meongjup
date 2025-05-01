@@ -27,11 +27,11 @@ class _AdoptionList extends State<AdoptionList> {
   );
   Map<String, List<String>> imageList = {};
   List<String> breedsList = [];
-   List<Uint8List?>? thumbnails;
+  List<Uint8List?>? thumbnails;
   Map<String, bool> imageOpacityMap = {};
   String selectedBreed = '전체'; // ✅ 기본 선택값
 
-   // 감성적인 문구 리스트
+  // 감성적인 문구 리스트
   List<String> emotionalQuotes = [
     "누군가의 사랑을 기다리는 이 작은 영혼에게, 당신의 따뜻한 손길이 필요해요.",
     "입양은 단순한 선택이 아니라, 한 생명을 위한 사랑의 시작이에요.",
@@ -58,7 +58,7 @@ class _AdoptionList extends State<AdoptionList> {
     "모든 강아지는 사랑을 기다립니다. 이제 그 사랑을 주는 사람이 되어보세요.",
     "강아지 입양은 그저 '새로운 시작'이에요. 시작하는 순간부터 함께할 모든 순간들이 기적이에요.",
     "이 강아지의 첫 번째 발걸음은 당신의 손을 잡고 떠날 준비가 되어 있어요.",
-    "세상에 고백할 사랑은 많지만, 강아지와 나누는 사랑은 특별합니다.",  
+    "세상에 고백할 사랑은 많지만, 강아지와 나누는 사랑은 특별합니다.",
     "당신의 마음을 열어, 이 강아지에게 사랑을 주면 그 사랑이 당신을 더 행복하게 만들어줄 거예요.",
     "입양은 사랑을 주는 일, 그 사랑이 이 강아지의 인생을 바꿀 수 있어요.",
     "강아지의 작은 발걸음이 큰 사랑의 시작이 될 거예요.",
@@ -68,7 +68,7 @@ class _AdoptionList extends State<AdoptionList> {
     "강아지와 함께라면, 매일이 더 즐겁고 행복해질 거예요.",
     "이 강아지의 마음을 열어주면, 그 사랑이 당신에게 돌아올 거예요.",
     "강아지는 사랑을 전하는 메신저입니다. 그 메시지를 당신에게 전달하고 싶어요.",
-    "입양은 작은 기적을 만드는 일입니다. 당신도 그 기적의 일부가 될 수 있어요.",  
+    "입양은 작은 기적을 만드는 일입니다. 당신도 그 기적의 일부가 될 수 있어요.",
     "강아지에게 따뜻한 집을 열어주는 것은, 사랑을 나누는 가장 아름다운 일이에요.",
     "이 강아지에게 필요한 것은 사랑입니다. 그 사랑을 줄 수 있는 사람은 바로 당신이에요.",
     "당신의 집에 이 작은 존재가 온다면, 집은 더 이상 비어 있지 않을 거예요.",
@@ -77,12 +77,12 @@ class _AdoptionList extends State<AdoptionList> {
     "이 강아지가 당신의 품 안에서 행복하게 살아갈 수 있도록 도와주세요.",
     "이 강아지의 인생을 바꿀 수 있는 사람은 바로 당신입니다.",
     "당신이 주는 사랑으로 이 강아지가 매일 행복할 거예요.",
-    "세상에서 가장 귀한 선물은 강아지와 함께하는 시간입니다.",  
+    "세상에서 가장 귀한 선물은 강아지와 함께하는 시간입니다.",
     "당신의 사랑을 기다리는 강아지가 있습니다. 이제 그 사랑을 나눠주세요.",
     "강아지에게 따뜻한 집을 주면, 그 집은 사랑으로 가득 찰 거예요.",
     "이 강아지와 함께라면, 삶의 모든 순간이 특별해질 거예요.",
     "강아지는 우리에게 진정한 사랑을 보여주는 존재입니다. 그 사랑을 주고받을 준비가 되셨나요?",
-    "입양은 강아지에게 새로운 인생을 주는 것, 그리고 그 인생이 당신의 삶을 더욱 아름답게 만들 거예요."
+    "입양은 강아지에게 새로운 인생을 주는 것, 그리고 그 인생이 당신의 삶을 더욱 아름답게 만들 거예요.",
   ];
 
   @override
@@ -96,7 +96,6 @@ class _AdoptionList extends State<AdoptionList> {
     final random = Random();
     return emotionalQuotes[random.nextInt(emotionalQuotes.length)];
   }
-
 
   int? _getNextPageKey(PagingState<int, DogDto> state) {
     try {
@@ -118,30 +117,32 @@ class _AdoptionList extends State<AdoptionList> {
   }
 
   Future<List<DogDto>> fetchData(int page) async {
-  try {
-    if (dogdata == null) {
-      await fetch();
-    }
+    try {
+      if (dogdata == null) {
+        await fetch();
+      }
 
-    // ✅ 필터 적용
-    List<DogDto> filteredDogs = selectedBreed == '전체'
-        ? dogdata!.dogs
-        : dogdata!.dogs.where((dog) => dog.BREEDS == selectedBreed).toList();
+      // ✅ 필터 적용
+      List<DogDto> filteredDogs =
+          selectedBreed == '전체'
+              ? dogdata!.dogs
+              : dogdata!.dogs
+                  .where((dog) => dog.BREEDS == selectedBreed)
+                  .toList();
 
-    final startIndex = (page - 1) * 15;
-    final endIndex = startIndex + 15;
-    if (startIndex >= filteredDogs.length) {
-      return [];
+      final startIndex = (page - 1) * 15;
+      final endIndex = startIndex + 15;
+      if (startIndex >= filteredDogs.length) {
+        return [];
+      }
+      return filteredDogs.sublist(
+        startIndex,
+        endIndex > filteredDogs.length ? filteredDogs.length : endIndex,
+      );
+    } catch (e) {
+      throw Exception(e);
     }
-    return filteredDogs.sublist(
-      startIndex,
-      endIndex > filteredDogs.length ? filteredDogs.length : endIndex,
-    );
-  } catch (e) {
-    throw Exception(e);
   }
-}
-
 
   Future<void> fetch() async {
     String src =
@@ -155,7 +156,9 @@ class _AdoptionList extends State<AdoptionList> {
           );
           breedsList = [
             '전체',
-            ...{for (var dog in dogdata!.dogs) dog.BREEDS}.toSet().toList() // 품종 고정화 + 복잡 제거
+            ...{
+              for (var dog in dogdata!.dogs) dog.BREEDS,
+            }.toSet().toList(), // 품종 고정화 + 복잡 제거
           ];
         });
         await fetchImage();
@@ -204,6 +207,7 @@ class _AdoptionList extends State<AdoptionList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: BaseAppBar(),
       bottomNavigationBar: BottomNavigation(selectedIndex: 1),
       body: Column(
@@ -215,32 +219,46 @@ class _AdoptionList extends State<AdoptionList> {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: breedsList.map((breed) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6),
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        selectedBreed = breed;
-                        _pagingController.refresh();
-                      });
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: selectedBreed == breed ? Colors.black : Colors.grey[200],
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Text(
-                        breed,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: selectedBreed == breed ? Colors.white : Colors.grey[600],
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                )).toList(),
+                children:
+                    breedsList
+                        .map(
+                          (breed) => Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  selectedBreed = breed;
+                                  _pagingController.refresh();
+                                });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
+                                ),
+                                decoration: BoxDecoration(
+                                  color:
+                                      selectedBreed == breed
+                                          ? Colors.black
+                                          : Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: Text(
+                                  breed,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color:
+                                        selectedBreed == breed
+                                            ? Colors.white
+                                            : Colors.grey[600],
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
               ),
             ),
           ),
@@ -256,66 +274,70 @@ class _AdoptionList extends State<AdoptionList> {
                     state: state,
                     fetchNextPage: fetchNextPage,
                     builderDelegate: PagedChildBuilderDelegate(
-                      itemBuilder: (context, item, index) => Column(
-                        children: [
-                          GestureDetector(
-                            onTapDown: (_) {
-                              setState(() {
-                                imageOpacityMap[item.ANIMAL_NO] = true;
-                              });
-                            },
-                            onTapUp: (_) {
-                              setState(() {
-                                imageOpacityMap[item.ANIMAL_NO] = false;
-                              });
-                            },
-                            onTapCancel: () {
-                              setState(() {
-                                imageOpacityMap[item.ANIMAL_NO] = false;
-                              });
-                            },
-                            child: Container(
-                              height: 270,
-                              child: Opacity(
-                                opacity: imageOpacityMap[item.ANIMAL_NO] == true ? 0.2 : 1.0,
-                                child: AdoptionPuppy(
-                                  index: index,
-                                  ANIMAL_NO: item.ANIMAL_NO,
-                                  url: imageList[item.ANIMAL_NO]?[0] ?? '',
-                                  NM: item.NM,
-                                  BREEDS: item.BREEDS,
-                                  AGE: item.AGE,
-                                  BDWGH: item.BDWGH,
-                                  SEXDSTN: item.SEXDSTN,
+                      itemBuilder:
+                          (context, item, index) => Column(
+                            children: [
+                              GestureDetector(
+                                onTapDown: (_) {
+                                  setState(() {
+                                    imageOpacityMap[item.ANIMAL_NO] = true;
+                                  });
+                                },
+                                onTapUp: (_) {
+                                  setState(() {
+                                    imageOpacityMap[item.ANIMAL_NO] = false;
+                                  });
+                                },
+                                onTapCancel: () {
+                                  setState(() {
+                                    imageOpacityMap[item.ANIMAL_NO] = false;
+                                  });
+                                },
+                                child: Container(
+                                  height: 270,
+                                  child: Opacity(
+                                    opacity:
+                                        imageOpacityMap[item.ANIMAL_NO] == true
+                                            ? 0.2
+                                            : 1.0,
+                                    child: AdoptionPuppy(
+                                      index: index,
+                                      ANIMAL_NO: item.ANIMAL_NO,
+                                      url: imageList[item.ANIMAL_NO]?[0] ?? '',
+                                      NM: item.NM,
+                                      BREEDS: item.BREEDS,
+                                      AGE: item.AGE,
+                                      BDWGH: item.BDWGH,
+                                      SEXDSTN: item.SEXDSTN,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          Container(
-                            color: Colors.white,
-                            padding: EdgeInsets.all(15),
-                            width: double.infinity,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  getRandomQuote(), // 랜덤 문구가 출력됩니다.
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                              Container(
+                                color: Colors.white,
+                                padding: EdgeInsets.all(15),
+                                width: double.infinity,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      getRandomQuote(), // 랜덤 문구가 출력됩니다.
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      noItemsFoundIndicatorBuilder: (_) => 
-                        Center(child: Text('데이터가 없습니다')),
-                      firstPageErrorIndicatorBuilder: (_) => 
-                        Center(child: Text('인터넷이 없거나 오류가 발생했습니다')),
+                      noItemsFoundIndicatorBuilder:
+                          (_) => Center(child: Text('데이터가 없습니다')),
+                      firstPageErrorIndicatorBuilder:
+                          (_) => Center(child: Text('인터넷이 없거나 오류가 발생했습니다')),
                     ),
                   );
                 },
