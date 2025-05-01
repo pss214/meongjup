@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:meongjup/widgets/BaseAppbar.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 //여기까지 중간지점으로
 
 class PuppyFeedList extends StatefulWidget {
-  const PuppyFeedList({super.key});
+  final int? idx;
+  const PuppyFeedList({super.key, this.idx});
 
   @override
   State<PuppyFeedList> createState() => _PuppyFeedListState();
@@ -25,7 +25,7 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
   List<double> _scaleFactors = []; // 애니메이션용 scale 값 추가
 
   late PageController _pageController; // 세로 페이지 컨트롤러
-  late int _currentPage = 0; // 현재 페이지 인덱스
+  late int _currentPage; // 현재 페이지 인덱스
   Map<int, YoutubePlayerController> _controllers =
       {}; // 각 페이지에 해당하는 유튜브 컨트롤러 저장소
   bool _isLoading = false; // 중복 로딩 방지 플래그
@@ -33,14 +33,30 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
   @override
   void initState() {
     super.initState();
+    _currentPage = widget.idx ?? 0;
     _pageController = PageController(
       viewportFraction: 1.0,
       keepPage: true,
-      initialPage: 0,
+      initialPage: _currentPage,
     );
     _likes = List.generate(_videoIds.length, (_) => 0);
     _scaleFactors = List.generate(_videoIds.length, (_) => 1.0); // 🔥 반드시 초기화
-    _initializeController(0);
+
+    // 초기 페이지와 주변 컨트롤러들을 미리 초기화
+    _initializeController(_currentPage);
+    if (_currentPage > 0) {
+      _initializeController(_currentPage - 1);
+    }
+    if (_currentPage < _videoIds.length - 1) {
+      _initializeController(_currentPage + 1);
+    }
+
+    // 첫 화면에서 현재 비디오 자동 재생
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_controllers.containsKey(_currentPage)) {
+        _controllers[_currentPage]!.play();
+      }
+    });
   }
 
   // 특정 인덱스의 유튜브 컨트롤러를 생성
@@ -51,7 +67,7 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
       _controllers[index] = YoutubePlayerController(
         initialVideoId: _videoIds[index],
         flags: const YoutubePlayerFlags(
-          autoPlay: true,
+          autoPlay: true, // 자동재생 비활성화
           mute: false,
           enableCaption: false,
           forceHD: false,
@@ -97,7 +113,7 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigation(selectedIndex: 3),
+      bottomNavigationBar: BottomNavigation(selectedIndex: 4),
       body: PageView.builder(
         scrollDirection: Axis.vertical,
         controller: _pageController,

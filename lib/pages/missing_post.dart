@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:meongjup/widgets/BaseAppbar.dart';
@@ -124,45 +123,54 @@ class _MissingPostState extends State<MissingPost> {
 
     // 제목
     if (_empty(_titleController.text)) {
-      _snack(emptyMsg('제목')); return false;
+      _snack(emptyMsg('제목'));
+      return false;
     }
     if (!_isKoreanOnly(_titleController.text)) {
-      _snack(errorMsg('제목')); return false;
+      _snack(errorMsg('제목'));
+      return false;
     }
 
     // 이름
     if (_empty(_nameController.text)) {
-      _snack(emptyMsg('강아지 이름')); return false;
+      _snack(emptyMsg('강아지 이름'));
+      return false;
     }
     if (!_isKoreanOnly(_nameController.text)) {
-      _snack(errorMsg('이름')); return false;
+      _snack(errorMsg('이름'));
+      return false;
     }
 
     // 견종
     if (_empty(_breedController.text)) {
-      _snack(emptyMsg('견종')); return false;
+      _snack(emptyMsg('견종'));
+      return false;
     }
     if (!_isKoreanOnly(_breedController.text)) {
-      _snack(errorMsg('견종')); return false;
+      _snack(errorMsg('견종'));
+      return false;
     }
 
     // 위치
     if (_empty(_locationinformation.text)) {
-      _snack(emptyMsg('위치')); return false;
+      _snack(emptyMsg('위치'));
+      return false;
     }
     if (!_isKoreanOnly(_locationinformation.text)) {
-      _snack(errorMsg('위치')); return false;
+      _snack(errorMsg('위치'));
+      return false;
     }
 
     // 특징
     if (_empty(_featuresController.text)) {
-      _snack(emptyMsg('특징')); return false;
+      _snack(emptyMsg('특징'));
+      return false;
     }
-    
 
     // 사진
     if (_images.isEmpty) {
-      _snack('최소 1장의 사진을 추가해주세요'); return false;
+      _snack('최소 1장의 사진을 추가해주세요');
+      return false;
     }
 
     return true;
@@ -172,7 +180,7 @@ class _MissingPostState extends State<MissingPost> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(),
-      bottomNavigationBar: BottomNavigation(selectedIndex: 1),
+      bottomNavigationBar: BottomNavigation(selectedIndex: 2),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
@@ -189,7 +197,10 @@ class _MissingPostState extends State<MissingPost> {
               )
             ),
             SizedBox(height: 8),
-            Text('실종 글쓰기', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Text(
+              '실종 글쓰기',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 16),
             _buildLabelText('제목'),
             TextField(
@@ -275,16 +286,23 @@ class _MissingPostState extends State<MissingPost> {
 
   Widget _buildLabelText(String text) => Padding(
     padding: const EdgeInsets.symmetric(vertical: 4.0),
-    child: Text(text, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+    child: Text(
+      text,
+      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+    ),
   );
 
   Widget _buildImageTile(String image) => Stack(
     children: [
       Container(
-        width: 100, height: 100,
+        width: 100,
+        height: 100,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          image: DecorationImage(image: FileImage(File(image)), fit: BoxFit.cover),
+          image: DecorationImage(
+            image: FileImage(File(image)),
+            fit: BoxFit.cover,
+          ),
         ),
       ),
       Positioned(
@@ -292,7 +310,11 @@ class _MissingPostState extends State<MissingPost> {
         child: GestureDetector(
           onTap: () => setState(() => _images.remove(image)),
           child: Container(
-            padding: EdgeInsets.all(2), decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+            padding: EdgeInsets.all(2),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
             child: Icon(Icons.close, size: 20, color: Colors.grey),
           ),
         ),
@@ -303,13 +325,18 @@ class _MissingPostState extends State<MissingPost> {
   Widget _buildAddPhotoBox() => GestureDetector(
     onTap: _showImageSourceDialog,
     child: Container(
-      width: 100, height: 100,
+      width: 100,
+      height: 100,
       decoration: BoxDecoration(
-        border: Border.all(width: 1), borderRadius: BorderRadius.circular(8),
+        border: Border.all(width: 1),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [Icon(Icons.add_photo_alternate, size: 32, color: Colors.grey), Text('사진 추가', style: TextStyle(fontSize: 12, color: Colors.grey))],
+        children: [
+          Icon(Icons.add_photo_alternate, size: 32, color: Colors.grey),
+          Text('사진 추가', style: TextStyle(fontSize: 12, color: Colors.grey)),
+        ],
       ),
     ),
   );

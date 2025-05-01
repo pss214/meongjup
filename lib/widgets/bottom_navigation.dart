@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meongjup/pages/adoption_list.dart';
+import 'package:meongjup/pages/main.dart';
 import 'package:meongjup/pages/missing_list.dart';
 import 'package:meongjup/pages/puppyfeed_list.dart';
 import 'package:meongjup/pages/volunteer_list.dart';
@@ -20,15 +21,20 @@ class BottomNavigation extends StatelessWidget {
         break;
       case 1:
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Missing_list()),
+          MaterialPageRoute(builder: (context) => AdoptionList()),
         );
         break;
       case 2:
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Volunteer_List()),
+          MaterialPageRoute(builder: (context) => Missing_list()),
         );
         break;
       case 3:
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => VolunteerList()),
+        );
+        break;
+      case 4:
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => PuppyFeedList()),
         );
@@ -70,7 +76,7 @@ class BottomNavigation extends StatelessWidget {
                             ),
                     onPressed: () => navigateToPage(context, 0),
                   ),
-                  Text('입양', style: TextStyle(fontSize: 12)),
+                  Text('홈', style: TextStyle(fontSize: 12)),
                 ],
               ),
             ),
@@ -85,18 +91,18 @@ class BottomNavigation extends StatelessWidget {
                     icon:
                         selectedIndex == 1
                             ? Image.asset(
-                              'assets/images/icon2.png',
+                              'assets/images/adoption1.png',
                               width: 24,
                               height: 24,
                             )
                             : Image.asset(
-                              'assets/images/icon2_1.png',
+                              'assets/images/adoption1_1.png',
                               width: 24,
                               height: 24,
                             ),
                     onPressed: () => navigateToPage(context, 1),
                   ),
-                  Text('실종', style: TextStyle(fontSize: 12)),
+                  Text('입양', style: TextStyle(fontSize: 12)),
                 ],
               ),
             ),
@@ -111,18 +117,18 @@ class BottomNavigation extends StatelessWidget {
                     icon:
                         selectedIndex == 2
                             ? Image.asset(
-                              'assets/images/icon3.png',
+                              'assets/images/icon2.png',
                               width: 24,
                               height: 24,
                             )
                             : Image.asset(
-                              'assets/images/icon3_1.png',
+                              'assets/images/icon2_1.png',
                               width: 24,
                               height: 24,
                             ),
                     onPressed: () => navigateToPage(context, 2),
                   ),
-                  Text('자원봉사', style: TextStyle(fontSize: 12)),
+                  Text('실종', style: TextStyle(fontSize: 12)),
                 ],
               ),
             ),
@@ -137,6 +143,32 @@ class BottomNavigation extends StatelessWidget {
                     icon:
                         selectedIndex == 3
                             ? Image.asset(
+                              'assets/images/icon3.png',
+                              width: 24,
+                              height: 24,
+                            )
+                            : Image.asset(
+                              'assets/images/icon3_1.png',
+                              width: 24,
+                              height: 24,
+                            ),
+                    onPressed: () => navigateToPage(context, 3),
+                  ),
+                  Text('자원봉사', style: TextStyle(fontSize: 12)),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 60,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: BoxConstraints(),
+                    icon:
+                        selectedIndex == 4
+                            ? Image.asset(
                               'assets/images/icon4.png',
                               width: 24,
                               height: 24,
@@ -146,7 +178,7 @@ class BottomNavigation extends StatelessWidget {
                               width: 24,
                               height: 24,
                             ),
-                    onPressed: () => navigateToPage(context, 3),
+                    onPressed: () => navigateToPage(context, 4),
                   ),
                   Text('멍피드', style: TextStyle(fontSize: 12)),
                 ],

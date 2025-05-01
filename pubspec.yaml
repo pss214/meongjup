@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+ 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
@@ -45,7 +45,11 @@ dependencies:
   cloud_firestore: ^5.6.6
   uuid: ^4.5.1
   url_launcher: ^6.3.1
-  cached_network_image: ^3.4.1
+  cached_network_image: ^3.4.1 
+  flutter_native_splash: ^2.4.6
+  flutter_launcher_icons: ^0.14.3
+  flutter_screenutil: ^5.9.3
+
 
 dev_dependencies:
   flutter_test:
@@ -57,7 +61,16 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
-
+# flutter_native_splash:
+#   color: "#000000"
+#   image: assets/images/img_logo.png
+#   branding_mode: bottom
+#   android_gravity: center
+#   ios_content_mode: center
+#   android: true
+#   ios: true
+#   web: true
+#   full_screen: true
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -72,6 +85,8 @@ flutter:
   assets:
     - assets/images/home.png
     - assets/images/home_1.png
+    - assets/images/adoption1.png
+    - assets/images/adoption1_1.png
     - assets/images/icon1.png
     - assets/images/icon2.png
     - assets/images/icon2_1.png
@@ -84,8 +99,23 @@ flutter:
     - assets/images/missing_writing.png
     - assets/images/witness_writing.png
     - assets/images/showMissingReportModalImage.png
+    - assets/images/alertMissingChildrenBanner.png
+    - assets/images/pupShort1.jpg
+    - assets/images/pupShort2.jpg
+    - assets/images/pupShort3.jpg
+    - assets/images/pupShort4.jpg
+    - assets/images/img_logo.png
   #   - images/a_dot_ham.jpeg
-
+  # This section identifies this Flutter project as a plugin project.
+  # The 'pluginClass' specifies the class (in Java, Kotlin, Swift, Objective-C, etc.)
+  # which should be registered in the plugin registry. This is required for
+  # using method channels.
+  # The Android 'package' specifies package in which the registered class is.
+  # This is required for using method channels on Android.
+  # The 'ffiPlugin' specifies that native code should be built and bundled.
+  # This is required for using `dart:ffi`.
+  # All these are used by the tooling to maintain consistency when
+  # adding or updating assets for this project.
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -112,3 +142,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+

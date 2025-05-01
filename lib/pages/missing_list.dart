@@ -51,12 +51,11 @@ class _Missing_list extends State<Missing_list> {
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
-    double deviceHeight = MediaQuery.of(context).size.height;
 
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        bottomNavigationBar: BottomNavigation(selectedIndex: 1),
+        bottomNavigationBar: BottomNavigation(selectedIndex: 2),
         appBar: AppBar(
           scrolledUnderElevation: 0,
           backgroundColor: Colors.white,
