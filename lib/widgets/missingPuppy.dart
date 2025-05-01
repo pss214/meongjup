@@ -45,7 +45,7 @@ class _MissingPuppyState extends State<MissingPuppy>
         this.thumbnail = thumbnail;
       });
     } on FirebaseException catch (e) {
-      // Handle any errors.
+      throw Exception(e);
     }
   }
 

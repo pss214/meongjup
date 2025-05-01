@@ -51,7 +51,6 @@ class _Missing_list extends State<Missing_list> {
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
-    double deviceHeight = MediaQuery.of(context).size.height;
 
     return DefaultTabController(
       length: 2,

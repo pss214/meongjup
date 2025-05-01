@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meongjup/pages/main.dart';
 
 void main() async {
@@ -14,5 +15,11 @@ void main() async {
   ]);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MaterialApp(home: MainPage()));
+  runApp(
+    ScreenUtilInit(
+      designSize: Size(412, 915),
+      minTextAdapt: true,
+      builder: (context, child) => MaterialApp(home: MainPage()),
+    ),
+  );
 }

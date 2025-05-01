@@ -30,96 +30,103 @@ class VolunteerDetail extends StatelessWidget {
     return Scaffold(
       appBar: BaseAppBar(),
       bottomNavigationBar: BottomNavigation(selectedIndex: 3),
-      body: Container(
-        width: double.infinity,
-        color: Colors.white,
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () => {Navigator.of(context).pop()},
-                  icon: Icon(Icons.arrow_back_ios_new),
-                  alignment: Alignment.centerLeft,
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(30, 40, 30, 0),
+            Container(
+              width: double.infinity,
+              color: Colors.white,
+              constraints: BoxConstraints(minHeight: 700),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: Text(
-                      subject,
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: true,
-                      maxLines: 2,
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () => {Navigator.of(context).pop()},
+                        icon: Icon(Icons.arrow_back_ios_new),
+                        alignment: Alignment.centerLeft,
                       ),
-                    ),
+                    ],
                   ),
-                  Divider(color: Color(0xffcccccc), height: 40),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    padding: EdgeInsets.fromLTRB(30, 40, 30, 0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 10),
-                        VolunteerActivityDetails(
-                          title: "활동기간",
-                          content: activity_period,
-                        ),
-                        VolunteerActivityDetails(
-                          title: "활동시간",
-                          content: activity_time,
-                        ),
-                        SizedBox(height: 10),
-                        VolunteerActivityDetails(
-                          title: "모집대상",
-                          content: target,
-                        ),
-                        SizedBox(height: 10),
-                        VolunteerActivityDetails(
-                          title: "모집기간",
-                          content: period,
-                        ),
-                        SizedBox(height: 10),
-                        VolunteerActivityDetails(
-                          title: "모집인원",
-                          content: personnel,
-                        ),
-                        VolunteerActivityDetails(
-                          title: "활동내용",
-                          content: content,
-                        ),
-                        SizedBox(height: 40),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xff75B1FF),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding: EdgeInsets.fromLTRB(36, 12, 36, 12),
-                          child: GestureDetector(
-                            onTap:
-                                () => {
-                                  launchUrl(
-                                    Uri.parse(
-                                      "https://news.seoul.go.kr/env/archives/560028",
-                                    ),
-                                    mode: LaunchMode.externalApplication,
-                                  ),
-                                },
-                            child: Text(
-                              "지원하기",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 22,
-                                fontWeight: FontWeight.w600,
-                              ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                          child: Text(
+                            subject,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                            maxLines: 2,
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
                             ),
+                          ),
+                        ),
+                        Divider(color: Color(0xffcccccc), height: 40),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                          child: Column(
+                            children: [
+                              SizedBox(height: 10),
+                              VolunteerActivityDetails(
+                                title: "활동기간",
+                                content: activity_period,
+                              ),
+                              VolunteerActivityDetails(
+                                title: "활동시간",
+                                content: activity_time,
+                              ),
+                              SizedBox(height: 10),
+                              VolunteerActivityDetails(
+                                title: "모집대상",
+                                content: target,
+                              ),
+                              SizedBox(height: 10),
+                              VolunteerActivityDetails(
+                                title: "모집기간",
+                                content: period,
+                              ),
+                              SizedBox(height: 10),
+                              VolunteerActivityDetails(
+                                title: "모집인원",
+                                content: personnel,
+                              ),
+                              VolunteerActivityDetails(
+                                title: "활동내용",
+                                content: content,
+                              ),
+                              SizedBox(height: 40),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0xff75B1FF),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: EdgeInsets.fromLTRB(36, 12, 36, 12),
+                                child: GestureDetector(
+                                  onTap:
+                                      () => {
+                                        launchUrl(
+                                          Uri.parse(
+                                            "https://news.seoul.go.kr/env/archives/560028",
+                                          ),
+                                          mode: LaunchMode.externalApplication,
+                                        ),
+                                      },
+                                  child: Text(
+                                    "지원하기",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],

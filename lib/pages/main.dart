@@ -83,6 +83,7 @@ class _MainPage extends State<MainPage> {
   Future<void> fetch() async {
     String src =
         'http://openapi.seoul.go.kr:8088/435a79586c62616b38344e72746d47/json/TbAdpWaitAnimalView/1/1000';
+    if (!mounted) return;
     try {
       final res = await http.get(Uri.parse(src));
       if (res.statusCode == 200) {
@@ -286,7 +287,7 @@ class _MainPage extends State<MainPage> {
                       SizedBox(height: 10),
                       adoptionDogdata != null && imageList.isNotEmpty
                           ? Container(
-                            height: 140,
+                            height: 160,
                             child: PageView(
                               onPageChanged: (int page) {
                                 setState(() {
