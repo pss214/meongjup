@@ -64,6 +64,7 @@ class _WitnessingPostState extends State<WitnessingPost> {
             backgroundColor: Colors.red,
           ),
         );
+        throw Exception(e);
       }
     }
   }

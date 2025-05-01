@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meongjup/pages/adoption_list.dart';
 
 class AdoptionPuppyAtMain extends StatelessWidget {
@@ -67,7 +68,7 @@ class AdoptionPuppyAtMain extends StatelessWidget {
                       Text(
                         '믹스',
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 22.sp,
                           fontWeight: FontWeight.bold,
                           height: 1.2,
                         ),
@@ -76,7 +77,7 @@ class AdoptionPuppyAtMain extends StatelessWidget {
                       Text(
                         '나이 3(세) 11(개월)',
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: 13.sp,
                           color: Color(0xff333333),
                           height: 1.2,
                         ),
@@ -84,7 +85,7 @@ class AdoptionPuppyAtMain extends StatelessWidget {
                       Text(
                         '성별 여',
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: 13.sp,
                           color: Color(0xff333333),
                           height: 1.2,
                         ),
@@ -92,7 +93,7 @@ class AdoptionPuppyAtMain extends StatelessWidget {
                       Text(
                         '체중 4.87(kg)',
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: 13.sp,
                           color: Color(0xff333333),
                           height: 1.2,
                         ),
@@ -100,7 +101,7 @@ class AdoptionPuppyAtMain extends StatelessWidget {
                       Text(
                         '동물학대로 버려진 아이에게 도움의 손길을 주세요',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
                           height: 1.2,
                         ),
