@@ -160,7 +160,7 @@ class _MainPage extends State<MainPage> {
               children: [
                 Container(
                   width: double.infinity,
-                  height: 160,
+                  height: 148,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(5),
@@ -170,7 +170,7 @@ class _MainPage extends State<MainPage> {
                       Image.asset(
                         'assets/images/alertMissingChildrenBanner.png',
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 12),
                       missingDatas.isNotEmpty && thumbnails != null
                           ? Expanded(
                             child: ListView.builder(
