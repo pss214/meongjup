@@ -205,6 +205,7 @@ class _AdoptionList extends State<AdoptionList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: BaseAppBar(),
       bottomNavigationBar: BottomNavigation(selectedIndex: 1),
       body: Column(

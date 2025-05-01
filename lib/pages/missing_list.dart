@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:meongjup/api/missing_dto.dart';
+import 'package:meongjup/api/witnessing_dto.dart';
+import 'package:meongjup/pages/witnessing_post.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
 import 'package:meongjup/widgets/missingPuppy.dart';
 import 'package:meongjup/pages/missing_post.dart';
+import 'package:meongjup/widgets/witnessingPuppy.dart';
 
 class Missing_list extends StatefulWidget {
   const Missing_list({super.key});
@@ -31,6 +34,7 @@ class _Missing_list extends State<Missing_list> {
   void initState() {
     super.initState();
     getMissingDatas();
+    getWitnessingDatas();
   }
 
   Future<void> getMissingDatas() async {
@@ -48,6 +52,22 @@ class _Missing_list extends State<Missing_list> {
     }
   }
 
+  List<WitnessingDto> witnessingDatas = [];
+  Future<void> getWitnessingDatas() async {
+    try {
+      final db = FirebaseFirestore.instance;
+      final querySnapshot = await db.collection("witnessing").get();
+      setState(() {
+        witnessingDatas =
+            querySnapshot.docs
+                .map((doc) => WitnessingDto.fromJson(doc.data()))
+                .toList();
+      });
+    } catch (e) {
+      debugPrint("Error getting document: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
@@ -55,6 +75,7 @@ class _Missing_list extends State<Missing_list> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: Colors.white,
         bottomNavigationBar: BottomNavigation(selectedIndex: 2),
         appBar: AppBar(
           scrolledUnderElevation: 0,
@@ -104,10 +125,20 @@ class _Missing_list extends State<Missing_list> {
                             width: deviceWidth / 2 - 9,
                           ),
                         ),
-                        Image.asset(
-                          'assets/images/witness_writing.png',
-                          fit: BoxFit.cover,
-                          width: deviceWidth / 2 - 9,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => WitnessingPost(),
+                              ),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/images/witness_writing.png',
+                            fit: BoxFit.cover,
+                            width: deviceWidth / 2 - 9,
+                          ),
                         ),
                       ],
                     ),
@@ -149,24 +180,30 @@ class _Missing_list extends State<Missing_list> {
                             ),
                           ],
                         ),
-                        Container(
-                          width: double.infinity,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: missingDatas.length,
-                            itemBuilder: (context, index) {
-                              return MissingPuppy(
-                                distinction: missingDatas[index].distinction,
-                                species: missingDatas[index].species,
-                                name: missingDatas[index].name,
-                                subject: missingDatas[index].subject,
-                                images: missingDatas[index].images,
-                                location: missingDatas[index].location,
-                              );
-                            },
-                          ),
-                        ),
+                        missingDatas.isNotEmpty
+                            ? Container(
+                              width: double.infinity,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: missingDatas.length,
+                                itemBuilder: (context, index) {
+                                  return MissingPuppy(
+                                    distinction:
+                                        missingDatas[index].distinction,
+                                    species: missingDatas[index].species,
+                                    name: missingDatas[index].name,
+                                    subject: missingDatas[index].subject,
+                                    images: missingDatas[index].images,
+                                    location: missingDatas[index].location,
+                                  );
+                                },
+                              ),
+                            )
+                            : Container(
+                              width: double.infinity,
+                              child: Center(child: Text('데이터가 없습니다')),
+                            ),
                       ],
                     ),
                   ),
@@ -176,93 +213,68 @@ class _Missing_list extends State<Missing_list> {
             SingleChildScrollView(
               child: Column(
                 children: [
+                  SizedBox(height: 4),
                   Container(
                     width: double.infinity,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(
-                          'assets/images/witness_writing.png',
-                          width: 196,
-                          fit: BoxFit.cover,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MissingPost(),
+                              ),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/images/missing_writing.png',
+                            fit: BoxFit.cover,
+                            width: deviceWidth / 2 - 9,
+                          ),
                         ),
-                        Image.asset(
-                          'assets/images/missing_writing.png',
-                          fit: BoxFit.cover,
-                          width: 196,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => WitnessingPost(),
+                              ),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/images/witness_writing.png',
+                            fit: BoxFit.cover,
+                            width: deviceWidth / 2 - 9,
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: 1,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.all(10),
-                        child: Column(
-                          children: [
-                            Container(
-                              width: double.infinity,
-                              child: Stack(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    child: Image.network(
-                                      'https://animal.seoul.go.kr/comm/getImage?srvcId=MEDIA&upperNo=4224&fileTy=ADOPTIMG&fileNo=1&thumbTy=L',
-                                      width: double.infinity,
-                                      height: 140,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 10,
-                                    left: 10,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.6),
-                                        borderRadius: BorderRadius.circular(20),
-                                        border: Border.all(
-                                          color: Colors.black,
-                                          width: 1,
-                                        ),
-                                      ),
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        '화성시 병점동',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(6, 0, 0, 0),
-                              margin: EdgeInsets.only(top: 3),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "목격 시간: 오후 3시경",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text("특징: 웰시코기로 보이는 강아지가 혼자 돌아다니는 것을 봤어요"),
-                                ],
-                              ),
-                            ),
-                          ],
+                  witnessingDatas.isNotEmpty
+                      ? Container(
+                        width: double.infinity,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: witnessingDatas.length,
+                          itemBuilder: (context, index) {
+                            return WitnessingPuppy(
+                              distinction: witnessingDatas[index].distinction,
+                              species: witnessingDatas[index].species,
+                              name: witnessingDatas[index].name,
+                              subject: witnessingDatas[index].subject,
+                              images: witnessingDatas[index].images,
+                              location: witnessingDatas[index].location,
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
+                      )
+                      : Container(
+                        width: double.infinity,
+                        child: Center(child: Text('데이터가 없습니다')),
+                      ),
                 ],
               ),
             ),
