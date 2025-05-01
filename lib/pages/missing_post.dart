@@ -158,9 +158,7 @@ class _MissingPostState extends State<MissingPost> {
     if (_empty(_featuresController.text)) {
       _snack(emptyMsg('특징')); return false;
     }
-    if (!_isKoreanOnly(_featuresController.text)) {
-      _snack(errorMsg('특징')); return false;
-    }
+    
 
     // 사진
     if (_images.isEmpty) {
@@ -186,9 +184,9 @@ class _MissingPostState extends State<MissingPost> {
               child: Row(
                 children: [
                   Icon(Icons.arrow_back_ios, size: 13),
-                  Text('뒤로가기', style: TextStyle(fontSize: 14)),
-                ],
-              ),
+                  Text('뒤로가기', style: TextStyle(fontSize: 14))
+                ]
+              )
             ),
             SizedBox(height: 8),
             Text('실종 글쓰기', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
@@ -199,8 +197,8 @@ class _MissingPostState extends State<MissingPost> {
               decoration: InputDecoration(
                 labelText: '글 제목 입력',
                 border: UnderlineInputBorder(),
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-              ),
+                floatingLabelBehavior: FloatingLabelBehavior.never
+              )
             ),
             SizedBox(height: 8),
             _buildLabelText('이름'),
@@ -209,8 +207,8 @@ class _MissingPostState extends State<MissingPost> {
               decoration: InputDecoration(
                 labelText: '강아지 이름 입력',
                 border: UnderlineInputBorder(),
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-              ),
+                floatingLabelBehavior: FloatingLabelBehavior.never
+              )
             ),
             SizedBox(height: 8),
             _buildLabelText('견종'),
@@ -219,8 +217,8 @@ class _MissingPostState extends State<MissingPost> {
               decoration: InputDecoration(
                 labelText: '강아지 종 입력',
                 border: UnderlineInputBorder(),
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-              ),
+                floatingLabelBehavior: FloatingLabelBehavior.never
+              )
             ),
             SizedBox(height: 8),
             _buildLabelText('위치'),
@@ -229,8 +227,8 @@ class _MissingPostState extends State<MissingPost> {
               decoration: InputDecoration(
                 labelText: 'OO시 OO구',
                 border: UnderlineInputBorder(),
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-              ),
+                floatingLabelBehavior: FloatingLabelBehavior.never
+              )
             ),
             SizedBox(height: 8),
             _buildLabelText('특징'),
@@ -240,8 +238,8 @@ class _MissingPostState extends State<MissingPost> {
               decoration: InputDecoration(
                 labelText: '특징 입력',
                 border: UnderlineInputBorder(),
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-              ),
+                floatingLabelBehavior: FloatingLabelBehavior.never
+              )
             ),
             SizedBox(height: 24),
             _buildLabelText('사진 추가'),
@@ -250,8 +248,8 @@ class _MissingPostState extends State<MissingPost> {
               runSpacing: 8,
               children: [
                 ..._images.map((image) => _buildImageTile(image)).toList(),
-                if (_images.length < 3) _buildAddPhotoBox(),
-              ],
+                if (_images.length < 3) _buildAddPhotoBox()
+              ]
             ),
             SizedBox(height: 32),
             SizedBox(
@@ -264,11 +262,11 @@ class _MissingPostState extends State<MissingPost> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFff7373),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))
                 ),
-                child: Text('등록하기', style: TextStyle(fontSize: 16)),
-              ),
-            ),
+                child: Text('등록하기', style: TextStyle(fontSize: 16))
+              )
+            )
           ],
         ),
       ),
