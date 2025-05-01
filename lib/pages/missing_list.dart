@@ -215,9 +215,11 @@ class _Missing_list extends State<Missing_list> {
                 children: [
                   SizedBox(height: 4),
                   Container(
+                    color: Colors.white,
                     width: double.infinity,
+                    padding: EdgeInsets.all(6),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
                           onTap: () {
@@ -252,29 +254,51 @@ class _Missing_list extends State<Missing_list> {
                       ],
                     ),
                   ),
-                  witnessingDatas.isNotEmpty
-                      ? Container(
-                        width: double.infinity,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: witnessingDatas.length,
-                          itemBuilder: (context, index) {
-                            return WitnessingPuppy(
-                              distinction: witnessingDatas[index].distinction,
-                              species: witnessingDatas[index].species,
-                              name: witnessingDatas[index].name,
-                              subject: witnessingDatas[index].subject,
-                              images: witnessingDatas[index].images,
-                              location: witnessingDatas[index].location,
-                            );
-                          },
+                  SizedBox(height: 4),
+                  Container(
+                    color: Colors.white,
+                    padding: EdgeInsets.fromLTRB(10, 8, 10, 4),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '길 잃은 강아지 주인을 찾습니다 >',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                      )
-                      : Container(
-                        width: double.infinity,
-                        child: Center(child: Text('데이터가 없습니다')),
-                      ),
+                        witnessingDatas.isNotEmpty
+                            ? Container(
+                              width: double.infinity,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: witnessingDatas.length,
+                                itemBuilder: (context, index) {
+                                  return WitnessingPuppy(
+                                    distinction:
+                                        witnessingDatas[index].distinction,
+                                    species: witnessingDatas[index].species,
+                                    name: witnessingDatas[index].name,
+                                    subject: witnessingDatas[index].subject,
+                                    images: witnessingDatas[index].images,
+                                    location: witnessingDatas[index].location,
+                                  );
+                                },
+                              ),
+                            )
+                            : Container(
+                              width: double.infinity,
+                              child: Center(child: Text('데이터가 없습니다')),
+                            ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
