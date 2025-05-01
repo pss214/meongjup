@@ -19,7 +19,18 @@ void main() async {
     ScreenUtilInit(
       designSize: Size(412, 915),
       minTextAdapt: true,
-      builder: (context, child) => MaterialApp(home: MainPage()),
+      builder:
+          (context, child) => MaterialApp(
+            home: MainPage(),
+            builder: (context, child) {
+              return MediaQuery(
+                data: MediaQuery.of(
+                  context,
+                ).copyWith(textScaler: TextScaler.noScaling),
+                child: child!,
+              );
+            },
+          ),
     ),
   );
 }
