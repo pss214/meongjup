@@ -94,6 +94,44 @@ class _AdoptionList extends State<AdoptionList> {
   String getRandomQuote() {
     final random = Random();
     return emotionalQuotes[random.nextInt(emotionalQuotes.length)];
+    getMissingDatas();
+  }
+
+  Future<void> getMissingDatas() async {
+    try {
+      final db = FirebaseFirestore.instance;
+      final querySnapshot = await db.collection("missing").get();
+      if (!mounted) return;
+      setState(() {
+        missingDatas =
+            querySnapshot.docs
+                .map((doc) => MissingDto.fromJson(doc.data()))
+                .toList();
+        thumbnails = List.filled(missingDatas.length, null);
+      });
+      getThumbnail();
+    } catch (e) {
+      debugPrint("Error getting document: $e");
+    }
+  }
+
+  Future<void> getThumbnail() async {
+    if (thumbnails == null) return;
+    final storageRef = FirebaseStorage.instance.ref();
+
+    for (var i = 0; i < missingDatas.length; i++) {
+      final islandRef = storageRef.child(missingDatas[i].images[0]);
+      try {
+        const oneMegabyte = 1024 * 1024;
+        final Uint8List? thumbnail = await islandRef.getData(oneMegabyte);
+        if (!mounted) return;
+        setState(() {
+          thumbnails![i] = thumbnail;
+        });
+      } on FirebaseException catch (e) {
+        debugPrint("Error getting document: $e");
+      }
+    }
   }
 
   int? _getNextPageKey(PagingState<int, DogDto> state) {

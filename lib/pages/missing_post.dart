@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart' as firebase_core;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -17,27 +16,19 @@ class MissingPost extends StatefulWidget {
 }
 
 class _MissingPostState extends State<MissingPost> {
-  // 실종 글쓰기 데이터를 저장하는 컨트롤러들입니다
-  final TextEditingController _titleController = TextEditingController(); // 제목
-  final TextEditingController _nameController =
-      TextEditingController(); // 강아지 이름
-  final TextEditingController _breedController = TextEditingController(); // 견종
-  final TextEditingController _locationinformation = TextEditingController(); // 위치
-  final TextEditingController _featuresController =
-      TextEditingController(); // 특징
-  final List<String> _images = []; // 이미지 경로 리스트//firebasse db
+  // 컨트롤러
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _breedController = TextEditingController();
+  final TextEditingController _locationinformation = TextEditingController();
+  final TextEditingController _featuresController = TextEditingController();
+  final List<String> _images = [];
   final List<String> _uploads = [];
+
   @override
-  initState() {
+  void initState() {
     super.initState();
   }
-  // 이 데이터들은 각각의 TextField에서 사용되고 있으며
-  // 등록하기 버튼을 눌렀을 때 이 컨트롤러들의 .text 값을 통해 입력된 데이터를 가져올 수 있습니다.
-  // 예: _titleController.text - 제목 데이터
-  //     _nameController.text - 이름 데이터
-  //     _breedController.text - 견종 데이터
-  //     _featuresController.text - 특징 데이터
-  //     _images - 선택된 이미지들의 경로
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
@@ -54,7 +45,7 @@ class _MissingPostState extends State<MissingPost> {
     }
   }
 
-  //이미지 업로드
+  // 이미지 업로드
   Future<void> fetchImageUpload() async {
     var storageRef = FirebaseStorage.instance.ref();
     var uuid = Uuid();
@@ -66,37 +57,7 @@ class _MissingPostState extends State<MissingPost> {
       _uploads.add("$filename.jpg");
       try {
         await mountainsRef.putFile(file);
-        // .snapshotEvents.listen((
-        //   TaskSnapshot taskSnapshot,
-        // ) {
-        //   switch (taskSnapshot.state) {
-        //     case TaskState.running:
-        //       final progress =
-        //           100.0 *
-        //           (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-        //       ScaffoldMessenger.of(context).showSnackBar(
-        //         SnackBar(
-        //           content: Text('업로드 중 : $progress'),
-        //           backgroundColor: Colors.blue,
-        //         ),
-        //       );
-        //       break;
-        //     case TaskState.paused:
-        //       print("Upload is paused.");
-        //       break;
-        //     case TaskState.canceled:
-        //       print("Upload was canceled");
-        //       break;
-        //     case TaskState.error:
-        //       // Handle unsuccessful uploads
-        //       break;
-        //     case TaskState.success:
-        //       // Handle successful uploads on complete
-        //       // ...
-        //       break;
-        //   }
-        // });
-      } on firebase_core.FirebaseException catch (e) {
+      } on FirebaseException catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('게시글 등록 중 오류가 발생했습니다. 다시 시도해주세요.'),
@@ -107,13 +68,12 @@ class _MissingPostState extends State<MissingPost> {
     }
   }
 
-  //게시글 업로드
+  // 게시글 업로드
   Future<void> fetchUpload() async {
     try {
       debugPrint("전송중");
-      FirebaseFirestore db = FirebaseFirestore.instance;
       await fetchImageUpload();
-
+      FirebaseFirestore db = FirebaseFirestore.instance;
       final data = <String, dynamic>{
         "distinction": _breedController.text,
         "species": _featuresController.text,
@@ -123,14 +83,9 @@ class _MissingPostState extends State<MissingPost> {
         "location": _locationinformation.text,
         "createdAt": DateTime.now(),
       };
-      await db
-          .collection("missing")
-          .add(data)
-          .then(
-            (DocumentReference doc) =>
-                debugPrint('DocumentSnapshot added with ID: ${doc.id}'),
-          );
-      if (!_validateAndSubmit()) return;
+      await db.collection("missing").add(data).then((doc) {
+        debugPrint('DocumentSnapshot added with ID: ${doc.id}');
+      });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('게시글이 업로드 되었습니다!'),
@@ -140,7 +95,6 @@ class _MissingPostState extends State<MissingPost> {
       Navigator.pop(context);
     } catch (e) {
       debugPrint("에러 발생: $e");
-      if (!_validateAndSubmit()) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('게시글 등록 중 오류가 발생했습니다. 다시 시도해주세요.'),
@@ -150,66 +104,67 @@ class _MissingPostState extends State<MissingPost> {
     }
   }
 
-  void _showImageSourceDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('사진 추가'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: Icon(Icons.photo_library),
-                title: Text('갤러리에서 선택'),
-                onTap: () {
-                  Navigator.pop(context);
-                  _pickImage();
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
+  // 스낵바 헬퍼
+  void _snack(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 
+  bool _empty(String text) => text.trim().isEmpty;
+
+  bool _isKoreanOnly(String text) {
+    final trimmed = text.trim();
+    return RegExp(r'^[가-힣\s]+$').hasMatch(trimmed) &&
+        RegExp(r'[가-힣]').hasMatch(trimmed);
+  }
+
+  // 검증 후 업로드
   bool _validateAndSubmit() {
-    if (_titleController.text.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('제목을 입력해주세요')));
-      return false;
+    String errorMsg(String field) => '$field(은/는) 한글만 입력해주세요';
+    String emptyMsg(String field) => '$field(을/를) 입력해주세요';
+
+    // 제목
+    if (_empty(_titleController.text)) {
+      _snack(emptyMsg('제목')); return false;
     }
-    if (_nameController.text.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('강아지 이름을 입력해주세요')));
-      return false;
+    if (!_isKoreanOnly(_titleController.text)) {
+      _snack(errorMsg('제목')); return false;
     }
-    if (_breedController.text.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('견종을 입력해주세요')));
-      return false;
+
+    // 이름
+    if (_empty(_nameController.text)) {
+      _snack(emptyMsg('강아지 이름')); return false;
     }
-    if (_locationinformation.text.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('위치를 입력해주세요')));
-      return false;
+    if (!_isKoreanOnly(_nameController.text)) {
+      _snack(errorMsg('이름')); return false;
     }
-    if (_featuresController.text.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('특징을 입력해주세요')));
-      return false;
+
+    // 견종
+    if (_empty(_breedController.text)) {
+      _snack(emptyMsg('견종')); return false;
     }
+    if (!_isKoreanOnly(_breedController.text)) {
+      _snack(errorMsg('견종')); return false;
+    }
+
+    // 위치
+    if (_empty(_locationinformation.text)) {
+      _snack(emptyMsg('위치')); return false;
+    }
+    if (!_isKoreanOnly(_locationinformation.text)) {
+      _snack(errorMsg('위치')); return false;
+    }
+
+    // 특징
+    if (_empty(_featuresController.text)) {
+      _snack(emptyMsg('특징')); return false;
+    }
+    if (!_isKoreanOnly(_featuresController.text)) {
+      _snack(errorMsg('특징')); return false;
+    }
+
+    // 사진
     if (_images.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('최소 1장의 사진을 추가해주세요')));
-      return false;
+      _snack('최소 1장의 사진을 추가해주세요'); return false;
     }
 
     return true;
@@ -227,9 +182,7 @@ class _MissingPostState extends State<MissingPost> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
+              onTap: () => Navigator.pop(context),
               child: Row(
                 children: [
                   Icon(Icons.arrow_back_ios, size: 13),
@@ -237,16 +190,10 @@ class _MissingPostState extends State<MissingPost> {
                 ],
               ),
             ),
-            SizedBox(height: 2),
-            Text(
-              '  실종 글쓰기',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
             SizedBox(height: 8),
-            Text(
-              '제목',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
+            Text('실종 글쓰기', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            SizedBox(height: 16),
+            _buildLabelText('제목'),
             TextField(
               controller: _titleController,
               decoration: InputDecoration(
@@ -256,10 +203,7 @@ class _MissingPostState extends State<MissingPost> {
               ),
             ),
             SizedBox(height: 8),
-            Text(
-              '이름',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
+            _buildLabelText('이름'),
             TextField(
               controller: _nameController,
               decoration: InputDecoration(
@@ -269,10 +213,7 @@ class _MissingPostState extends State<MissingPost> {
               ),
             ),
             SizedBox(height: 8),
-            Text(
-              '견종',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
+            _buildLabelText('견종'),
             TextField(
               controller: _breedController,
               decoration: InputDecoration(
@@ -282,10 +223,7 @@ class _MissingPostState extends State<MissingPost> {
               ),
             ),
             SizedBox(height: 8),
-            Text(
-              '위치',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
+            _buildLabelText('위치'),
             TextField(
               controller: _locationinformation,
               decoration: InputDecoration(
@@ -295,10 +233,7 @@ class _MissingPostState extends State<MissingPost> {
               ),
             ),
             SizedBox(height: 8),
-            Text(
-              '특징',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
+            _buildLabelText('특징'),
             TextField(
               controller: _featuresController,
               maxLines: 3,
@@ -309,88 +244,13 @@ class _MissingPostState extends State<MissingPost> {
               ),
             ),
             SizedBox(height: 24),
-            Text(
-              '사진 추가',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
+            _buildLabelText('사진 추가'),
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: [
-                ..._images
-                    .map(
-                      (image) => Stack(
-                        children: [
-                          Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              image: DecorationImage(
-                                image: FileImage(File(image)),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            right: 0,
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _images.remove(image);
-                                });
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.close,
-                                  size: 20,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                    .toList(),
-                _images.length < 3
-                    ? GestureDetector(
-                      onTap: _showImageSourceDialog,
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 1,
-                            style: BorderStyle.solid,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.add_photo_alternate,
-                              size: 32,
-                              color: Colors.grey,
-                            ),
-                            Text(
-                              '사진 추가',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                    : Container(),
+                ..._images.map((image) => _buildImageTile(image)).toList(),
+                if (_images.length < 3) _buildAddPhotoBox(),
               ],
             ),
             SizedBox(height: 32),
@@ -399,14 +259,12 @@ class _MissingPostState extends State<MissingPost> {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
+                  if (!_validateAndSubmit()) return;
                   fetchUpload();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFff7373),
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
                 child: Text('등록하기', style: TextStyle(fontSize: 16)),
               ),
@@ -414,6 +272,78 @@ class _MissingPostState extends State<MissingPost> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildLabelText(String text) => Padding(
+    padding: const EdgeInsets.symmetric(vertical: 4.0),
+    child: Text(text, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+  );
+
+  Widget _buildImageTile(String image) => Stack(
+    children: [
+      Container(
+        width: 100, height: 100,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          image: DecorationImage(image: FileImage(File(image)), fit: BoxFit.cover),
+        ),
+      ),
+      Positioned(
+        right: 0,
+        child: GestureDetector(
+          onTap: () => setState(() => _images.remove(image)),
+          child: Container(
+            padding: EdgeInsets.all(2), decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+            child: Icon(Icons.close, size: 20, color: Colors.grey),
+          ),
+        ),
+      ),
+    ],
+  );
+
+  Widget _buildAddPhotoBox() => GestureDetector(
+    onTap: _showImageSourceDialog,
+    child: Container(
+      width: 100, height: 100,
+      decoration: BoxDecoration(
+        border: Border.all(width: 1), borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [Icon(Icons.add_photo_alternate, size: 32, color: Colors.grey), Text('사진 추가', style: TextStyle(fontSize: 12, color: Colors.grey))],
+      ),
+    ),
+  );
+
+  void _showImageSourceDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('사진 선택'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                GestureDetector(
+                  child: Text('갤러리에서 선택'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _pickImage();
+                  },
+                ),
+                Padding(padding: EdgeInsets.all(8.0)),
+                GestureDetector(
+                  child: Text('취소'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
