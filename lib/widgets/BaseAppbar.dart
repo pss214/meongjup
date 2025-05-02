@@ -54,11 +54,12 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
                       Expanded(
                         child: TextButton(
                           onPressed: () async {
-                            final Uri url = Uri.parse("https://news.seoul.go.kr/env/pet");   //여기 url 수정
-                            if (await canLaunchUrl(url)) {
-                              await launchUrl(url, mode: LaunchMode.externalApplication);
-                            }
-                            Navigator.of(context).pop();
+                            await launchUrl(
+                              Uri.parse(
+                                "https://news.seoul.go.kr/env/pet",
+                              ),
+                              mode: LaunchMode.externalApplication,
+                            );
                           },
                           style: TextButton.styleFrom(
                             backgroundColor: const Color(0xFF75B1FF),
