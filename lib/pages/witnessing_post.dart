@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
 import 'package:uuid/uuid.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class WitnessingPost extends StatefulWidget {
   const WitnessingPost({super.key});
@@ -31,19 +32,26 @@ class _WitnessingPostState extends State<WitnessingPost> {
   }
 
   Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final XFile? pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-      maxWidth: 1000,
-    );
-
-    if (pickedFile != null) {
-      setState(() {
-        _images.add(pickedFile.path);
-      });
-    }
+  // ✅ 갤러리 권한 요청
+  var status = await Permission.photos.request(); // Android는 READ_MEDIA_IMAGES 또는 storage로 대체
+  if (status.isDenied || status.isPermanentlyDenied) {
+    _snack('사진 접근 권한이 필요합니다. 설정에서 권한을 허용해주세요.');
+    return;
   }
+
+  final picker = ImagePicker();
+  final XFile? pickedFile = await picker.pickImage(
+    source: ImageSource.gallery,
+    imageQuality: 80,
+    maxWidth: 1000,
+  );
+
+  if (pickedFile != null) {
+    setState(() {
+      _images.add(pickedFile.path);
+    });
+  }
+}
 
   // 이미지 업로드
   Future<void> fetchImageUpload() async {
@@ -270,7 +278,7 @@ class _WitnessingPostState extends State<WitnessingPost> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: Text('등록하기', style: TextStyle(fontSize: 16)),
+                child: Text('등록하기', style: TextStyle(fontSize: 16, color: Colors.white)),
               ),
             ),
           ],
