@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:meongjup/api/dog_dto.dart';
-import 'package:meongjup/widgets/BaseAppbar.dart';
-import 'package:meongjup/widgets/adoptionPuppy.dart';
+import 'package:meongjup/widgets/base_appbar.dart';
+import 'package:meongjup/widgets/adoption_puppy.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
 import 'dart:math';
 
@@ -27,7 +27,7 @@ class _AdoptionList extends State<AdoptionList> {
   List<String> breedsList = [];
   List<Uint8List?>? thumbnails;
   Map<String, bool> imageOpacityMap = {};
-  String selectedBreed = '전체'; // ✅ 기본 선택값
+  String selectedBreed = '전체';
 
   // 감성적인 문구 리스트
   List<String> emotionalQuotes = [
@@ -125,7 +125,7 @@ class _AdoptionList extends State<AdoptionList> {
           selectedBreed == '전체'
               ? dogdata!.dogs
               : dogdata!.dogs
-                  .where((dog) => dog.BREEDS == selectedBreed)
+                  .where((dog) => dog.breeds == selectedBreed)
                   .toList();
 
       final startIndex = (page - 1) * 15;
@@ -155,8 +155,8 @@ class _AdoptionList extends State<AdoptionList> {
           breedsList = [
             '전체',
             ...{
-              for (var dog in dogdata!.dogs) dog.BREEDS,
-            }.toSet().toList(), // 품종 고정화 + 복잡 제거
+              for (var dog in dogdata!.dogs) dog.breeds,
+            }.toSet(), // 품종 고정화 + 복잡 제거
           ];
         });
         await fetchImage();
@@ -178,10 +178,10 @@ class _AdoptionList extends State<AdoptionList> {
         var data = jsonDecode(res.body)['TbAdpWaitAnimalPhotoView']['row'];
 
         for (var element in dogdata!.dogs) {
-          imageList[element.ANIMAL_NO] = [];
-          imageOpacityMap[element.ANIMAL_NO] = false;
+          imageList[element.animalNo] = [];
+          imageOpacityMap[element.animalNo] = false;
           for (var i = 0; i < data.length; i++) {
-            if (element.ANIMAL_NO == data[i]['ANIMAL_NO']) {
+            if (element.animalNo == data[i]['ANIMAL_NO']) {
               if (data[i]['PHOTO_KND'] == 'IMG') {
                 imageList[data[i]['ANIMAL_NO']]?.add(data[i]['PHOTO_URL']);
                 break;
@@ -278,35 +278,35 @@ class _AdoptionList extends State<AdoptionList> {
                               GestureDetector(
                                 onTapDown: (_) {
                                   setState(() {
-                                    imageOpacityMap[item.ANIMAL_NO] = true;
+                                    imageOpacityMap[item.animalNo] = true;
                                   });
                                 },
                                 onTapUp: (_) {
                                   setState(() {
-                                    imageOpacityMap[item.ANIMAL_NO] = false;
+                                    imageOpacityMap[item.animalNo] = false;
                                   });
                                 },
                                 onTapCancel: () {
                                   setState(() {
-                                    imageOpacityMap[item.ANIMAL_NO] = false;
+                                    imageOpacityMap[item.animalNo] = false;
                                   });
                                 },
-                                child: Container(
+                                child: SizedBox(
                                   height: 270,
                                   child: Opacity(
                                     opacity:
-                                        imageOpacityMap[item.ANIMAL_NO] == true
+                                        imageOpacityMap[item.animalNo] == true
                                             ? 0.2
                                             : 1.0,
                                     child: AdoptionPuppy(
                                       index: index,
-                                      ANIMAL_NO: item.ANIMAL_NO,
-                                      url: imageList[item.ANIMAL_NO]?[0] ?? '',
-                                      NM: item.NM,
-                                      BREEDS: item.BREEDS,
-                                      AGE: item.AGE,
-                                      BDWGH: item.BDWGH,
-                                      SEXDSTN: item.SEXDSTN,
+                                      animalNo: item.animalNo,
+                                      url: imageList[item.animalNo]?[0] ?? '',
+                                      nm: item.nm,
+                                      breeds: item.breeds,
+                                      age: item.age,
+                                      bdwgh: item.bdwgh,
+                                      sexdstn: item.sexdstn,
                                     ),
                                   ),
                                 ),

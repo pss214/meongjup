@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meongjup/pages/adoption_list.dart';
-import 'package:meongjup/pages/mainPage.dart';
+import 'package:meongjup/pages/main_page.dart';
 import 'package:meongjup/pages/missing_list.dart';
 import 'package:meongjup/pages/puppyfeed_list.dart';
 import 'package:meongjup/pages/volunteer_list.dart';
@@ -26,7 +26,7 @@ class BottomNavigation extends StatelessWidget {
         break;
       case 2:
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Missing_list()),
+          MaterialPageRoute(builder: (context) => MissingList()),
         );
         break;
       case 3:

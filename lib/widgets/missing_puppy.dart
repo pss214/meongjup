@@ -4,14 +4,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:meongjup/pages/missing_detail.dart';
 
-class WitnessingPuppy extends StatefulWidget {
+class MissingPuppy extends StatefulWidget {
   final String distinction;
   final String species;
   final String name;
   final String subject;
   final List<String> images;
   final String location;
-  const WitnessingPuppy({
+  const MissingPuppy({
     super.key,
     required this.distinction,
     required this.species,
@@ -22,10 +22,10 @@ class WitnessingPuppy extends StatefulWidget {
   });
 
   @override
-  State<WitnessingPuppy> createState() => _WitnessingPuppyState();
+  State<MissingPuppy> createState() => _MissingPuppyState();
 }
 
-class _WitnessingPuppyState extends State<WitnessingPuppy>
+class _MissingPuppyState extends State<MissingPuppy>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -93,7 +93,7 @@ class _WitnessingPuppyState extends State<WitnessingPuppy>
         child: Column(
           children: [
             SizedBox(height: 16),
-            Container(
+            SizedBox(
               width: double.infinity,
               child: Stack(
                 children: [

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:meongjup/widgets/BaseAppbar.dart';
+import 'package:meongjup/widgets/base_appbar.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
-import 'package:meongjup/widgets/volunteerActivityDetails.dart';
+import 'package:meongjup/widgets/volunteer_activity_details.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class VolunteerDetail extends StatelessWidget {
-  final String activity_period;
-  final String activity_time;
+  final String activityPeriod;
+  final String activityTime;
   final String content;
   final String location;
   final String subject;
@@ -15,8 +15,8 @@ class VolunteerDetail extends StatelessWidget {
   final String target;
   const VolunteerDetail({
     super.key,
-    required this.activity_period,
-    required this.activity_time,
+    required this.activityPeriod,
+    required this.activityTime,
     required this.content,
     required this.location,
     required this.subject,
@@ -74,11 +74,11 @@ class VolunteerDetail extends StatelessWidget {
                               SizedBox(height: 10),
                               VolunteerActivityDetails(
                                 title: "활동기간",
-                                content: activity_period,
+                                content: activityPeriod,
                               ),
                               VolunteerActivityDetails(
                                 title: "활동시간",
-                                content: activity_time,
+                                content: activityTime,
                               ),
                               SizedBox(height: 10),
                               VolunteerActivityDetails(
@@ -110,71 +110,94 @@ class VolunteerDetail extends StatelessWidget {
                                   onTap: () async {
                                     showDialog(
                                       context: context,
-                                      builder: (context) => AlertDialog(
-                                        title: const Text(
-                                          '외부 페이지 URL로 이동합니다.',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                        actions: [
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  style: TextButton.styleFrom(
-                                                    backgroundColor: const Color(0xFFE0E0E0),
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(8),
-                                                    ),
-                                                  ),
-                                                  child: const Text(
-                                                    '취소',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
+                                      builder:
+                                          (context) => AlertDialog(
+                                            title: const Text(
+                                              '외부 페이지 URL로 이동합니다.',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w600,
                                               ),
-                                              const SizedBox(width: 10),
-                                              Expanded(
-                                                child: TextButton(
-                                                  onPressed: () async {
-                                                    await launchUrl(
-                                                      Uri.parse(
-                                                        "https://news.seoul.go.kr/env/archives/560028",
-                                                      ),
-                                                      mode: LaunchMode.externalApplication,
-                                                    );
-                                                  },
-                                                  style: TextButton.styleFrom(
-                                                    backgroundColor: const Color(0xFF75B1FF),
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(8),
-                                                    ),
-                                                  ),
-                                                  child: const Text(
-                                                    '확인',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
+                                            ),
+                                            actionsPadding:
+                                                const EdgeInsets.symmetric(
+                                                  horizontal: 16,
+                                                  vertical: 10,
                                                 ),
+                                            actions: [
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(
+                                                          context,
+                                                        ).pop();
+                                                      },
+                                                      style: TextButton.styleFrom(
+                                                        backgroundColor:
+                                                            const Color(
+                                                              0xFFE0E0E0,
+                                                            ),
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                8,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                      child: const Text(
+                                                        '취소',
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 10),
+                                                  Expanded(
+                                                    child: TextButton(
+                                                      onPressed: () async {
+                                                        await launchUrl(
+                                                          Uri.parse(
+                                                            "https://news.seoul.go.kr/env/archives/560028",
+                                                          ),
+                                                          mode:
+                                                              LaunchMode
+                                                                  .externalApplication,
+                                                        );
+                                                      },
+                                                      style: TextButton.styleFrom(
+                                                        backgroundColor:
+                                                            const Color(
+                                                              0xFF75B1FF,
+                                                            ),
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                8,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                      child: const Text(
+                                                        '확인',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ],
-                                          )
-                                        ],
-                                      ),
+                                          ),
                                     );
                                   },
                                   child: Text(

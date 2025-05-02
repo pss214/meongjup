@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meongjup/pages/volunteer_detail.dart';
 
 class VolunteerPost extends StatelessWidget {
-  final String activity_period;
-  final String activity_time;
+  final String activityPeriod;
+  final String activityTime;
   final String content;
   final String location;
   final String subject;
@@ -13,8 +13,8 @@ class VolunteerPost extends StatelessWidget {
   final String target;
   const VolunteerPost({
     super.key,
-    required this.activity_period,
-    required this.activity_time,
+    required this.activityPeriod,
+    required this.activityTime,
     required this.content,
     required this.location,
     required this.subject,
@@ -31,8 +31,8 @@ class VolunteerPost extends StatelessWidget {
           MaterialPageRoute(
             builder:
                 (context) => VolunteerDetail(
-                  activity_period: activity_period,
-                  activity_time: activity_time,
+                  activityPeriod: activityPeriod,
+                  activityTime: activityTime,
                   content: content,
                   location: location,
                   subject: subject,
@@ -43,7 +43,7 @@ class VolunteerPost extends StatelessWidget {
           ),
         );
       },
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         child: Column(
           children: [

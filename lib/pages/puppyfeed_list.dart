@@ -26,7 +26,7 @@ class _PuppyFeedListState extends State<PuppyFeedList> {
 
   late PageController _pageController; // 세로 페이지 컨트롤러
   late int _currentPage; // 현재 페이지 인덱스
-  Map<int, YoutubePlayerController> _controllers =
+  final Map<int, YoutubePlayerController> _controllers =
       {}; // 각 페이지에 해당하는 유튜브 컨트롤러 저장소
   bool _isLoading = false; // 중복 로딩 방지 플래그
 

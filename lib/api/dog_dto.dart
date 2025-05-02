@@ -19,40 +19,40 @@ class DogDtoList {
 }
 
 class DogDto {
-  final String ANIMAL_NO;
+  final String animalNo;
   final String? url;
-  final String NM;
-  final String BREEDS;
-  final String AGE;
-  final double BDWGH;
-  final String SEXDSTN;
+  final String nm;
+  final String breeds;
+  final String age;
+  final double bdwgh;
+  final String sexdstn;
 
   DogDto({
-    required this.ANIMAL_NO,
+    required this.animalNo,
     required this.url,
-    required this.NM,
-    required this.BREEDS,
-    required this.AGE,
-    required this.BDWGH,
-    required this.SEXDSTN,
+    required this.nm,
+    required this.breeds,
+    required this.age,
+    required this.bdwgh,
+    required this.sexdstn,
   });
   factory DogDto.fromJson(Map<String, dynamic> json) {
-    String? url = null;
-    String NM = json['NM'];
-    String AGE = json['AGE'];
-    String BREEDS = json['BREEDS'];
-    double BDWGH = json['BDWGH'];
-    String SEXDSTN = json['SEXDSTN'];
-    String ANIMAL_NO = json['ANIMAL_NO'];
+    String? url;
+    String nm = json['NM'];
+    String age = json['AGE'];
+    String breeds = json['BREEDS'];
+    double bdwgh = json['BDWGH'];
+    String sexdstn = json['SEXDSTN'];
+    String animalNo = json['ANIMAL_NO'];
 
     return DogDto(
-      ANIMAL_NO: ANIMAL_NO,
+      animalNo: animalNo,
       url: url,
-      NM: NM,
-      BREEDS: BREEDS,
-      AGE: AGE,
-      BDWGH: BDWGH,
-      SEXDSTN: SEXDSTN,
+      nm: nm,
+      breeds: breeds,
+      age: age,
+      bdwgh: bdwgh,
+      sexdstn: sexdstn,
     );
   }
 }

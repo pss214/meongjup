@@ -5,24 +5,24 @@ import 'package:meongjup/pages/adoption_list.dart';
 
 class AdoptionPuppyAtMain extends StatelessWidget {
   final int? index;
-  final String? ANIMAL_NO;
+  final String? animalNo;
   final String? url;
-  final String? NM;
-  final String? BREEDS;
-  final String? AGE;
-  final double? BDWGH;
-  final String? SEXDSTN;
+  final String? nm;
+  final String? breeds;
+  final String? age;
+  final double? bdwgh;
+  final String? sexdstn;
 
   const AdoptionPuppyAtMain({
     super.key,
     this.index,
-    this.ANIMAL_NO,
+    this.animalNo,
     this.url,
-    this.NM,
-    this.BREEDS,
-    this.AGE,
-    this.BDWGH,
-    this.SEXDSTN,
+    this.nm,
+    this.breeds,
+    this.age,
+    this.bdwgh,
+    this.sexdstn,
   });
 
   @override
@@ -35,7 +35,7 @@ class AdoptionPuppyAtMain extends StatelessWidget {
       },
       child: Padding(
         padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: Container(
+        child: SizedBox(
           height: 160,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,7 +59,7 @@ class AdoptionPuppyAtMain extends StatelessWidget {
               ),
               SizedBox(width: 10),
               Expanded(
-                child: Container(
+                child: SizedBox(
                   height: 160,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

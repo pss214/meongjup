@@ -13,8 +13,8 @@ import 'package:meongjup/pages/adoption_list.dart';
 import 'package:meongjup/pages/missing_detail.dart';
 import 'package:meongjup/pages/puppyfeed_list.dart';
 import 'package:meongjup/pages/volunteer_list.dart';
-import 'package:meongjup/widgets/BaseAppbar.dart';
-import 'package:meongjup/widgets/adoptionPuppyAtMain.dart';
+import 'package:meongjup/widgets/base_appbar.dart';
+import 'package:meongjup/widgets/adoption_puppy_at_main.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
 import 'package:meongjup/widgets/volunteer_post.dart';
 
@@ -107,9 +107,9 @@ class _MainPage extends State<MainPage> {
         var data = jsonDecode(res.body)['TbAdpWaitAnimalPhotoView']['row'];
 
         for (var element in adoptionDogdata!.dogs) {
-          imageList[element.ANIMAL_NO] = [];
+          imageList[element.animalNo] = [];
           for (var i = 0; i < data.length; i++) {
-            if (element.ANIMAL_NO == data[i]['ANIMAL_NO']) {
+            if (element.animalNo == data[i]['ANIMAL_NO']) {
               if (data[i]['PHOTO_KND'] == 'IMG') {
                 imageList[data[i]['ANIMAL_NO']]?.add(data[i]['PHOTO_URL']);
                 break;
@@ -130,7 +130,7 @@ class _MainPage extends State<MainPage> {
     try {
       final db = FirebaseFirestore.instance;
       final querySnapshot =
-      await db.collection("봉사활동").limit(3).get(); // limit 추가
+          await db.collection("봉사활동").limit(3).get(); // limit 추가
       setState(() {
         volunteerDatas =
             querySnapshot.docs
@@ -172,77 +172,77 @@ class _MainPage extends State<MainPage> {
                       SizedBox(height: 8),
                       missingDatas.isNotEmpty && thumbnails != null
                           ? Expanded(
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          controller: _scrollController,
-                          itemCount: missingDatas.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                              child: Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder:
-                                              (context) => MissingDetail(
-                                            distinction:
-                                            missingDatas[index]
-                                                .distinction,
-                                            species:
-                                            missingDatas[index]
-                                                .species,
-                                            name:
-                                            missingDatas[index]
-                                                .name,
-                                            subject:
-                                            missingDatas[index]
-                                                .subject,
-                                            images:
-                                            missingDatas[index]
-                                                .images,
-                                            location:
-                                            missingDatas[index]
-                                                .location,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              controller: _scrollController,
+                              itemCount: missingDatas.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                  child: Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder:
+                                                  (context) => MissingDetail(
+                                                    distinction:
+                                                        missingDatas[index]
+                                                            .distinction,
+                                                    species:
+                                                        missingDatas[index]
+                                                            .species,
+                                                    name:
+                                                        missingDatas[index]
+                                                            .name,
+                                                    subject:
+                                                        missingDatas[index]
+                                                            .subject,
+                                                    images:
+                                                        missingDatas[index]
+                                                            .images,
+                                                    location:
+                                                        missingDatas[index]
+                                                            .location,
+                                                  ),
+                                            ),
+                                          );
+                                        },
+                                        child: CircleAvatar(
+                                          radius: 40,
+                                          child: ClipOval(
+                                            child:
+                                                thumbnails![index] != null
+                                                    ? Image.memory(
+                                                      thumbnails![index]!,
+                                                      fit: BoxFit.cover,
+                                                      width: 80,
+                                                      height: 80,
+                                                    )
+                                                    : Container(
+                                                      color: Colors.grey,
+                                                    ),
                                           ),
                                         ),
-                                      );
-                                    },
-                                    child: CircleAvatar(
-                                      radius: 40,
-                                      child: ClipOval(
-                                        child:
-                                        thumbnails![index] != null
-                                            ? Image.memory(
-                                          thumbnails![index]!,
-                                          fit: BoxFit.cover,
-                                          width: 80,
-                                          height: 80,
-                                        )
-                                            : Container(
-                                          color: Colors.grey,
+                                      ),
+                                      SizedBox(height: 4),
+                                      Text(
+                                        missingDatas[index].name,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                  SizedBox(height: 4),
-                                  Text(
-                                    missingDatas[index].name,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                          : Container(
-                        height: 100,
-                        child: Center(child: Text('데이터가 없습니다')),
-                      ),
+                                );
+                              },
+                            ),
+                          )
+                          : SizedBox(
+                            height: 100,
+                            child: Center(child: Text('데이터가 없습니다')),
+                          ),
                     ],
                   ),
                 ),
@@ -285,60 +285,60 @@ class _MainPage extends State<MainPage> {
                       ),
                       SizedBox(height: 10),
                       adoptionDogdata != null && imageList.isNotEmpty
-                          ? Container(
-                        height: 160,
-                        child: PageView(
-                          onPageChanged: (int page) {
-                            setState(() {
-                              _currentPage = page;
-                            });
-                          },
-                          children: [
-                            AdoptionPuppyAtMain(
-                              index: 0,
-                              ANIMAL_NO: adoptionDogdata!.dogs[0].ANIMAL_NO,
-                              url:
-                              imageList[adoptionDogdata!
-                                  .dogs[0]
-                                  .ANIMAL_NO]![0]
-                                  .toString(),
-                              NM: adoptionDogdata!.dogs[0].NM,
-                              BREEDS: adoptionDogdata!.dogs[0].BREEDS,
-                              AGE: adoptionDogdata!.dogs[0].AGE,
-                              BDWGH: adoptionDogdata!.dogs[0].BDWGH,
-                              SEXDSTN: adoptionDogdata!.dogs[0].SEXDSTN,
+                          ? SizedBox(
+                            height: 160,
+                            child: PageView(
+                              onPageChanged: (int page) {
+                                setState(() {
+                                  _currentPage = page;
+                                });
+                              },
+                              children: [
+                                AdoptionPuppyAtMain(
+                                  index: 0,
+                                  animalNo: adoptionDogdata!.dogs[0].animalNo,
+                                  url:
+                                      imageList[adoptionDogdata!
+                                              .dogs[0]
+                                              .animalNo]![0]
+                                          .toString(),
+                                  nm: adoptionDogdata!.dogs[0].nm,
+                                  breeds: adoptionDogdata!.dogs[0].breeds,
+                                  age: adoptionDogdata!.dogs[0].age,
+                                  bdwgh: adoptionDogdata!.dogs[0].bdwgh,
+                                  sexdstn: adoptionDogdata!.dogs[0].sexdstn,
+                                ),
+                                AdoptionPuppyAtMain(
+                                  index: 1,
+                                  animalNo: adoptionDogdata!.dogs[1].animalNo,
+                                  url:
+                                      imageList[adoptionDogdata!
+                                              .dogs[1]
+                                              .animalNo]![0]
+                                          .toString(),
+                                  nm: adoptionDogdata!.dogs[1].nm,
+                                  breeds: adoptionDogdata!.dogs[1].breeds,
+                                  age: adoptionDogdata!.dogs[1].age,
+                                  bdwgh: adoptionDogdata!.dogs[1].bdwgh,
+                                  sexdstn: adoptionDogdata!.dogs[1].sexdstn,
+                                ),
+                                AdoptionPuppyAtMain(
+                                  index: 2,
+                                  animalNo: adoptionDogdata!.dogs[2].animalNo,
+                                  url:
+                                      imageList[adoptionDogdata!
+                                              .dogs[2]
+                                              .animalNo]![0]
+                                          .toString(),
+                                  nm: adoptionDogdata!.dogs[2].nm,
+                                  breeds: adoptionDogdata!.dogs[2].breeds,
+                                  age: adoptionDogdata!.dogs[2].age,
+                                  bdwgh: adoptionDogdata!.dogs[2].bdwgh,
+                                  sexdstn: adoptionDogdata!.dogs[2].sexdstn,
+                                ),
+                              ],
                             ),
-                            AdoptionPuppyAtMain(
-                              index: 1,
-                              ANIMAL_NO: adoptionDogdata!.dogs[1].ANIMAL_NO,
-                              url:
-                              imageList[adoptionDogdata!
-                                  .dogs[1]
-                                  .ANIMAL_NO]![0]
-                                  .toString(),
-                              NM: adoptionDogdata!.dogs[1].NM,
-                              BREEDS: adoptionDogdata!.dogs[1].BREEDS,
-                              AGE: adoptionDogdata!.dogs[1].AGE,
-                              BDWGH: adoptionDogdata!.dogs[1].BDWGH,
-                              SEXDSTN: adoptionDogdata!.dogs[1].SEXDSTN,
-                            ),
-                            AdoptionPuppyAtMain(
-                              index: 2,
-                              ANIMAL_NO: adoptionDogdata!.dogs[2].ANIMAL_NO,
-                              url:
-                              imageList[adoptionDogdata!
-                                  .dogs[2]
-                                  .ANIMAL_NO]![0]
-                                  .toString(),
-                              NM: adoptionDogdata!.dogs[2].NM,
-                              BREEDS: adoptionDogdata!.dogs[2].BREEDS,
-                              AGE: adoptionDogdata!.dogs[2].AGE,
-                              BDWGH: adoptionDogdata!.dogs[2].BDWGH,
-                              SEXDSTN: adoptionDogdata!.dogs[2].SEXDSTN,
-                            ),
-                          ],
-                        ),
-                      )
+                          )
                           : AdoptionPuppyAtMain(),
                       SizedBox(height: 10),
                       Row(
@@ -351,9 +351,9 @@ class _MainPage extends State<MainPage> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color:
-                              _currentPage == index
-                                  ? Colors.black
-                                  : Colors.grey[300],
+                                  _currentPage == index
+                                      ? Colors.black
+                                      : Colors.grey[300],
                             ),
                           );
                         }),
@@ -402,42 +402,42 @@ class _MainPage extends State<MainPage> {
                       SizedBox(height: 10),
                       volunteerDatas.isNotEmpty
                           ? Column(
-                        children: [
-                          VolunteerPost(
-                            activity_period:
-                            volunteerDatas[0].activity_period,
-                            activity_time: volunteerDatas[0].activity_time,
-                            content: volunteerDatas[0].content,
-                            location: volunteerDatas[0].location,
-                            subject: volunteerDatas[0].subject,
-                            period: volunteerDatas[0].period,
-                            personnel: volunteerDatas[0].personnel,
-                            target: volunteerDatas[0].target,
-                          ),
-                          VolunteerPost(
-                            activity_period:
-                            volunteerDatas[1].activity_period,
-                            activity_time: volunteerDatas[1].activity_time,
-                            content: volunteerDatas[1].content,
-                            location: volunteerDatas[1].location,
-                            subject: volunteerDatas[1].subject,
-                            period: volunteerDatas[1].period,
-                            personnel: volunteerDatas[1].personnel,
-                            target: volunteerDatas[1].target,
-                          ),
-                          VolunteerPost(
-                            activity_period:
-                            volunteerDatas[2].activity_period,
-                            activity_time: volunteerDatas[2].activity_time,
-                            content: volunteerDatas[2].content,
-                            location: volunteerDatas[2].location,
-                            subject: volunteerDatas[2].subject,
-                            period: volunteerDatas[2].period,
-                            personnel: volunteerDatas[2].personnel,
-                            target: volunteerDatas[2].target,
-                          ),
-                        ],
-                      )
+                            children: [
+                              VolunteerPost(
+                                activityPeriod:
+                                    volunteerDatas[0].activityPeriod,
+                                activityTime: volunteerDatas[0].activityTime,
+                                content: volunteerDatas[0].content,
+                                location: volunteerDatas[0].location,
+                                subject: volunteerDatas[0].subject,
+                                period: volunteerDatas[0].period,
+                                personnel: volunteerDatas[0].personnel,
+                                target: volunteerDatas[0].target,
+                              ),
+                              VolunteerPost(
+                                activityPeriod:
+                                    volunteerDatas[1].activityPeriod,
+                                activityTime: volunteerDatas[1].activityTime,
+                                content: volunteerDatas[1].content,
+                                location: volunteerDatas[1].location,
+                                subject: volunteerDatas[1].subject,
+                                period: volunteerDatas[1].period,
+                                personnel: volunteerDatas[1].personnel,
+                                target: volunteerDatas[1].target,
+                              ),
+                              VolunteerPost(
+                                activityPeriod:
+                                    volunteerDatas[2].activityPeriod,
+                                activityTime: volunteerDatas[2].activityTime,
+                                content: volunteerDatas[2].content,
+                                location: volunteerDatas[2].location,
+                                subject: volunteerDatas[2].subject,
+                                period: volunteerDatas[2].period,
+                                personnel: volunteerDatas[2].personnel,
+                                target: volunteerDatas[2].target,
+                              ),
+                            ],
+                          )
                           : Container(),
                     ],
                   ),
@@ -477,7 +477,7 @@ class _MainPage extends State<MainPage> {
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.22,
                               height:
-                              MediaQuery.of(context).size.width *
+                                  MediaQuery.of(context).size.width *
                                   0.22 *
                                   16 /
                                   9,
@@ -504,7 +504,7 @@ class _MainPage extends State<MainPage> {
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.22,
                               height:
-                              MediaQuery.of(context).size.width *
+                                  MediaQuery.of(context).size.width *
                                   0.22 *
                                   16 /
                                   9,
@@ -531,7 +531,7 @@ class _MainPage extends State<MainPage> {
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.22,
                               height:
-                              MediaQuery.of(context).size.width *
+                                  MediaQuery.of(context).size.width *
                                   0.22 *
                                   16 /
                                   9,
@@ -558,7 +558,7 @@ class _MainPage extends State<MainPage> {
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.22,
                               height:
-                              MediaQuery.of(context).size.width *
+                                  MediaQuery.of(context).size.width *
                                   0.22 *
                                   16 /
                                   9,

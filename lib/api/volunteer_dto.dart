@@ -1,6 +1,6 @@
 class VolunteerDto {
-  final String activity_period;
-  final String activity_time;
+  final String activityPeriod;
+  final String activityTime;
   final String content;
   final String location;
   final String subject;
@@ -9,8 +9,8 @@ class VolunteerDto {
   final String target;
 
   VolunteerDto({
-    required this.activity_period,
-    required this.activity_time,
+    required this.activityPeriod,
+    required this.activityTime,
     required this.content,
     required this.location,
     required this.subject,
@@ -21,8 +21,8 @@ class VolunteerDto {
 
   factory VolunteerDto.fromJson(Map<String, dynamic> json) {
     return VolunteerDto(
-      activity_period: json['activity_period'],
-      activity_time: json['activity_time'],
+      activityPeriod: json['activity_period'],
+      activityTime: json['activity_time'],
       content: json['content'],
       location: json['location'],
       subject: json['subject'],

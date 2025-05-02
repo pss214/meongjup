@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:meongjup/api/volunteer_dto.dart';
 import 'package:meongjup/pages/volunteer_detail.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
-import 'package:meongjup/widgets/BaseAppbar.dart';
+import 'package:meongjup/widgets/base_appbar.dart';
 
 class VolunteerList extends StatefulWidget {
   const VolunteerList({super.key});
@@ -66,14 +65,14 @@ class _VolunteerListState extends State<VolunteerList> {
       bottomNavigationBar: BottomNavigation(
         selectedIndex: 3, // 하단 네비게이션바에서 자원봉사 탭을 선택
       ),
-      
+
       backgroundColor: Colors.white,
       appBar: BaseAppBar(),
       body: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [ 
+            children: [
               SizedBox(
                 width: 200,
                 child: Row(
@@ -122,20 +121,15 @@ class _VolunteerListState extends State<VolunteerList> {
                         context: context,
                         position: position,
                         color: Colors.grey.shade200, // ✅ 팝업 배경색 변경
-                        shape: RoundedRectangleBorder( // ✅ 모서리 둥글게
+                        shape: RoundedRectangleBorder(
+                          // ✅ 모서리 둥글게
                           borderRadius: BorderRadius.circular(10),
                         ),
                         items: <PopupMenuEntry<String>>[
-                          PopupMenuItem<String>(
-                            value: '전체',
-                            child: Text('전체'),
-                          ),
+                          PopupMenuItem<String>(value: '전체', child: Text('전체')),
                           const PopupMenuDivider(), // ✅ 구분선 추가
 
-                          PopupMenuItem<String>(
-                            value: '마포',
-                            child: Text('마포'),
-                          ),
+                          PopupMenuItem<String>(value: '마포', child: Text('마포')),
                           const PopupMenuDivider(), // ✅ 구분선 추가
 
                           PopupMenuItem<String>(
@@ -177,12 +171,12 @@ class _VolunteerListState extends State<VolunteerList> {
                               MaterialPageRoute(
                                 builder:
                                     (context) => VolunteerDetail(
-                                      activity_period:
+                                      activityPeriod:
                                           getfilteredVolunteerList()[idx]
-                                              .activity_period,
-                                      activity_time:
+                                              .activityPeriod,
+                                      activityTime:
                                           getfilteredVolunteerList()[idx]
-                                              .activity_time,
+                                              .activityTime,
                                       content:
                                           getfilteredVolunteerList()[idx]
                                               .content,

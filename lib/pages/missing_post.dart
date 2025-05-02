@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:meongjup/widgets/BaseAppbar.dart';
+import 'package:meongjup/widgets/base_appbar.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
@@ -31,29 +31,31 @@ class _MissingPostState extends State<MissingPost> {
   }
 
   Future<void> _pickImage() async {
-  // ✅ 갤러리 권한 요청
-  var status = await Permission.photos.request(); // Android는 READ_MEDIA_IMAGES 또는 storage로 대체
-  if (status.isDenied || status.isPermanentlyDenied) {
-    _snack('사진 접근 권한이 필요합니다. 설정에서 권한을 허용해주세요.');
-    return;
-  }
+    // ✅ 갤러리 권한 요청
+    var status =
+        await Permission.photos
+            .request(); // Android는 READ_MEDIA_IMAGES 또는 storage로 대체
+    if (status.isDenied || status.isPermanentlyDenied) {
+      _snack('사진 접근 권한이 필요합니다. 설정에서 권한을 허용해주세요.');
+      return;
+    }
 
-  final picker = ImagePicker();
-  final XFile? pickedFile = await picker.pickImage(
-    source: ImageSource.gallery,
-    imageQuality: 80,
-    maxWidth: 1000,
-  );
+    final picker = ImagePicker();
+    final XFile? pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 80,
+      maxWidth: 1000,
+    );
 
-  if (pickedFile != null) {
-    setState(() {
-      _images.add(pickedFile.path);
-    });
+    if (pickedFile != null) {
+      setState(() {
+        _images.add(pickedFile.path);
+      });
+    }
   }
-}
 
   // 이미지 업로드
-  Future<void> fetchImageUpload() async {
+  Future<void> fetchImageUpload(context) async {
     var storageRef = FirebaseStorage.instance.ref();
     var uuid = Uuid();
 
@@ -77,10 +79,10 @@ class _MissingPostState extends State<MissingPost> {
   }
 
   // 게시글 업로드
-  Future<void> fetchUpload() async {
+  Future<void> fetchUpload(context) async {
     try {
       debugPrint("전송중");
-      await fetchImageUpload();
+      await fetchImageUpload(context);
       FirebaseFirestore db = FirebaseFirestore.instance;
       final data = <String, dynamic>{
         "distinction": _breedController.text,
@@ -267,7 +269,7 @@ class _MissingPostState extends State<MissingPost> {
               spacing: 8,
               runSpacing: 8,
               children: [
-                ..._images.map((image) => _buildImageTile(image)).toList(),
+                ..._images.map((image) => _buildImageTile(image)),
                 if (_images.length < 3) _buildAddPhotoBox(),
               ],
             ),
@@ -278,7 +280,7 @@ class _MissingPostState extends State<MissingPost> {
               child: ElevatedButton(
                 onPressed: () {
                   if (!_validateAndSubmit()) return;
-                  fetchUpload();
+                  fetchUpload(context);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFff7373),
@@ -286,7 +288,10 @@ class _MissingPostState extends State<MissingPost> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: Text('등록하기', style: TextStyle(fontSize: 16, color: Colors.white)),
+                child: Text(
+                  '등록하기',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
               ),
             ),
           ],

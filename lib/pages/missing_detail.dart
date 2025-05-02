@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:meongjup/widgets/BaseAppbar.dart';
+import 'package:meongjup/widgets/base_appbar.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
 
 class MissingDetail extends StatefulWidget {
@@ -79,7 +79,7 @@ class _MissingDetail extends State<MissingDetail> {
                   padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         child: Text(
                           '이름: ${widget.name} / 견종: ${widget.distinction}',
@@ -87,7 +87,7 @@ class _MissingDetail extends State<MissingDetail> {
                           style: TextStyle(color: Color(0xff666666), height: 1),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         child: Text(
                           widget.subject,
@@ -120,20 +120,18 @@ class _MissingDetail extends State<MissingDetail> {
                       Text(widget.species, style: TextStyle(height: 1.3)),
                       SizedBox(height: 16),
                       if (images.isNotEmpty) ...[
-                        ...images
-                            .map(
-                              (image) => Column(
-                                children: [
-                                  Image.memory(
-                                    image,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  SizedBox(height: 10),
-                                ],
+                        ...images.map(
+                          (image) => Column(
+                            children: [
+                              Image.memory(
+                                image,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
                               ),
-                            )
-                            .toList(),
+                              SizedBox(height: 10),
+                            ],
+                          ),
+                        ),
                       ] else
                         Container(
                           width: double.infinity,

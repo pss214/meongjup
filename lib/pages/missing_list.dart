@@ -4,17 +4,17 @@ import 'package:meongjup/api/missing_dto.dart';
 import 'package:meongjup/api/witnessing_dto.dart';
 import 'package:meongjup/pages/witnessing_post.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
-import 'package:meongjup/widgets/missingPuppy.dart';
+import 'package:meongjup/widgets/missing_puppy.dart';
 import 'package:meongjup/pages/missing_post.dart';
-import 'package:meongjup/widgets/witnessingPuppy.dart';
+import 'package:meongjup/widgets/witnessing_puppy.dart';
 
-class Missing_list extends StatefulWidget {
-  const Missing_list({super.key});
+class MissingList extends StatefulWidget {
+  const MissingList({super.key});
   @override
-  State createState() => _Missing_list();
+  State createState() => _MissingList();
 }
 
-class _Missing_list extends State<Missing_list> {
+class _MissingList extends State<MissingList> {
   void _showMissingReportModal() {
     showDialog(
       context: context,
@@ -181,7 +181,7 @@ class _Missing_list extends State<Missing_list> {
                           ],
                         ),
                         missingDatas.isNotEmpty
-                            ? Container(
+                            ? SizedBox(
                               width: double.infinity,
                               child: ListView.builder(
                                 shrinkWrap: true,
@@ -200,7 +200,7 @@ class _Missing_list extends State<Missing_list> {
                                 },
                               ),
                             )
-                            : Container(
+                            : SizedBox(
                               width: double.infinity,
                               child: Center(child: Text('데이터가 없습니다')),
                             ),
@@ -273,7 +273,7 @@ class _Missing_list extends State<Missing_list> {
                           ],
                         ),
                         witnessingDatas.isNotEmpty
-                            ? Container(
+                            ? SizedBox(
                               width: double.infinity,
                               child: ListView.builder(
                                 shrinkWrap: true,
@@ -292,7 +292,7 @@ class _Missing_list extends State<Missing_list> {
                                 },
                               ),
                             )
-                            : Container(
+                            : SizedBox(
                               width: double.infinity,
                               child: Center(child: Text('데이터가 없습니다')),
                             ),
