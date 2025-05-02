@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meongjup/pages/adoption_list.dart';
-import 'package:meongjup/pages/main.dart';
+import 'package:meongjup/pages/mainPage.dart';
 import 'package:meongjup/pages/missing_list.dart';
 import 'package:meongjup/pages/puppyfeed_list.dart';
 import 'package:meongjup/pages/volunteer_list.dart';

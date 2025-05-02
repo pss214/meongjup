@@ -17,7 +17,6 @@ import 'package:meongjup/widgets/BaseAppbar.dart';
 import 'package:meongjup/widgets/adoptionPuppyAtMain.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
 import 'package:meongjup/widgets/volunteer_post.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -40,7 +39,6 @@ class _MainPage extends State<MainPage> {
     getMissingDatas();
     fetch();
     getVolunteerDatas();
-
     FlutterNativeSplash.remove(); // Remove splash screen after delay
   }
 
@@ -132,7 +130,7 @@ class _MainPage extends State<MainPage> {
     try {
       final db = FirebaseFirestore.instance;
       final querySnapshot =
-          await db.collection("봉사활동").limit(3).get(); // limit 추가
+      await db.collection("봉사활동").limit(3).get(); // limit 추가
       setState(() {
         volunteerDatas =
             querySnapshot.docs
@@ -152,7 +150,6 @@ class _MainPage extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: BaseAppBar(),
       bottomNavigationBar: BottomNavigation(selectedIndex: 0),
       body: SingleChildScrollView(
@@ -162,7 +159,7 @@ class _MainPage extends State<MainPage> {
               children: [
                 Container(
                   width: double.infinity,
-                  height: 148,
+                  height: 160,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(5),
@@ -172,80 +169,80 @@ class _MainPage extends State<MainPage> {
                       Image.asset(
                         'assets/images/alertMissingChildrenBanner.png',
                       ),
-                      SizedBox(height: 12),
+                      SizedBox(height: 8),
                       missingDatas.isNotEmpty && thumbnails != null
                           ? Expanded(
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              controller: _scrollController,
-                              itemCount: missingDatas.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                                  child: Column(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder:
-                                                  (context) => MissingDetail(
-                                                    distinction:
-                                                        missingDatas[index]
-                                                            .distinction,
-                                                    species:
-                                                        missingDatas[index]
-                                                            .species,
-                                                    name:
-                                                        missingDatas[index]
-                                                            .name,
-                                                    subject:
-                                                        missingDatas[index]
-                                                            .subject,
-                                                    images:
-                                                        missingDatas[index]
-                                                            .images,
-                                                    location:
-                                                        missingDatas[index]
-                                                            .location,
-                                                  ),
-                                            ),
-                                          );
-                                        },
-                                        child: CircleAvatar(
-                                          radius: 40,
-                                          child: ClipOval(
-                                            child:
-                                                thumbnails![index] != null
-                                                    ? Image.memory(
-                                                      thumbnails![index]!,
-                                                      fit: BoxFit.cover,
-                                                      width: 80,
-                                                      height: 80,
-                                                    )
-                                                    : Container(
-                                                      color: Colors.grey,
-                                                    ),
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          controller: _scrollController,
+                          itemCount: missingDatas.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                              child: Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder:
+                                              (context) => MissingDetail(
+                                            distinction:
+                                            missingDatas[index]
+                                                .distinction,
+                                            species:
+                                            missingDatas[index]
+                                                .species,
+                                            name:
+                                            missingDatas[index]
+                                                .name,
+                                            subject:
+                                            missingDatas[index]
+                                                .subject,
+                                            images:
+                                            missingDatas[index]
+                                                .images,
+                                            location:
+                                            missingDatas[index]
+                                                .location,
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(height: 4),
-                                      Text(
-                                        missingDatas[index].name,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
+                                      );
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 40,
+                                      child: ClipOval(
+                                        child:
+                                        thumbnails![index] != null
+                                            ? Image.memory(
+                                          thumbnails![index]!,
+                                          fit: BoxFit.cover,
+                                          width: 80,
+                                          height: 80,
+                                        )
+                                            : Container(
+                                          color: Colors.grey,
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                );
-                              },
-                            ),
-                          )
+                                  SizedBox(height: 4),
+                                  Text(
+                                    missingDatas[index].name,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      )
                           : Container(
-                            height: 100,
-                            child: Center(child: Text('데이터가 없습니다')),
-                          ),
+                        height: 100,
+                        child: Center(child: Text('데이터가 없습니다')),
+                      ),
                     ],
                   ),
                 ),
@@ -263,7 +260,7 @@ class _MainPage extends State<MainPage> {
                           Text(
                             '입양하기',
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -279,7 +276,7 @@ class _MainPage extends State<MainPage> {
                             child: Text(
                               '자세히보기 >',
                               style: TextStyle(
-                                fontSize: 12.sp,
+                                fontSize: 12,
                                 color: Colors.grey,
                               ),
                             ),
@@ -289,59 +286,59 @@ class _MainPage extends State<MainPage> {
                       SizedBox(height: 10),
                       adoptionDogdata != null && imageList.isNotEmpty
                           ? Container(
-                            height: 160,
-                            child: PageView(
-                              onPageChanged: (int page) {
-                                setState(() {
-                                  _currentPage = page;
-                                });
-                              },
-                              children: [
-                                AdoptionPuppyAtMain(
-                                  index: 0,
-                                  ANIMAL_NO: adoptionDogdata!.dogs[0].ANIMAL_NO,
-                                  url:
-                                      imageList[adoptionDogdata!
-                                              .dogs[0]
-                                              .ANIMAL_NO]![0]
-                                          .toString(),
-                                  NM: adoptionDogdata!.dogs[0].NM,
-                                  BREEDS: adoptionDogdata!.dogs[0].BREEDS,
-                                  AGE: adoptionDogdata!.dogs[0].AGE,
-                                  BDWGH: adoptionDogdata!.dogs[0].BDWGH,
-                                  SEXDSTN: adoptionDogdata!.dogs[0].SEXDSTN,
-                                ),
-                                AdoptionPuppyAtMain(
-                                  index: 1,
-                                  ANIMAL_NO: adoptionDogdata!.dogs[1].ANIMAL_NO,
-                                  url:
-                                      imageList[adoptionDogdata!
-                                              .dogs[1]
-                                              .ANIMAL_NO]![0]
-                                          .toString(),
-                                  NM: adoptionDogdata!.dogs[1].NM,
-                                  BREEDS: adoptionDogdata!.dogs[1].BREEDS,
-                                  AGE: adoptionDogdata!.dogs[1].AGE,
-                                  BDWGH: adoptionDogdata!.dogs[1].BDWGH,
-                                  SEXDSTN: adoptionDogdata!.dogs[1].SEXDSTN,
-                                ),
-                                AdoptionPuppyAtMain(
-                                  index: 2,
-                                  ANIMAL_NO: adoptionDogdata!.dogs[2].ANIMAL_NO,
-                                  url:
-                                      imageList[adoptionDogdata!
-                                              .dogs[2]
-                                              .ANIMAL_NO]![0]
-                                          .toString(),
-                                  NM: adoptionDogdata!.dogs[2].NM,
-                                  BREEDS: adoptionDogdata!.dogs[2].BREEDS,
-                                  AGE: adoptionDogdata!.dogs[2].AGE,
-                                  BDWGH: adoptionDogdata!.dogs[2].BDWGH,
-                                  SEXDSTN: adoptionDogdata!.dogs[2].SEXDSTN,
-                                ),
-                              ],
+                        height: 160,
+                        child: PageView(
+                          onPageChanged: (int page) {
+                            setState(() {
+                              _currentPage = page;
+                            });
+                          },
+                          children: [
+                            AdoptionPuppyAtMain(
+                              index: 0,
+                              ANIMAL_NO: adoptionDogdata!.dogs[0].ANIMAL_NO,
+                              url:
+                              imageList[adoptionDogdata!
+                                  .dogs[0]
+                                  .ANIMAL_NO]![0]
+                                  .toString(),
+                              NM: adoptionDogdata!.dogs[0].NM,
+                              BREEDS: adoptionDogdata!.dogs[0].BREEDS,
+                              AGE: adoptionDogdata!.dogs[0].AGE,
+                              BDWGH: adoptionDogdata!.dogs[0].BDWGH,
+                              SEXDSTN: adoptionDogdata!.dogs[0].SEXDSTN,
                             ),
-                          )
+                            AdoptionPuppyAtMain(
+                              index: 1,
+                              ANIMAL_NO: adoptionDogdata!.dogs[1].ANIMAL_NO,
+                              url:
+                              imageList[adoptionDogdata!
+                                  .dogs[1]
+                                  .ANIMAL_NO]![0]
+                                  .toString(),
+                              NM: adoptionDogdata!.dogs[1].NM,
+                              BREEDS: adoptionDogdata!.dogs[1].BREEDS,
+                              AGE: adoptionDogdata!.dogs[1].AGE,
+                              BDWGH: adoptionDogdata!.dogs[1].BDWGH,
+                              SEXDSTN: adoptionDogdata!.dogs[1].SEXDSTN,
+                            ),
+                            AdoptionPuppyAtMain(
+                              index: 2,
+                              ANIMAL_NO: adoptionDogdata!.dogs[2].ANIMAL_NO,
+                              url:
+                              imageList[adoptionDogdata!
+                                  .dogs[2]
+                                  .ANIMAL_NO]![0]
+                                  .toString(),
+                              NM: adoptionDogdata!.dogs[2].NM,
+                              BREEDS: adoptionDogdata!.dogs[2].BREEDS,
+                              AGE: adoptionDogdata!.dogs[2].AGE,
+                              BDWGH: adoptionDogdata!.dogs[2].BDWGH,
+                              SEXDSTN: adoptionDogdata!.dogs[2].SEXDSTN,
+                            ),
+                          ],
+                        ),
+                      )
                           : AdoptionPuppyAtMain(),
                       SizedBox(height: 10),
                       Row(
@@ -354,9 +351,9 @@ class _MainPage extends State<MainPage> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color:
-                                  _currentPage == index
-                                      ? Colors.black
-                                      : Colors.grey[300],
+                              _currentPage == index
+                                  ? Colors.black
+                                  : Colors.grey[300],
                             ),
                           );
                         }),
@@ -379,7 +376,7 @@ class _MainPage extends State<MainPage> {
                           Text(
                             '자원봉사',
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -395,7 +392,7 @@ class _MainPage extends State<MainPage> {
                             child: Text(
                               '자세히보기 >',
                               style: TextStyle(
-                                fontSize: 12.sp,
+                                fontSize: 12,
                                 color: Colors.grey,
                               ),
                             ),
@@ -405,42 +402,42 @@ class _MainPage extends State<MainPage> {
                       SizedBox(height: 10),
                       volunteerDatas.isNotEmpty
                           ? Column(
-                            children: [
-                              VolunteerPost(
-                                activity_period:
-                                    volunteerDatas[0].activity_period,
-                                activity_time: volunteerDatas[0].activity_time,
-                                content: volunteerDatas[0].content,
-                                location: volunteerDatas[0].location,
-                                subject: volunteerDatas[0].subject,
-                                period: volunteerDatas[0].period,
-                                personnel: volunteerDatas[0].personnel,
-                                target: volunteerDatas[0].target,
-                              ),
-                              VolunteerPost(
-                                activity_period:
-                                    volunteerDatas[1].activity_period,
-                                activity_time: volunteerDatas[1].activity_time,
-                                content: volunteerDatas[1].content,
-                                location: volunteerDatas[1].location,
-                                subject: volunteerDatas[1].subject,
-                                period: volunteerDatas[1].period,
-                                personnel: volunteerDatas[1].personnel,
-                                target: volunteerDatas[1].target,
-                              ),
-                              VolunteerPost(
-                                activity_period:
-                                    volunteerDatas[2].activity_period,
-                                activity_time: volunteerDatas[2].activity_time,
-                                content: volunteerDatas[2].content,
-                                location: volunteerDatas[2].location,
-                                subject: volunteerDatas[2].subject,
-                                period: volunteerDatas[2].period,
-                                personnel: volunteerDatas[2].personnel,
-                                target: volunteerDatas[2].target,
-                              ),
-                            ],
-                          )
+                        children: [
+                          VolunteerPost(
+                            activity_period:
+                            volunteerDatas[0].activity_period,
+                            activity_time: volunteerDatas[0].activity_time,
+                            content: volunteerDatas[0].content,
+                            location: volunteerDatas[0].location,
+                            subject: volunteerDatas[0].subject,
+                            period: volunteerDatas[0].period,
+                            personnel: volunteerDatas[0].personnel,
+                            target: volunteerDatas[0].target,
+                          ),
+                          VolunteerPost(
+                            activity_period:
+                            volunteerDatas[1].activity_period,
+                            activity_time: volunteerDatas[1].activity_time,
+                            content: volunteerDatas[1].content,
+                            location: volunteerDatas[1].location,
+                            subject: volunteerDatas[1].subject,
+                            period: volunteerDatas[1].period,
+                            personnel: volunteerDatas[1].personnel,
+                            target: volunteerDatas[1].target,
+                          ),
+                          VolunteerPost(
+                            activity_period:
+                            volunteerDatas[2].activity_period,
+                            activity_time: volunteerDatas[2].activity_time,
+                            content: volunteerDatas[2].content,
+                            location: volunteerDatas[2].location,
+                            subject: volunteerDatas[2].subject,
+                            period: volunteerDatas[2].period,
+                            personnel: volunteerDatas[2].personnel,
+                            target: volunteerDatas[2].target,
+                          ),
+                        ],
+                      )
                           : Container(),
                     ],
                   ),
@@ -459,7 +456,7 @@ class _MainPage extends State<MainPage> {
                           Text(
                             '멍피드',
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -480,7 +477,7 @@ class _MainPage extends State<MainPage> {
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.22,
                               height:
-                                  MediaQuery.of(context).size.width *
+                              MediaQuery.of(context).size.width *
                                   0.22 *
                                   16 /
                                   9,
@@ -507,7 +504,7 @@ class _MainPage extends State<MainPage> {
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.22,
                               height:
-                                  MediaQuery.of(context).size.width *
+                              MediaQuery.of(context).size.width *
                                   0.22 *
                                   16 /
                                   9,
@@ -534,7 +531,7 @@ class _MainPage extends State<MainPage> {
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.22,
                               height:
-                                  MediaQuery.of(context).size.width *
+                              MediaQuery.of(context).size.width *
                                   0.22 *
                                   16 /
                                   9,
@@ -561,7 +558,7 @@ class _MainPage extends State<MainPage> {
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.22,
                               height:
-                                  MediaQuery.of(context).size.width *
+                              MediaQuery.of(context).size.width *
                                   0.22 *
                                   16 /
                                   9,
