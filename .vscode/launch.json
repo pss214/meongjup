@@ -8,7 +8,7 @@
             "name": "kdtFlutterApp",
             "request": "launch",
             "type": "dart",
-            "program": "lib/run.dart"
+            "program": "lib/main.dart"
         },
         {
             "name": "kdtFlutterApp (profile mode)",
