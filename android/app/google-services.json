@@ -23,6 +23,25 @@
           "other_platform_oauth_client": []
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187447861703:android:f0ebada0f8ef882f0b79e2",
+        "android_client_info": {
+          "package_name": "com.knowledgeware.modelexecutor80.meongjup"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsPd-liQJoTsZVt2TsAM_JYP9fYeMvwYY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
     }
   ],
   "configuration_version": "1"
