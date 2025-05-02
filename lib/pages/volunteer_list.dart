@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:meongjup/api/volunteer_dto.dart';
 import 'package:meongjup/pages/volunteer_detail.dart';
 import 'package:meongjup/widgets/bottom_navigation.dart';
@@ -65,13 +66,14 @@ class _VolunteerListState extends State<VolunteerList> {
       bottomNavigationBar: BottomNavigation(
         selectedIndex: 3, // 하단 네비게이션바에서 자원봉사 탭을 선택
       ),
+      
       backgroundColor: Colors.white,
       appBar: BaseAppBar(),
       body: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: [ 
               SizedBox(
                 width: 200,
                 child: Row(
@@ -115,21 +117,34 @@ class _VolunteerListState extends State<VolunteerList> {
                         ),
                         Offset.zero & Size(button.size.width, 0),
                       );
+
                       final String? selected = await showMenu<String>(
                         context: context,
-                        position: position, //
+                        position: position,
+                        color: Colors.grey.shade200, // ✅ 팝업 배경색 변경
+                        shape: RoundedRectangleBorder( // ✅ 모서리 둥글게
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         items: <PopupMenuEntry<String>>[
-                          PopupMenuItem<String>(value: '전체', child: Text('전체')),
                           PopupMenuItem<String>(
-                            value: '마포', //필터에서 마포 선택했을 때 페이지에 입력되는 값
-                            child: Text('마포'), //필터에서 마포 선택했을 때 필터에 표시되는 텍스트
+                            value: '전체',
+                            child: Text('전체'),
                           ),
+                          const PopupMenuDivider(), // ✅ 구분선 추가
+
                           PopupMenuItem<String>(
-                            value: '동대문', //필터에서 동대문 선택했을 때 페이지에 입력되는 값
-                            child: Text('동대문'), //필터에서 동대문 선택했을 때 표시되는 텍스트
+                            value: '마포',
+                            child: Text('마포'),
                           ),
-                        ], //selected에 유저가 고른 value값 저장
+                          const PopupMenuDivider(), // ✅ 구분선 추가
+
+                          PopupMenuItem<String>(
+                            value: '동대문',
+                            child: Text('동대문'),
+                          ),
+                        ],
                       );
+
                       if (selected != null) {
                         setState(() {
                           selectedFilter =
