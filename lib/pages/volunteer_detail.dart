@@ -112,6 +112,7 @@ class VolunteerDetail extends StatelessWidget {
                                       context: context,
                                       builder:
                                           (context) => AlertDialog(
+                                            backgroundColor: Colors.white,
                                             title: const Text(
                                               '외부 페이지 URL로 이동합니다.',
                                               style: TextStyle(
@@ -162,6 +163,9 @@ class VolunteerDetail extends StatelessWidget {
                                                   Expanded(
                                                     child: TextButton(
                                                       onPressed: () async {
+                                                        Navigator.of(
+                                                          context,
+                                                        ).pop();
                                                         await launchUrl(
                                                           Uri.parse(
                                                             "https://news.seoul.go.kr/env/archives/560028",

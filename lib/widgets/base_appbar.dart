@@ -18,6 +18,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
               context: context,
               builder:
                   (context) => AlertDialog(
+                    backgroundColor: Colors.white,
                     title: const Text(
                       '외부 페이지 URL로 이동합니다.',
                       style: TextStyle(
@@ -58,6 +59,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
                           Expanded(
                             child: TextButton(
                               onPressed: () async {
+                                Navigator.of(context).pop();
                                 await launchUrl(
                                   Uri.parse(
                                     "https://sites.google.com/view/privacy-meongjup",
