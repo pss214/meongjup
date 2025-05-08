@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:meongjup/pages/missing_list.dart';
 import 'package:meongjup/widgets/base_appbar.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -81,7 +82,30 @@ class _MissingPostState extends State<MissingPost> {
   // 게시글 업로드
   Future<void> fetchUpload(context) async {
     try {
-      debugPrint("전송중");
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder:
+            (context) => AlertDialog(
+              backgroundColor: Colors.white,
+              title: const Text(
+                '업로드 중...',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                  ),
+                ],
+              ),
+            ),
+      );
       await fetchImageUpload(context);
       FirebaseFirestore db = FirebaseFirestore.instance;
       final data = <String, dynamic>{
@@ -102,7 +126,9 @@ class _MissingPostState extends State<MissingPost> {
           backgroundColor: Colors.blue,
         ),
       );
-      Navigator.pop(context);
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (context) => MissingList()));
     } catch (e) {
       debugPrint("에러 발생: $e");
       ScaffoldMessenger.of(context).showSnackBar(

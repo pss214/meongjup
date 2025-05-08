@@ -160,7 +160,6 @@ class _AdoptionList extends State<AdoptionList> {
           ];
         });
         await fetchImage();
-        _pagingController.refresh();
       } else {
         throw Exception('Failed to fetch data');
       }
@@ -189,6 +188,7 @@ class _AdoptionList extends State<AdoptionList> {
             }
           }
         }
+        _pagingController.refresh();
       }
     } catch (e) {
       throw Exception(e);
@@ -276,21 +276,6 @@ class _AdoptionList extends State<AdoptionList> {
                           (context, item, index) => Column(
                             children: [
                               GestureDetector(
-                                onTapDown: (_) {
-                                  setState(() {
-                                    imageOpacityMap[item.animalNo] = true;
-                                  });
-                                },
-                                onTapUp: (_) {
-                                  setState(() {
-                                    imageOpacityMap[item.animalNo] = false;
-                                  });
-                                },
-                                onTapCancel: () {
-                                  setState(() {
-                                    imageOpacityMap[item.animalNo] = false;
-                                  });
-                                },
                                 child: SizedBox(
                                   height: 270,
                                   child: Opacity(
