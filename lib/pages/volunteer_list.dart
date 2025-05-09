@@ -152,55 +152,42 @@ class _VolunteerListState extends State<VolunteerList> {
             ],
           ),
           Expanded(
-            child: PageView.builder(
-              controller: pageController,
+            child: ListView.separated(
               itemCount: getfilteredVolunteerList().length,
-              itemBuilder: (context, index) {
-                return ListView.separated(
-                  itemCount: getfilteredVolunteerList().length,
-                  separatorBuilder:
-                      (BuildContext context, int idx) => Divider(),
-                  itemBuilder: (BuildContext context, int idx) {
-                    return ListTile(
-                      title: Text(getfilteredVolunteerList()[idx].subject),
-                      subtitle: Text(getfilteredVolunteerList()[idx].location),
-                      onTap:
-                          () => {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder:
-                                    (context) => VolunteerDetail(
-                                      activityPeriod:
-                                          getfilteredVolunteerList()[idx]
-                                              .activityPeriod,
-                                      activityTime:
-                                          getfilteredVolunteerList()[idx]
-                                              .activityTime,
-                                      content:
-                                          getfilteredVolunteerList()[idx]
-                                              .content,
-                                      location:
-                                          getfilteredVolunteerList()[idx]
-                                              .location,
-                                      subject:
-                                          getfilteredVolunteerList()[idx]
-                                              .subject,
-                                      period:
-                                          getfilteredVolunteerList()[idx]
-                                              .period,
-                                      personnel:
-                                          getfilteredVolunteerList()[idx]
-                                              .personnel,
-                                      target:
-                                          getfilteredVolunteerList()[idx]
-                                              .target,
-                                    ),
-                              ),
-                            ),
-                          },
-                    );
-                  },
+              separatorBuilder: (BuildContext context, int idx) => Divider(),
+              itemBuilder: (BuildContext context, int idx) {
+                return ListTile(
+                  title: Text(getfilteredVolunteerList()[idx].subject),
+                  subtitle: Text(getfilteredVolunteerList()[idx].location),
+                  onTap:
+                      () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => VolunteerDetail(
+                                  activityPeriod:
+                                      getfilteredVolunteerList()[idx]
+                                          .activityPeriod,
+                                  activityTime:
+                                      getfilteredVolunteerList()[idx]
+                                          .activityTime,
+                                  content:
+                                      getfilteredVolunteerList()[idx].content,
+                                  location:
+                                      getfilteredVolunteerList()[idx].location,
+                                  subject:
+                                      getfilteredVolunteerList()[idx].subject,
+                                  period:
+                                      getfilteredVolunteerList()[idx].period,
+                                  personnel:
+                                      getfilteredVolunteerList()[idx].personnel,
+                                  target:
+                                      getfilteredVolunteerList()[idx].target,
+                                ),
+                          ),
+                        ),
+                      },
                 );
               },
             ),
