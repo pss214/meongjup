@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meongjup/widgets/adoption_puppy_dialog.dart';
@@ -89,8 +88,8 @@ class _AdoptionPuppyState extends State<AdoptionPuppy> {
                         Colors.white.withOpacity(isTapped ? 0.8 : 0.0),
                         BlendMode.screen,
                       ),
-                      child: CachedNetworkImage(
-                        imageUrl: 'http://${widget.url}',
+                      child: Image.network(
+                        'http://${widget.url}',
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: 260,
