@@ -2,8 +2,7 @@
 ![alt](https://github.com/user-attachments/assets/17bb93a5-5218-4dab-b16f-f39d591d2323)
 - 원 스토어 URL:https://m.onestore.co.kr/ko-kr/apps/appsDetail.omp?prodId=0001000622
 
-
-
+<br/>
 ## 애플리케이션 소개
 ![Team Meongjup_멍줍_상세기획서_page-0001](https://github.com/user-attachments/assets/7d04135b-3f4b-4a2e-9681-7fac8a89ab39)
 ![Team Meongjup_멍줍_상세기획서_page-0002](https://github.com/user-attachments/assets/bb575d78-e0ac-4944-96c5-2e9717975e08)
