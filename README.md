@@ -1,7 +1,7 @@
 # 서울시 유기견 입양 서비스앱 meongjup
 ![alt](https://github.com/user-attachments/assets/17bb93a5-5218-4dab-b16f-f39d591d2323)
 - 원 스토어 URL:https://m.onestore.co.kr/ko-kr/apps/appsDetail.omp?prodId=0001000622
-- 구글드라이브(시연영상, PPT, 코드): https://drive.google.com/drive/folders/1HOqHtvxUEOJcB14F6CbaVW3TgYuClNI3?usp=drive_link
+- 구글드라이브(시연영상, 코드, PPT): https://drive.google.com/drive/folders/1HOqHtvxUEOJcB14F6CbaVW3TgYuClNI3?usp=drive_link
 
 ## 애플리케이션 소개
 ![Team Meongjup_멍줍_상세기획서_page-0001](https://github.com/user-attachments/assets/7d04135b-3f4b-4a2e-9681-7fac8a89ab39)
